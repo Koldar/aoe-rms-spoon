@@ -1,0 +1,9 @@
+#define PH_AUTUMN
+
+#include_drs F_season.inc
+
+/* ############################## */
+<PLAYER_SETUP>
+/* ############################## */
+
+

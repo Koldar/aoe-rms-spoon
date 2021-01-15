@@ -8,6 +8,7 @@ package com.thekoldar.aoe_rms_spoon.models;
  */
 public enum ExprType {
 	INT,
+	STRING,
 	BOOLEAN,
 	FLOAT,
 	DICT,

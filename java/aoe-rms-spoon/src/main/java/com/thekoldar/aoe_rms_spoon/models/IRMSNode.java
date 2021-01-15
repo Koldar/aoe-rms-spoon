@@ -1,7 +1,10 @@
 package com.thekoldar.aoe_rms_spoon.models;
 
+import java.util.function.Predicate;
+
 import javax.annotation.Nullable;
 
+import org.eclipse.collections.api.factory.Sets;
 import org.eclipse.collections.api.list.ImmutableList;
 
 import com.thekoldar.aoe_rms_spoon.models.exceptions.AbstractRMSException;
@@ -11,17 +14,17 @@ import com.thekoldar.aoe_rms_spoon.models.exceptions.AbstractRMSException;
  * @author massi
  *
  */
-public interface IRMSNode<TAOE>
+public interface IRMSNode
 {
 	
-	public TAOE getAgeVersion();
+	public AbstractAoEVersion getAgeVersion();
 	
-	public ImmutableList<IRMSNode<TAOE>> getChildren();
+	public ImmutableList<IRMSNode> getChildren();
 	
 	@Nullable
-	public IRMSNode<TAOE> getParent();
+	public IRMSNode getParent();
 	
-	public void setParent(IRMSNode<TAOE> newParent);
+	public void setParent(IRMSNode newParent);
 	
 	public RMSNodeType getNodeType();
 	
@@ -40,7 +43,7 @@ public interface IRMSNode<TAOE>
 	 * @param stmt
 	 * @return
 	 */
-	public abstract IRMSNode<TAOE> addStatement(IRMSNode<TAOE> stmt);
+	public abstract IRMSNode addStatement(IRMSNode stmt);
 	
 	
 	/**
@@ -57,6 +60,36 @@ public interface IRMSNode<TAOE>
 	 * @return
 	 */
 	public CodeGenerationOutput codeGeneration(CodeGenerationInput input);
+	
+	public default boolean ensureWehaveIncludedFile(String file) {
+		return this.ensureThereIsAtLeastOneNodeInTreeOfTypes(RMSNodeType.INCLUDE, RMSNodeType.INCLUDE_DRS);
+	}
+	
+	public default boolean ensureThereIsAtLeastOneNodeInTreeOfTypes(RMSNodeType... expectedTypes) {
+		return this.ensureThereIsAtLeastOneNodeInTreeThat((n) -> {
+			return Sets.immutable.of(expectedTypes).contains(n);
+		});
+	}
+	
+	public default boolean ensureThereIsAtLeastOneNodeInTreeOfType(RMSNodeType expectedType) {
+		return this.ensureThereIsAtLeastOneNodeInTreeThat((n) -> n.getNodeType().equals(expectedType));
+	}
+	
+	public default boolean ensureThereIsAtLeastOneNodeInTreeThat(Predicate<IRMSNode> condition) {
+		return this._ensureThereIsAtLeastOneNodeInTreeThat(condition);
+	}
+	
+	private boolean _ensureThereIsAtLeastOneNodeInTreeThat(Predicate<IRMSNode> condition) {
+		if (condition.test(this)) {
+			return true;
+		}
+		for (var c : this.getChildren()) {
+			if (c.ensureThereIsAtLeastOneNodeInTreeThat(condition)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 }

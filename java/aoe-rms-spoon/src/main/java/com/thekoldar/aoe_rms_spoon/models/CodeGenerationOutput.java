@@ -13,6 +13,10 @@ public class CodeGenerationOutput {
 
 	
 	private List<String> lines;
+	
+	public static CodeGenerationOutput instance() {
+		return new CodeGenerationOutput();
+	}
 
 	public CodeGenerationOutput() {
 		this(new ArrayList<String>());
@@ -32,6 +36,30 @@ public class CodeGenerationOutput {
 		return lines;
 	}
 	
+	public void addStringsToLastLine(String start, String end, String delimiter, Collection<String> strings) {
+		var oldLine = this.lines.isEmpty() ? "" : this.lines.get(this.lines.size() - 1);
+		oldLine = oldLine + start + String.join(delimiter, strings) + end;
+		
+		if (this.lines.isEmpty()) {
+			this.lines.add(oldLine);
+		}
+		else {
+			this.lines.set(this.lines.size() - 1, oldLine);
+		}
+	}
+	
+	public void addStringsToLastLine(String start, String end, String delimiter, String... strings) {
+		this.addStringsToLastLine(Lists.fixedSize.of(strings));
+	}
+	
+	public void addStringsToLastLine(Collection<String> strings) {
+		this.addStringsToLastLine(" ", "\n", " ", strings);
+	}
+	
+	public void addStringToLastLine(String string) {
+		this.addStringsToLastLine(" ", "\n", " ", new String[] {string});
+	}
+	
 	public void addLine() {
 		this.lines.add("");
 	}
@@ -44,7 +72,7 @@ public class CodeGenerationOutput {
 		this.lines.addAll(lines);
 	}
 	
-	public void addTheseLiens(String... lines) {
+	public void addTheseLines(String... lines) {
 		this.lines.addAll(Lists.fixedSize.of(lines));
 	}
 	
@@ -53,6 +81,35 @@ public class CodeGenerationOutput {
 			return this;
 		}
 		this.lines.addAll(other.lines);
+		return this;
+	}
+	
+	public CodeGenerationOutput mergeIntoStringAfterLastLine(@Nullable CodeGenerationOutput other) {
+		if (other == null) {
+			return this;
+		}
+		this.lines.add(String.join(" ", other.lines));
+		return this;
+	}
+	
+	/**
+	 * adds the code generation of all the lines in <tt>other</tt> into the last line of {@link CodeGenerationOutput#lines}. 
+	 * @param other
+	 * @param appendToLastLine
+	 * @return
+	 */
+	public CodeGenerationOutput mergeIntoLastLine(@Nullable CodeGenerationOutput other, String appendToLastLine) {
+		if (other == null) {
+			return this;
+		}
+		if (this.lines.isEmpty()) {
+			this.lines.add(String.join(" ", other.lines));
+		}
+		else {
+			var lastLine = this.lines.get(this.lines.size() - 1);
+			this.lines.set(this.lines.size() - 1, lastLine + appendToLastLine + String.join(" ", other.lines));
+		}
+		
 		return this;
 	}
 	

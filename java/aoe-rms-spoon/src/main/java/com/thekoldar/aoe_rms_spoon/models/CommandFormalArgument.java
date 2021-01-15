@@ -24,7 +24,7 @@ public class CommandFormalArgument {
 		return new CommandFormalArgument(name, ExprType.INT, comment, null);
 	}
 	
-	public static CommandFormalArgument optionalInt(String name, int defaultValue, String comment) {
+	public static CommandFormalArgument optionalInt(String name, Object defaultValue, String comment) {
 		return new CommandFormalArgument(name, ExprType.INT, comment, defaultValue);
 	}
 	
@@ -32,7 +32,7 @@ public class CommandFormalArgument {
 		return new CommandFormalArgument(name, ExprType.FLOAT, comment, null);
 	}
 	
-	public static CommandFormalArgument optionalFloat(String name, int defaultValue, String comment) {
+	public static CommandFormalArgument optionalFloat(String name, Object defaultValue, String comment) {
 		return new CommandFormalArgument(name, ExprType.FLOAT, comment, defaultValue);
 	}
 	
@@ -40,7 +40,7 @@ public class CommandFormalArgument {
 		return new CommandFormalArgument(name, ExprType.BOOLEAN, comment, null);
 	}
 	
-	public static CommandFormalArgument optionalBoolean(String name, int defaultValue, String comment) {
+	public static CommandFormalArgument optionalBoolean(String name, Object defaultValue, String comment) {
 		return new CommandFormalArgument(name, ExprType.BOOLEAN, comment, defaultValue);
 	}
 	
@@ -48,7 +48,7 @@ public class CommandFormalArgument {
 		return new CommandFormalArgument(name, ExprType.DICT, comment, null);
 	}
 	
-	public static CommandFormalArgument optionalDict(String name, int defaultValue, String comment) {
+	public static CommandFormalArgument optionalDict(String name, Object defaultValue, String comment) {
 		return new CommandFormalArgument(name, ExprType.DICT, comment, defaultValue);
 	}
 	

@@ -1,2 +1,0 @@
-from aoe_rms_spoon.versions.aoe_2_de.AoEDEIIVersion import AoEDEIIVersion
-from aoe_rms_spoon.versions.aoe_2_de.procedures import create_age_version

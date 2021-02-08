@@ -1,2 +1,2 @@
-target/
-aoe-rms-spoon/*.rms
+.metadata/
+.settings/

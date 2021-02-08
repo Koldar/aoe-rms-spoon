@@ -1,7 +1,9 @@
 .settings/
 .classpath
 .project
-/target/
+target/
 /ast.png
 /terrains.csv
 /*.rms
+aoe-rms-spoon/*.rms
+

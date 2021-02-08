@@ -10,6 +10,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>spring-plugins</id>
+			<name>Spring plugins</name>
+			<url>https://repo.spring.io/plugins-release/</url>
+		</repository>
+	</repositories>
+
 	<build>
 		
 	
@@ -96,7 +104,28 @@
 		  <artifactId>maven-model</artifactId>
 		  <version>3.3.9</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.8.0</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons.io/commonsIO -->
+		<!-- <dependency>
+		    <groupId>org.apache.commons.io</groupId>
+		    <artifactId>commonsIO</artifactId>
+		    <version>2.5.0</version>
+		</dependency> -->
+		
 
+<dependency>
+      <groupId>com.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>5.3</version>
+  </dependency>
 
 
 	</dependencies>

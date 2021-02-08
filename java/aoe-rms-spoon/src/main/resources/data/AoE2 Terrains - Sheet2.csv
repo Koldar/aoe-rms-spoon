@@ -1,0 +1,111 @@
+Const. ID#,RMS Const. Name,WK Const.,DE Scenario Editor,HD Scenario Editor,UP 1.5 Scenario Editor,AoC 1.0 Scenario Editor,HD Texture File,DE Texture File,Minimap Color ,Comments
+0,GRASS,GRASS,Grass 1,Grass 1,Grass 1,Grass,g_grs,g_grs,,default terrain
+1,WATER,"WATER, DLC_WATER5","Water, Shallow","Water, Shallow","Water, Shallow","Water, Shallow",g_wtr,g_wtr,,dockable
+2,BEACH,"BEACH, DLC_BEACH2, DLC_BEACH3, DLC_BEACH4",Beach,Beach,Beach,-,g_bch,g_bch,,automatically placed when most terrains border water; can build walls on; navigable
+3,DIRT3,"DIRT3, DIRT4, DLC_DIRT4",Dirt 3,Dirt 3,Dirt 3,Dirt 3,g_ds3,g_ds3,,grassy
+4,SHALLOW,"SHALLOW, DLC_NEWSHALLOW",Shallows,Shallows,Shallows,Shallows,g_sha,g_sha,,walkable and navigable; no buildings
+5,LEAVES,"LEAVES, DLC_JUNGLELEAVES",Underbrush,Leaves,Leaves,Leaves,g_for,g_for,,used as the underlying texture for many forest types
+6,DIRT,DIRT,Dirt 1,Dirt 1,Dirt 1,Dirt 1,g_des,g_des,,brown with the occasional cactus
+7,-,-,Farm,Farm,Farm,-,g_fm1,g_fm1,,"terrain only, no food"
+8,-,-,"Farm, Dead","Farm, dead",Dead Farm,-,g_fm2,g_fm2,,"terrain only, no food"
+9,GRASS3,"GRASS3, MOORLAND",Grass 3,Grass 3,Grass 3,Grass 3,g_gr3,g_gr3,,brownish grass
+10,FOREST,"FOREST, DLC_RAINFOREST","Forest, Oak",Forest,Forest,Forest,g_for,g_for,,placed on LEAVES
+11,DIRT2,DLC_MANGROVESHALLOW,Dirt 2,Dirt 2,Dirt 2,Dirt 2,g_ds2,g_ds2,,dirt/grass mixture
+12,GRASS2,"GRASS2, DLC_JUNGLEGRASS",Grass 2,Grass 2,Grass 2,Grass 2,g_gr2,g_gr3,,very green grass
+13,PALM_DESERT,PALM_DESERT,"Forest, Palm Desert",Palm Desert,Plam Desert,Palm Desert,g_pal,g_pal,,placed on DESERT
+14,DESERT,"DESERT, SAVANNAH","Desert, Sand","Desert, Sand",Desert,Desert,g_pal,g_pal,,sandy and light colored
+15,-,-,"Water 2D, Shoreless","Water 2D, Shoreless","Water, Shallow (Other)",-,g_wtr,g_wtr,,looks like WATER; navigable; no beaches; not dockable
+16,ROCK1,"BAOBAB, BAOBAB_FOREST, BAOBABS","Grass, Other","Grass, Other 2",Unknown,-,g_grs,g_grs,,looks like GRASS; automatically placed under cliffs; the const is only defined in HD and DE
+17,JUNGLE,JUNGLE,"Forest, Jungle",Jungle,Jungle,Jungle,g_for,g_for,,placed on LEAVES
+18,BAMBOO,BAMBOO,"Forest, Bamboo",Bamboo,Bamboo,Bamboo,g_for,g_for,,placed on LEAVES
+19,PINE_FOREST,PINE_FOREST,"Forest, Pine",Pine Forest,Pine Forest,Pine Forest,g_for,g_for,,placed on LEAVES
+20,-,DLC_MANGROVEFOREST,"Forest, Oak Bush",Oak Forest,Oak Forest,Oak Forest,g_for,g_for,,placed on LEAVES; identical to FOREST prior to DE
+21,SNOW_FOREST,"SNOW_FOREST, DRAGONFOREST","Forest, Pine Snow",Snow Pine Forest,Snow Pine Forest,Snow Pine Forest,g_snf,g_snf,,placed on GRASS_SNOW in AoC; placed on a snow/leaves mix in HD and DE
+22,DEEP_WATER,"DEEP_WATER, DLC_WATER4","Water, Deep","Water, Deep","Water, Deep","Water, Deep",g_wt2,g_wt2,,not dockable
+23,MED_WATER,MED_WATER,"Water, Medium","Water, Medium","Water, Medium","Water, Medium",g_wt3,g_wt3,,not dockable
+24,ROAD,ROAD,Road,Road,Road,Road,g_rd1,g_rd1,,a clean road; cannot place natural resources
+25,ROAD2,"ROAD2, DLC_DRYROAD","Road, Broken","Road, Broken","Road, Broken","Road, Broken",g_rd2,g_rd2,,road broken up by dirt patches; cannot place natural resources
+26,-,-,"Ice, Navigable",Ice,Ice (Other),-,g_ice,g_ice,,navigable
+27,-,DIRT2,"Grass, Foundation","Grass, Foundation",Building,-,g_ds2,g_ds2,,"like DIRT2, no beaches; still dockable; left behind by buildings"
+28,-,-,"Water 2D, Bridge","Water 2D, Bridge","Water, Shallow (Bridge)",-,g_wtr,g_wtr,,no beaches; walkable; not navigable; no buildings; produced by bridge objects
+29,-,-,"Farm, 0%","Farm, 0%",Farm 1,-,g_fc1,g_fc1,,"terrain only, no food"
+30,-,-,"Farm, 33%","Farm, 33%",Farm 2,-,g_fc2,g_fc2,,"terrain only, no food"
+31,-,-,"Farm, 67%","Farm, 67%",Farm 3,-,g_fc3,g_fc3,,"terrain only, no food"
+32,SNOW,SNOW,Snow,Snow,Snow,Snow,g_sno,g_sno,,icy beach when bordering water
+33,DIRT_SNOW,"ROAD_SNOW, ROAD_SNOWY",-,Snow Dirt,Snow Dirt,Snow Dirt,g_snd,g_snd,,icy beach when bordering water
+34,GRASS_SNOW,GRASS_SNOW,-,Snow Grass,Snow Grass,Snow Grass,g_sng,g_grs and g_sno,,icy beach when bordering water
+35,ICE,ICE,Ice,Ice2,Ice,Ice,g_ice,g_ice,,not navigable
+36,-,DIRT_SNOW,"Snow, Foundation","Snow, Foundation",Building (Snow),-,g_snd,g_snd,,like SNOW_DIRT; no beaches; still dockable; left behind by buildings on snowy terrains
+37, ICYSHORE,-,"Beach, Ice","Ice, Beach",Beach (Ice),-,g_ice,g_ice,,looks like ICE; behaves like BEACH; can place walls; navigable; constant only defined in DE
+38,-,CRACKEDIT,-,"Road, Snow","Road, Snow","Road, Snow",g_sr1,g_rd2 and g_sno,,road with dirt and snow patches; cannot place natural resources
+39,-,DLC_JUNGLEROAD,-,"Road, Fungus","Road, Fungus","Road, Fungus",g_sr2,g_sr2 and g_des,,road with dirt and grass patches; cannot place natural resources
+40,DLC_ROCK,"DLC_ROCK, QUICKSAND",Rock 1,Rock 1,Road (Other),-,g_rck,g_rck,,no buildings; used for King of the Hill; looks like ROAD in the AoC
+41,DLC_SAVANNAH,ACACIA_FOREST,"Dirt, Savannah",Savannah,Grass 1 (Other),-,g_gr5,g_gr5,,light brown; buggy unused terrain in AoC 
+42,DLC_DIRT4,n/a,Dirt 4,Dirt 4,n/a,n/a,g_ds4,g_ds4,,dirt with some grass
+43,DLC_DRYROAD,n/a,-,"Road, Desert",n/a,n/a,g_rd3,g_rd2 and g_pal,,road with sand patches; cannot place natural resources
+44,DLC_MOORLAND,n/a,-,Moorland,n/a,n/a,g_gr4,g_gr4 and g_grs,,mud with some grass
+45,DLC_CRACKED,n/a,"Desert, Cracked","Desert, Cracked",n/a,n/a,g_pal1,g_pal1,,buildings take 25% more damage
+46,DLC_QUICKSAND,n/a,"Desert, Quicksand",Quicksand,n/a,n/a,g_qs,g_qs,,no buildings; no natural resources
+47,DLC_BLACK,n/a,Black,Black,n/a,n/a,g_bla,g_bla,,completely black; no buildings
+48,DLC_DRAGONFOREST,n/a,"Forest, Dragon Tree",Dragon Tree Forest,n/a,n/a,g_des,g_des,,placed on DIRT
+49,DLC_BAOBABFOREST,n/a,"Forest, Baobab",Baobab Forest,n/a,n/a,g_ds4,g_ds4,,200 wood per tree; 25% tree density; placed on DLC_DIRT4
+50,DLC_ACACIAFOREST,n/a,"Forest, Acacia",Acacia Forest,n/a,n/a,g_gr5,g_gr5,,150 wood per tree; 50% tree density; placed on DLC_SAVANNAH
+51,DLC_BEACH2,n/a,"Beach, White, Vegatation","Beach, White, Vegatation",n/a,n/a,g_bc4,g_bc4,,behaves like BEACH
+52,DLC_BEACH3,n/a,"Beach, Vegetation","Beach, Vegetation",n/a,n/a,g_bc2,g_bc2,,behaves like BEACH
+53,DLC_BEACH4,n/a,"Beach, White","Beach, White",n/a,n/a,g_bc3,g_bc3,,behaves like BEACH
+54,DLC_MANGROVESHALLOW,n/a,"Shallows, Mangrove","Shallows, Mangrove",n/a,n/a,g_sh3,g_sh3,,building possible; navigable; not dockable
+55,DLC_MANGROVEFOREST,n/a,"Forest, Mangrove",Mangrove Forest,n/a,n/a,g_sh4,g_sh4,,80% tree density; placed on DLC_MANGROVESHALLOW
+56,DLC_RAINFOREST,n/a,"Forest, Rainforest",Rainforest,n/a,n/a,g_fo2,g_fo2,,looks similar to JUNGLE; placed on DLC_JUNGLELEAVES
+57,DLC_WATER4,n/a,"Water, Deep Ocean","Water, Deep Ocean",n/a,n/a,g_wt4,g_wt4,,not dockable; darker than DEEP_WATER
+58,DLC_WATER5,n/a,"Water, Azure","Water, Azure",n/a,n/a,g_wt5,g_wt5,,dockable; brighter than WATER
+59,DLC_NEWSHALLOW,n/a,"Shallows, Azure","Shallows, Azure",n/a,n/a,g_sh2,g_sh2,,bright blue; behaves like SHALLOW
+60,DLC_JUNGLEGRASS,n/a,"Grass, Jungle","Grass, Jungle",n/a,n/a,g_gr6,g_gr6,,dark green
+61,DLC_JUNGLEROAD,n/a,-,"Road, Jungle",n/a,n/a,g_rd4,g_sr2 and g_gr6,,road covered in grass; cannot place natural resources
+62,DLC_JUNGLELEAVES,n/a,-,"Leaves, Jungle",n/a,n/a,g_fo2,g_fo2 and g_gr6,,mixture of LEAVES and DLC_JUNGLEGRASS
+63,-,n/a,Rice Farm,Rice Farm,n/a,n/a,g_rm1,g_rm1,,no food; building possible; navigable; not dockable
+64,-,n/a,"Rice Farm, Dead","Rice Farm, Dead",n/a,n/a,g_rm2,g_rm2,,no food; building possible; navigable; not dockable
+65,-,n/a,"Rice Farm, 0%","Rice Farm, 0%",n/a,n/a,g_rc1,g_rc1,,no food; building possible; navigable; not dockable
+66,-,n/a,"Rice Farm, 33%","Rice Farm, 33%",n/a,n/a,g_rc2,g_rc2,,no food; building possible; navigable; not dockable
+67,-,n/a,"Rice Farm, 66%","Rice Farm, 66%",n/a,n/a,g_rc3,g_rc3,,no food; building possible; navigable; not dockable
+68,-,n/a,-,-,n/a,n/a,g_r01,g_r01,,uses the classic grass texture
+69,-,n/a,-,-,n/a,n/a,g_r01,g_kf1,,used for battle royale; visible through fog of war; builable; does not cause damage
+70,-,n/a,"Gravel, Default",Moddable Land 70,n/a,n/a,g_m00,g_gravel_default,,grey gravel
+71,-,n/a,"Underbrush, Leaves",Moddable Land 71,n/a,n/a,g_m01,g_underbrush_leaves,,similar to LEAVES
+72,-,n/a,"Underbrush, Snow",Moddable Land 72,n/a,n/a,g_m02,g_snf,,leaves/snow mixture; used by snowy forest terrains
+73,-,n/a,"Snow, Light",Moddable Land 73,n/a,n/a,g_m03,g_sno,,snow that layers weakly with terrain_mask
+74,-,n/a,"Snow, Strong",Moddable Land 74,n/a,n/a,g_m04,g_sno,,snow that layers strongly with terrain_mask
+75,-,n/a,"Road, Fungus",Moddable Land 75,n/a,n/a,g_m05,g_sr2,,very mossy road; cannot place natural resources
+76,-,n/a,"Dirt, Mud",Moddable Land 76,n/a,n/a,g_m06,g_gr4,,brown mud
+77,-,n/a,"Underbrush, Jungle",Moddable Land 77,n/a,n/a,g_m07,g_fo2,,greenish leaves
+78,-,n/a,"Road, Gravel",Moddable Land 78,n/a,n/a,g_m08,g_rd5,,road with gravel; no resource restrictions
+79,-,n/a,Beach (Non-Navigable),Moddable Land 79,n/a,n/a,g_m09,g_bch,,looks like BEACH; not navigable; buildable
+80,-,n/a,"Beach (Non-Navigable), Wet Sand",Moddable Land 80,n/a,n/a,g_m10,g_beach_wet,,looks like DLC_WETBEACH; not navigable; buildable
+81,-,n/a,"Beach (Non-Navigable), Wet Gravel",Moddable Land 81,n/a,n/a,g_m11,g_gravel_wet,,looks like DLC_GRAVELBEACH; not navigable; buildable
+82,-,n/a,"Beach (Non-Navigable), Wet Rock",Moddable Land 82,n/a,n/a,g_m12,g_rock_wet,,looks like DLC_WETROCKBEACH; not navigable; buildable
+83,-,n/a,"Grass, Jungle",Moddable Land 83,n/a,n/a,g_m13,g_gr6,,lush green; like DLC_JUNGLEGRASS but with slightly different plant coverage
+84,-,n/a,-,Moddable Land 84,n/a,n/a,g_m14,o_mod,,
+85,-,n/a,-,Moddable Land 85,n/a,n/a,g_m15,o_mod,,
+86,-,n/a,-,Moddable Land 86,n/a,n/a,g_m16,o_mod,,
+87,-,n/a,-,Moddable Land 87,n/a,n/a,g_m17,o_mod,,
+88,MEDITERRANEAN_FOREST,n/a,"Forest, Mediteranean",Moddable Land 88,n/a,n/a,g_m18,g_for,,"mixture of cypress, olive and italian pine trees; placed on LEAVES"
+89,-,n/a,"Forest, Bush",Moddable Land 89,n/a,n/a,g_m19,g_for,,bushes; 88% tree density; placed on LEAVES
+90,-,n/a,"Forest, Reeds (Shallows)",Moddable Beach 90,n/a,n/a,g_m20,g_sha,,50 wood; placed on SHALLOW; looks like SHALLOW on the minimap
+91,DLC_REEDSBEACH,n/a,"Forest, Reeds (Beach)",Moddable Beach 91,n/a,n/a,g_m21,g_beach_wet,,50 wood; placed on DLC_WETBEACH
+92,-,n/a,"Forest, Reeds",Moddable Walkable Shallows 92,n/a,n/a,g_m22,g_for,,50 wood; placed on LEAVES
+93,-,n/a,-,Moddable Walkable Shallows 93,n/a,n/a,g_m23,o_mod,,
+94,-,n/a,-,Moddable Walkable Shallows 94,n/a,n/a,g_m24,o_mod,,
+95,-,n/a,"Water, Green",Moddable Shallow Water 95,n/a,n/a,g_m25,g_wt_green,,dockable
+96,-,n/a,"Water, Brown",Moddable Shallow Water 96,n/a,n/a,g_m26,g_wt_brown,,dockable
+97,-,n/a,-,Moddable Water 97,n/a,n/a,g_m27,o_mod,,
+98,-,n/a,-,Moddable Water 98,n/a,n/a,g_m28,o_mod,,
+99,-,n/a,-,Moddable Deep Water 99,n/a,n/a,g_m29,o_mod,,
+100,DLC_DRYGRASS,n/a,"Grass, Dry",n/a,n/a,n/a,n/a,g_gr7,,brownish grass
+101,DLC_BOGLAND,n/a,"Swamp, Bogland",n/a,n/a,n/a,n/a,g_qs2,,blueish grass; no buildings; no natural resources
+102,DLC_DESERTGRAVEL,n/a,"Gravel, Desert",n/a,n/a,n/a,n/a,g_ds5,,lighter version of gravel
+103,DLC_ROADGRAVEL,n/a,-,n/a,n/a,n/a,n/a,g_rd5 and g_des,,gravel road with dirt patches
+104,DLC_FORESTAUTUMN,n/a,"Forest, Autumn",n/a,n/a,n/a,n/a,g_for,,placed on LEAVES
+105,DLC_FORESTSNOWAUTUMN,n/a,"Forest, Autumn Snow",n/a,n/a,n/a,n/a,g_snf,,snowy version of DLC_FORESTAUTUMN; placed on underbrush snow
+106,DLC_FORESTDEAD,n/a,"Forest, Dead",n/a,n/a,n/a,n/a,g_snf,,snowy bushes and dead trees; placed on underbrush snow
+107,DLC_WETBEACH,n/a,"Beach, Wet",n/a,n/a,n/a,n/a,g_beach_wet,,like BEACH but darker
+108,DLC_GRAVELBEACH,n/a,"Beach, Wet Gravel",n/a,n/a,n/a,n/a,g_gravel_wet,,behaves like BEACH
+109,DLC_WETROCKBEACH,n/a,"Beach, Wet Rock",n/a,n/a,n/a,n/a,g_rock_wet,,behaves like BEACH

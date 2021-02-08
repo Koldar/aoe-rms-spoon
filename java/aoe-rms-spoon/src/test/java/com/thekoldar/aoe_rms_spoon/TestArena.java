@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.zafarkhaja.semver.Version;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.constants.SeasonProvidedConstants;
 import com.thekoldar.aoe_rms_spoon.age_versions.de.DefinitiveEdition;
 import com.thekoldar.aoe_rms_spoon.age_versions.de.DefinitiveEditionImportantFiles;
 import com.thekoldar.aoe_rms_spoon.ast.RMSExprs;
@@ -130,18 +131,45 @@ public class TestArena {
 							aoe.zone(CENTRAL_ZONE_ID)
 					);
 				})
+				.createLand(d -> {
+					d.addStatements(
+						Lands.createOctagonalLand(aoe, new Point2D(50, 50), 5, 5, 5, 5),
+						aoe.terrainType(SeasonProvidedConstants.WATER),
+						aoe.landId(CENTRAL_ZONE_ID),
+						aoe.zone(CENTRAL_ZONE_ID)
+					);
+				})
 			;
+			
+			var elevationGeneration = root.elevationGeneration();
+			
+			elevationGeneration.createElevation(3, d -> { d.addStatements(
+				aoe.baseTerrain("CUSTOM_ARENA_TERRAIN"), //TODO if the baseTerrain is not present on the map, hills will not be generated!
+				aoe.setScaleBySize(),
+				aoe.numberOfTiles(100),
+				aoe.enableBalancedElevation(),
+				aoe.spacing(3)
+			);});
 			
 			var terrainGeneration = root.terrainGeneration();
 			
-			terrainGeneration.createTerrain("CUSTOM_BASE_FOREST", d -> {
-				d.addStatements(
+			terrainGeneration
+				.comment("Creating the forest sorrounding the arena")
+				.createTerrain("CUSTOM_BASE_FOREST", d -> {
+					d.addStatements(
 					aoe.baseTerrain("CUSTOM_BASE_TERRAIN"),
 					aoe.spacingToOtherTerrainTypes(0),
-					aoe.landPercent(100)
-					
-				);
-			});
+					aoe.landPercent(100));
+				})
+				.comment("Create mini forest patches inside the arena")
+				.createTerrain("CUSTOM_BASE_FOREST", d -> {
+					d.addStatements(
+							aoe.baseTerrain("CUSTOM_ARENA_TERRAIN"),
+							aoe.landPercent(1),
+							aoe.spacingToOtherTerrainTypes(0)
+					);
+				})
+			;
 			
 //			var param = RMSExprs.dict();
 //			param = UsefulScripts.createOctagonalLand(param, aoe, 30, 30, 30, 30);

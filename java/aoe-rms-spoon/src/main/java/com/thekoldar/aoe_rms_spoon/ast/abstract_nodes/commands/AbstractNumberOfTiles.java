@@ -7,6 +7,7 @@ import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalIntArgumentCommand;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -40,6 +41,9 @@ public abstract class AbstractNumberOfTiles extends AbstractRMSSingleOptionalInt
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		
+		result.ensureArgumentIsLiteralInteger(this, 0);
+		result.ensureArgumentGreaterThan(this.getArgument(0), 0, 0);
+
 		var behaviour = this.getSiblings()
 			.select(n -> n.getNodeType().equals(RMSNodeType.BEHAVIOR_VERSION))
 			.collect(n -> (AbstractRMSCommand)n)
@@ -53,8 +57,6 @@ public abstract class AbstractNumberOfTiles extends AbstractRMSSingleOptionalInt
 		if (this.isUnderNodeWithTypes(RMSNodeType.CREATE_PLAYER_LANDS)) {
 			this.infoCmd("the amount specified in number_of_tiles is given to each player");
 		}
-		
-		result.ensureArgumentGreaterThan(this.getArgument(0), 0, 0);
 		
 		return this.semanticCheckChildren(input);
 	}

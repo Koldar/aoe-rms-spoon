@@ -463,7 +463,7 @@ public class SpoonFramework {
 		// *******************************************************
 		
 		if (this.disableSemanticAnalysis) {
-			LOG.warn("The user reuqested to disable Semantic analysis. Skipping this important phase.");
+			LOG.warn("The user reuqested to disable Semantic analysis. Skipping this important phase. Note that this implies that the semantic input will be absent in the code generation phase as well");
 		} else {
 			try {
 				var semanticOutput = rmsASTTree.semanticCheck(semanticInput);
@@ -490,7 +490,7 @@ public class SpoonFramework {
 		
 		
 		LOG.info("generate RMS code");
-		var codeGenerationInput = new CodeGenerationInput(this.enableComments);
+		var codeGenerationInput = new CodeGenerationInput(this.disableSemanticAnalysis ? null : semanticInput, this.enableComments);
 		var codeGenerationOutput = rmsASTTree.codeGeneration(codeGenerationInput);
 		
 		// *******************************************************

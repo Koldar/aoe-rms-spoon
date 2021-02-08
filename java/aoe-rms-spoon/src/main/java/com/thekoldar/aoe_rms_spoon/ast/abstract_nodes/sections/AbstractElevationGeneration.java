@@ -1,8 +1,11 @@
 package com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.sections;
 
+import java.util.function.Consumer;
+
 import org.eclipse.collections.api.RichIterable;
 
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
+import com.thekoldar.aoe_rms_spoon.ast.RMSExprs;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSNode;
@@ -30,5 +33,31 @@ public abstract class AbstractElevationGeneration extends AbstractRMSSection imp
 				.addArgument(attributes)
 		);
 		return this;
+	}
+	
+	/**
+	 * create an elevation by allowing you to configure the attributes with a lambda
+	 * @param maxHeight max height fo the hills to generate
+	 * @param attributes function used to configure the second parameter of the command
+	 * @return this
+	 */
+	public AbstractElevationGeneration createElevation(AbstractExpressionNode maxHeight, Consumer<DictExpr> attributes) {
+		var d = RMSExprs.dict();
+		this.addStatement(this.getAgeVersion().createElevation()
+				.addArgument(maxHeight)
+				.addArgument(d)
+		);
+		attributes.accept(d);
+		return this;
+	}
+	
+	/**
+	 * create an elevation by allowing you to configure the attributes with a lambda
+	 * @param maxHeight max height fo the hills to generate
+	 * @param attributes function used to configure the second parameter of the command
+	 * @return this
+	 */
+	public AbstractElevationGeneration createElevation(int maxHeight, Consumer<DictExpr> attributes) {
+		return this.createElevation(RMSExprs.intVal(maxHeight), attributes);
 	}
 }

@@ -114,7 +114,8 @@ public class SemanticCheckOutput {
 	 * @return
 	 */
 	public SemanticCheckOutput merge(@Nullable SemanticCheckOutput other) {
-		
+		this.errors.addAll(other.errors);
+		this.warnings.addAll(other.warnings);
 		return this;
 	}
 	
@@ -166,6 +167,18 @@ public class SemanticCheckOutput {
 			);
 		}
 	
+	}
+	
+	/**
+	 * Ensure the given node is inside the subtree rooted with a node of type {@code type}
+	 * @param command node to check
+	 * @param type expected type of the root of the subtree
+	 * @throws AbstractRMSException 
+	 */
+	public void ensureIsUnder(IRMSNode n, RMSNodeType type) throws AbstractRMSException {
+		if (!n.isUnderNodeWithTypes(type)) {
+			this.addError(n, RMSErrorCode.INVALID_NODE_LOCATION, "Node %s needs to be under the command %s", n.getNodeType(), type);
+		}
 	}
 	
 	/**
@@ -465,9 +478,13 @@ public class SemanticCheckOutput {
 	 * ensure that in every branch of the rms there is a node of the following type
 	 * @param n
 	 * @param type
+	 * @throws AbstractRMSException 
 	 */
-	public void ensureContainsNodeWithType(IRMSNode n, RMSNodeType type) {
-		
+	public void ensureContainsNodeWithType(IRMSNode n, RMSNodeType type) throws AbstractRMSException {
+		//TODO this should consider all the possible branches (e.g., if, start_random)
+		if (n.getNodesOfTypes(type).isEmpty()) {
+			this.addError(n, RMSErrorCode.EXPECTED_REQUIRED_PARAMETER, "We expected in the subtree of %s a node of type %s, but we found nothing!", n, type);
+		}
 	}
 	
 	/**

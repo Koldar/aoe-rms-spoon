@@ -61,7 +61,7 @@ public class AbstractIncludeDrs extends AbstractDirective {
 					"/* Include if you want to generate terrains and animals with the same feel (e.g., generate frozen lands and animal, jungle lands and animals and so on)",
 					" * To use it: first define a season define (see SeasonsDefines), then include the file.",
 					" * Use PH_EXTENDEDSEASONS if you want to add more variety",
-					" * After including the file, you can use the following const which are automatically themed: ",
+					" * After including the file, you can use the following const which are automatically themed (see SeasonProvidedDefines): ",
 					" * - terrains: LAYER_A, LAYER_B, LAYER_C, LAYER_E, LAYER_F",
 					" * - forest: WOODIES, WOODIES_B, WOORDIE_C",
 					" * - water: VODA",

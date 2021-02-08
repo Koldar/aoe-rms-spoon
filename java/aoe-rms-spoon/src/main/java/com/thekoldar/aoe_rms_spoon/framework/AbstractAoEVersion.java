@@ -19,90 +19,7 @@ import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.directives.Standard
 import com.thekoldar.aoe_rms_spoon.ast.RMSExprs;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRootNode;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAiInfoMapType;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAssignTo;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAssignToPlayer;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseElevation;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseLayer;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseSize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseTerrain;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBehaviorVersion;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBorderFuzziness;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBottomBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCirclePlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCircleRadius;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCliffCurliness;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractClumpingFactor;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractColorCorrection;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectAllLands;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectAllPlayerLand;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectSameLandZones;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectTeamsLands;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectToNonPlayerLand;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateElevation;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateLand;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateObject;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreatePlayerLands;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateTerrain;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractDefaultTerrainReplacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractDirectPlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEffectAmount;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEffectPercent;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEnableBalancedElevation;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEnableWaves;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGroupPlacementRadius;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGroupVariance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGroupedByTeam;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGuardState;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractHeightLimits;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLandId;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLandPercent;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLandPosition;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLeftBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMaxDistanceToPlayers;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMaxLengthOfCliff;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMaxNumberOfCliffs;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinDistanceCliffs;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinDistanceGroupPlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinDistanceToPlayers;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinLengthOfCliff;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinNumberOfCliffs;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinPlacementDistance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinTerrainDistance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNomadResources;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfClumps;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfGroups;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfObjects;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfTiles;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractOtherZoneAvoidanceDistance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractPlaceOnSpecificLandId;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractRandomPlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractReplaceTerrain;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractResourceDelta;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractRightBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSecondObject;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetAvoidPlayerStartAreas;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetFlatTerrainOnly;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetGaiaCivilization;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetGaiaObjectOnly;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetGaiaUnconvertible;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetPlaceForEveryPlayer;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScaleByGroups;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScaleBySize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScalingToMapSize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScalingToPlayerNumber;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetZoneByTeam;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetZoneRandomly;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSpacing;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSpacingToOtherTerrainTypes;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainCost;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainMask;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainSize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainState;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainType;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTopBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractWeatherType;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractZone;
+import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.*;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractConst;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractDefine;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractInclude;
@@ -854,27 +771,144 @@ public abstract class AbstractAoEVersion {
 	 * @return a new instance of the node.
 	 */
 	public abstract AbstractGroupPlacementRadius groupPlacementRadius();
-//	public abstract AbstractSET_TIGHT_GROUPING SET_TIGHT_GROUPING();
-//	public abstract AbstractSET_LOOSE_GROUPING SET_LOOSE_GROUPING();
-//	public abstract AbstractTERRAIN_TO_PLACE_ON TERRAIN_TO_PLACE_ON();
-//	public abstract AbstractLAYER_TO_PLACE_ON LAYER_TO_PLACE_ON();
-//	public abstract AbstractPLACE_ON_FOREST_ZONE PLACE_ON_FOREST_ZONE();
-//	public abstract AbstractAVOID_FOREST_ZONE AVOID_FOREST_ZONE();
-//	public abstract AbstractAVOID_CLIFF_ZONE AVOID_CLIFF_ZONE();
+	/**
+	 * Objects belonging to the same group must be in adjacent tiles.  Commonly used for berries, gold and stone.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractSetTightGrouping setTightGrouping();
+	/**
+	 * Objects belonging to the same group can be placed anywhere within the confines of group_placement_radius
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractSetLooseGrouping setLooseGrouping();
+	/**
+	 * The object(s) will only be placed on the specified terrain.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractTerrainToPlaceOn terrainToPlaceOn();
+	/**
+	 * The object(s) will only be placed on the specified layering terrain.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractLayerToPlaceOn layerToPlaceOn();
+	/**
+	 * Place objects only on, and directly next to, tiles with trees on them (including straggler trees and scenario editor trees).
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractPlaceOnForestZone placeOnForestZone();
+	/**
+	 * Objects will stay the specified number of tiles away from any trees (including straggler trees and scenario editor trees)
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractAvoidForestZone avoidForestZone();
+	/**
+	 * Objects will stay the specified number of tiles away from cliffs.  Note that because of the size of the cliff objects, you need to specify at least a distance of 2 to actually create a gap between the cliffs and the object(s).
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractAvoidCliffZone avoidCliffZone();
+	/**
+	 * Minimum distance (in tiles) from the origin of player lands, that the object can be placed.
+	 * 
+	 * @return a new instance of the node
+	 */
 	public abstract AbstractMinDistanceToPlayers minDistanceToPlayers();
+	/**
+	 * maximum distance (in tiles) from the origin of player lands, that the object can be placed.
+	 * 
+	 * @return a new instance of the node
+	 */
 	public abstract AbstractMaxDistanceToPlayers maxDistanceToPlayers();
-//	public abstract AbstractMAX_DISTANCE_TO_OTHER_ZONES MAX_DISTANCE_TO_OTHER_ZONES();
+	/**
+	 * Minimum (NOT maximum), distance in tiles that objects will stay away from terrains that they are restricted from being placed on.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractMaxDistanceToOtherZones maxDistanceToOtherZones();
+	/**
+	 * Minimum distance in tiles that individual objects of the same create_object command, and ALL future objects, must stay away from each object.
+	 * 
+	 * @return a new instance of the node
+	 */
 	public abstract AbstractMinDistanceGroupPlacement minDistanceGroupPlacement();
-//	public abstract AbstractTEMP_MIN_DISTANCE_GROUP_PLACEMENT TEMP_MIN_DISTANCE_GROUP_PLACEMENT();
-//	public abstract AbstractFIND_CLOSEST findClosest();
-//	public abstract AbstractFORCE_PLACEMENT forcePlacement();
-//	public abstract AbstractACTOR_AREA actorArea();
-//	public abstract AbstractACTOR_AREA_RADIUS actorAreaRadius();
-//	public abstract AbstractACTOR_AREA_TO_PLACE_IN actorAreaToPlaceIn();
-//	public abstract AbstractAVOID_ACTOR_AREA avoidActorArea();
-//	public abstract AbstractAVOID_ALL_ACTOR_AREAS avoidAllActorAreas();
+	/**
+	 * Like min_distance_group_placement, but only applies to the current create_object command - future objects are unaffected.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractTempMinDistanceGroupPlacement tempMinDistanceGroupPlacement();
+	/**
+	 * Place the object on the closest free tile to the center of the land, taking into consideration all other constraints.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractFindClosest findClosest();
+	/**
+	 * Allows multiple objects to be placed on the same tile at once, if necessary.  
+	 * Normally, objects are placed one per tile, and if the tiles run out, no more objects are placed.  
+	 * With force_placement active, when tiles run out, the remaining objects are placed on the corners of tiles, and then on top of each other.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractForcePlacement forcePlacement();
+	/**
+	 * Specifies a numerical identifier which can be referred to in future objects with avoid_actor_area or actor_area_to_place_in
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractActorArea actorArea();
+	/**
+	 * Used with actor_area to specify how large it should be.
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractActorAreaRadius actorAreaRadius();
+	/**
+	 * Place the object only within the radius of the specified actor_area
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractActorAreaToPlaceIn actorAreaToPlaceIn();
+	/**
+	 * The object will avoid the specified actor_area
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractAvoidActorArea avoidActorArea();
+	/**
+	 * The object will avoid being placed within ANY existing actor_area
+	 * 
+	 * @return a new instance of the node
+	 */
+	public abstract AbstractAvoidAllActorAreas avoidAllActorAreas();
 	
 	//shortcuts
+	
+	/**
+	 * Number of tiles between each elevation level.  Numbers larger than 1 will produce rings of flat terrain on each level of a hill.  
+
+	 * @param value number of tiles between each level of the hill
+	 * @return
+	 */
+	public AbstractSpacing spacing(int value) {
+		return (AbstractSpacing) this.spacing().addArgument(value);
+	}
+	
+	/**
+	 * Total base tile count allocated to this create_elevation command.  If number_of_clumps is specified, this value is divided equally among the clumps.
+
+	 * @param maxHeight number
+	 * @return
+	 */
+	public AbstractNumberOfTiles numberOfTiles(int maxHeight) {
+		return (AbstractNumberOfTiles) this.numberOfTiles().addArgument(maxHeight);
+	}
 	
 	/**
 	 * Specify the exact origin point for a land, as a percentage of total map dimensions.

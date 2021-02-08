@@ -38,6 +38,7 @@ public abstract class AbstractZone extends AbstractRMSSingleRequiredIntArgumentC
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		
+		result.ensureArgumentIsLiteralInteger(this, 0);
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		
 		if (this.getArgumentAsInt(0, input) == 99) {

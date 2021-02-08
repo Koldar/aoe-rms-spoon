@@ -78,8 +78,8 @@ public class MapSize {
 	 * get the ratio between {@link #getTotalTiles()} and 1e6
 	 * @return
 	 */
-	public double tilesPer100x100() {
-		return this.getTotalTiles()/(100*100);
+	public double getTilesPer100x100() {
+		return this.getTotalTiles()/(100.*100.);
 	}
 	
 

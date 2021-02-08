@@ -62,22 +62,38 @@ import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.land_gener
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.land_generation.StandardSetZoneRandomly;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.land_generation.StandardTopBorder;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.land_generation.StandardZone;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardActorArea;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardActorAreaRadius;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardActorAreaToPlaceIn;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardAvoidActorArea;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardAvoidAllActorAreas;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardAvoidCliffZone;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardAvoidForestZone;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardCreateObject;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardFindClosest;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardForcePlacement;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardGroupPlacementRadius;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardGroupVariance;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardLayerToPlaceOn;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardMaxDistanceToOtherZones;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardMaxDistanceToPlayers;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardMinDistanceGroupPlacement;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardMinDistanceToPlayers;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardNumberOfGroups;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardNumberOfObjects;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardPlaceOnForestZone;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardPlaceOnSpecificLandId;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardResourceDelta;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSecondObject;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetGaiaObjectOnly;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetGaiaUnconvertible;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetLooseGrouping;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetPlaceForEveryPlayer;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetScalingToMapSize;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetScalingToPlayerNumber;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardSetTightGrouping;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardTempMinDistanceGroupPlacement;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_generation.StandardTerrainToPlaceOn;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.player_setup.StandardAiInfoMapType;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.player_setup.StandardBaseSize;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.player_setup.StandardBehaviorVersion;
@@ -111,90 +127,7 @@ import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.sections.StandardOb
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.sections.StandardPlayerSetup;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.sections.StandardTerrainGeneration;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRootNode;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAiInfoMapType;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAssignTo;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAssignToPlayer;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseElevation;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseLayer;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseSize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBaseTerrain;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBehaviorVersion;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBorderFuzziness;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractBottomBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCirclePlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCircleRadius;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCliffCurliness;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractClumpingFactor;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractColorCorrection;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectAllLands;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectAllPlayerLand;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectSameLandZones;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectTeamsLands;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateConnectToNonPlayerLand;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateElevation;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateLand;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateObject;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreatePlayerLands;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractCreateTerrain;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractDefaultTerrainReplacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractDirectPlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEffectAmount;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEffectPercent;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEnableBalancedElevation;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractEnableWaves;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGroupPlacementRadius;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGroupVariance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGroupedByTeam;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractGuardState;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractHeightLimits;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLandId;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLandPercent;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLandPosition;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractLeftBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMaxDistanceToPlayers;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMaxLengthOfCliff;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMaxNumberOfCliffs;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinDistanceCliffs;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinDistanceGroupPlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinDistanceToPlayers;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinLengthOfCliff;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinNumberOfCliffs;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinPlacementDistance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractMinTerrainDistance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNomadResources;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfClumps;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfGroups;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfObjects;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractNumberOfTiles;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractOtherZoneAvoidanceDistance;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractPlaceOnSpecificLandId;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractRandomPlacement;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractReplaceTerrain;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractResourceDelta;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractRightBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSecondObject;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetAvoidPlayerStartAreas;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetFlatTerrainOnly;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetGaiaCivilization;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetGaiaObjectOnly;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetGaiaUnconvertible;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetPlaceForEveryPlayer;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScaleByGroups;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScaleBySize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScalingToMapSize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetScalingToPlayerNumber;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetZoneByTeam;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSetZoneRandomly;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSpacing;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractSpacingToOtherTerrainTypes;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainCost;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainMask;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainSize;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainState;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTerrainType;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractTopBorder;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractWeatherType;
-import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractZone;
+import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.*;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractConst;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractDefine;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractInclude;
@@ -714,6 +647,86 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		return new StandardSetGaiaUnconvertible();
 	}
 	
+	@Override
+	public AbstractSetTightGrouping setTightGrouping() {
+		return new StandardSetTightGrouping();
+	}
+
+	@Override
+	public AbstractSetLooseGrouping setLooseGrouping() {
+		return new StandardSetLooseGrouping();
+	}
+
+	@Override
+	public AbstractTerrainToPlaceOn terrainToPlaceOn() {
+		return new StandardTerrainToPlaceOn();
+	}
+
+	@Override
+	public AbstractLayerToPlaceOn layerToPlaceOn() {
+		return new StandardLayerToPlaceOn();
+	}
+
+	@Override
+	public AbstractPlaceOnForestZone placeOnForestZone() {
+		return new StandardPlaceOnForestZone();
+	}
+
+	@Override
+	public AbstractAvoidForestZone avoidForestZone() {
+		return new StandardAvoidForestZone();
+	}
+
+	@Override
+	public AbstractAvoidCliffZone avoidCliffZone() {
+		return new StandardAvoidCliffZone();
+	}
+
+	@Override
+	public AbstractMaxDistanceToOtherZones maxDistanceToOtherZones() {
+		return new StandardMaxDistanceToOtherZones();
+	}
+
+	@Override
+	public AbstractTempMinDistanceGroupPlacement tempMinDistanceGroupPlacement() {
+		return new StandardTempMinDistanceGroupPlacement();
+	}
+
+	@Override
+	public AbstractFindClosest findClosest() {
+		return new StandardFindClosest();
+	}
+
+	@Override
+	public AbstractForcePlacement forcePlacement() {
+		return new StandardForcePlacement();
+	}
+
+	@Override
+	public AbstractActorArea actorArea() {
+		return new StandardActorArea();
+	}
+
+	@Override
+	public AbstractActorAreaRadius actorAreaRadius() {
+		return new StandardActorAreaRadius();
+	}
+
+	@Override
+	public AbstractActorAreaToPlaceIn actorAreaToPlaceIn() {
+		return new StandardActorAreaToPlaceIn();
+	}
+
+	@Override
+	public AbstractAvoidActorArea avoidActorArea() {
+		return new StandardAvoidActorArea();
+	}
+
+	@Override
+	public AbstractAvoidAllActorAreas avoidAllActorAreas() {
+		return new StandardAvoidAllActorAreas();
+	}
+	
 	/**
 	 * check if the terrain implicitly contains a forest
 	 * @param row
@@ -928,5 +941,7 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 				RMSDefineSymbol.get("DE_AVAILABLE")
 		);
 	}
+
+	
 
 }

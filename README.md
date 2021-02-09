@@ -1,7 +1,10 @@
 # Introduction
 
 AOE RMS Spoon is a utility that allows you to programmatically create RMS Ageof Empires random script map files.
-To support this, it provides a small semantic analysis to help you avoid commons errors. Furthermore, it can actually target different age of empires version, albeit for now the only implementation ifs the latest, Definitive Edition.
+To support this, it provides a small semantic analysis to help you avoid commons errors. 
+Furthermore, it can actually target different age of empires version, albeit for now the only implementation is the latest, Definitive Edition.
+
+The project aims to provide a **sound but not complete** algorithm to programmatically create RMS files.
 
 # Build
 

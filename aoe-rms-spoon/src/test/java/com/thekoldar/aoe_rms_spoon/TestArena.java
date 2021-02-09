@@ -30,24 +30,23 @@ public class TestArena {
 	public void teamArena() throws AbstractRMSException {
 
 		//var outputFile = Path.of("..", "..", "..", "..", "Games", "Age of Empires 2 DE", "76561198256653370", "mods", "local", "ya-team-arena", "resources", "_common", "random-map-scripts", "ya-team-arena.rms");
-		var outputFile = Path.of("team-arena.rms");
+		//var outputFile = Path.of("team-arena.rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition());
 
 		//configure spoon
 		spoon
-			.setOutputFile(outputFile)
+			//.setOutputFile(outputFile)
 			.setCodeAsWarning(RMSErrorCode.WRONG_CHILDREN_NUMBER)
 			.setCodeAsError(RMSErrorCode.WRONG_CHILDREN_NUMBER)
 			.deleteOutputFilesIfPossible()
-			.setOutputFile(outputFile)
-			//.setOutputFileInLocalMods("ya-team-arena")
+			.setOutputFileInLocalMods("ya-team-arena")
 			.generateASTTreeImage("ast.png")
 			.generateTerrainCSV("terrains.csv")
 			.setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum.ASSUME_0)
 			.setCodeAsWarning(RMSErrorCode.from(12))
 			.setCodeAsWarning(RMSErrorCode.from(20))
 			.setCodeAsWarning(RMSErrorCode.DUPLICATE_TYPE)
-			//.disableSemanticAnalysis()
+			.disableSemanticAnalysis()
 			//.outputComments(false)
 		;
 		
@@ -151,6 +150,16 @@ public class TestArena {
 				aoe.enableBalancedElevation(),
 				aoe.spacing(3)
 			);});
+			
+			
+			var cliffGeneration = root.cliffGeneration();
+					
+			cliffGeneration
+				.minNumberOfCliffs(3)
+				.maxNumberOfCliffs(5)
+				.minLengthOfCliff(5)
+				.maxLengthOfCliff(10)
+				;
 			
 			var terrainGeneration = root.terrainGeneration();
 			
@@ -342,6 +351,6 @@ public class TestArena {
 			return root;
 		});
 
-		Assert.assertTrue(outputFile.toFile().exists());
+		Assert.assertTrue(spoon.getOutputFile().toFile().exists());
 	}
 }

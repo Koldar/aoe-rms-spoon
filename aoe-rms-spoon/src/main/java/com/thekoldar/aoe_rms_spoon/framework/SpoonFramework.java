@@ -229,6 +229,14 @@ public class SpoonFramework {
 	}
 	
 	/**
+	 * get the output path
+	 * @return
+	 */
+	public Path getOutputFile() {
+		return this.outputFile.toAbsolutePath().normalize();
+	}
+	
+	/**
 	 * Declare that you want to force this code to be treated as a warning
 	 * 
 	 * @param errorCode the error code to alter

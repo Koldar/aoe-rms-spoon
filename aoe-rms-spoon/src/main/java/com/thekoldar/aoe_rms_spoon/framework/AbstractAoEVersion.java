@@ -890,6 +890,34 @@ public abstract class AbstractAoEVersion {
 	
 	//shortcuts
 	
+	public AbstractMinNumberOfCliffs minNumberOfCliffs(int amount) {
+		return (AbstractMinNumberOfCliffs) this.minNumberOfCliffs().addArgument(amount);
+	}
+	
+	public AbstractMaxNumberOfCliffs maxNumberOfCliffs(int amount) {
+		return (AbstractMaxNumberOfCliffs) this.maxNumberOfCliffs().addArgument(amount);
+	}
+	
+	public AbstractMinLengthOfCliff minLengthOfCliff(int length) {
+		return (AbstractMinLengthOfCliff) this.minLengthOfCliff().addArgument(length);
+	}
+	
+	public AbstractMaxLengthOfCliff maxLengthOfCliff(int length) {
+		return (AbstractMaxLengthOfCliff) this.maxLengthOfCliff().addArgument(length);
+	}
+	
+	public AbstractCliffCurliness cliffCurliness(int percentage) {
+		return (AbstractCliffCurliness) this.cliffCurliness().addArgument(percentage);
+	}
+	
+	public AbstractMinDistanceCliffs minDistanceCliffs(int distance) {
+		return (AbstractMinDistanceCliffs) this.minDistanceCliffs().addArgument(distance);
+	}
+	
+	public AbstractMinTerrainDistance minTerrainDistance(int distance) {
+		return (AbstractMinTerrainDistance) this.minTerrainDistance().addArgument(distance);
+	}
+	
 	/**
 	 * Number of objects to create
 	 * @param value number of objects to place

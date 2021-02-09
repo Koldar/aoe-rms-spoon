@@ -13,11 +13,6 @@ public class StandardCreatePlayerLands extends AbstractCreatePlayerLands {
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		
-		result.ensureWeHaveIncludedFile(this.getRoot(), "GeneratingObjects.inc", "This file is imporant if you want to create players in the positions specified by create_player_lands!");
-		result.ensureIsDefined("GNR_NORMALTC", "The define is required if you want to position players in the positions specified by creatE_player_lands");
-		result.ensureIsDefined("GNR_STARTVILLS", "The define is required if you want to position players in the positions specified by creatE_player_lands");
-		result.ensureIsDefined("GNR_CLASSICSCOUT", "The define is required if you want to position players in the positions specified by creatE_player_lands");
-		
 		return result.merge(this.semanticCheckChildren(input));
 	}
 

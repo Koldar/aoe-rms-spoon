@@ -1,5 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast.functions;
 
+import java.util.Optional;
+
 import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DictExpr;
@@ -21,7 +23,10 @@ public class RandomNumberNode extends AbstractExpressionNode {
 		super();
 	}
 	
-	
+	@Override
+	public Optional<ExprType> getType() {
+		return Optional.of(ExprType.INT);
+	}
 	
 
 	@Override
@@ -57,11 +62,6 @@ public class RandomNumberNode extends AbstractExpressionNode {
 		result.addStringToLastLine("", "", ")");
 		
 		return result;
-	}
-
-	@Override
-	public ExprType getType() {
-		return ExprType.INT;
 	}
 
 	@Override

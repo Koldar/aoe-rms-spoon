@@ -29,8 +29,8 @@ public class TestArena {
 	@Test
 	public void teamArena() throws AbstractRMSException {
 
-		var outputFile = Path.of("..", "..", "..", "..", "Games", "Age of Empires 2 DE", "76561198256653370", "mods",
-				"local", "ya-team-arena", "resources", "_common", "random-map-scripts", "ya-team-arena.rms");
+		//var outputFile = Path.of("..", "..", "..", "..", "Games", "Age of Empires 2 DE", "76561198256653370", "mods", "local", "ya-team-arena", "resources", "_common", "random-map-scripts", "ya-team-arena.rms");
+		var outputFile = Path.of("team-arena.rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition());
 
 		//configure spoon
@@ -39,7 +39,8 @@ public class TestArena {
 			.setCodeAsWarning(RMSErrorCode.WRONG_CHILDREN_NUMBER)
 			.setCodeAsError(RMSErrorCode.WRONG_CHILDREN_NUMBER)
 			.deleteOutputFilesIfPossible()
-			.setOutputFileInLocalMods("ya-team-arena")
+			.setOutputFile(outputFile)
+			//.setOutputFileInLocalMods("ya-team-arena")
 			.generateASTTreeImage("ast.png")
 			.generateTerrainCSV("terrains.csv")
 			.setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum.ASSUME_0)

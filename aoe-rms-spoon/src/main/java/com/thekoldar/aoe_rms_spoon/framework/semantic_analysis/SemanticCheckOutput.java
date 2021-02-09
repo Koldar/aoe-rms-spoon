@@ -114,6 +114,9 @@ public class SemanticCheckOutput {
 	 * @return
 	 */
 	public SemanticCheckOutput merge(@Nullable SemanticCheckOutput other) {
+		if (other == null) {
+			return this;
+		}
 		this.errors.addAll(other.errors);
 		this.warnings.addAll(other.warnings);
 		return this;
@@ -550,7 +553,21 @@ public class SemanticCheckOutput {
 		if (n > lowbound && n < upperbound) {
 			return;
 		}
-		this.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_RANGE, "node %s argument %d needs to be between %d and %d (%d %s and %d %s)", arg.getNodeType(), argumentIndex, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded"));
+		this.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_RANGE, "command %s argument %d needs to be between %d and %d (%d %s and %d %s)", node, argumentIndex, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded"));
+	}
+	
+	public void ensureArgumentIsBetween(AbstractExpressionNode argument, int lowbound, int upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
+		var n = argument.getAsInt(this.input);
+		if ((n == lowbound) && (lowIncluded)) {
+			return;
+		}
+		if ((n == upperbound) && (upperIncluded)) {
+			return;
+		}
+		if (n > lowbound && n < upperbound) {
+			return;
+		}
+		this.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_RANGE, "argument %s needs to be between %d and %d (%d %s and %d %s)", argument, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded"));
 	}
 	
 	/**

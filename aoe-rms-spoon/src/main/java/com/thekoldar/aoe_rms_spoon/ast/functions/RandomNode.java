@@ -1,5 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast.functions;
 
+import java.util.Optional;
+
 import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.factory.Sets;
@@ -7,6 +9,7 @@ import org.eclipse.collections.api.list.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSNode;
@@ -30,6 +33,11 @@ public class RandomNode extends AbstractRMSNode {
 
 	public RandomNode() {
 		super(RMSNodeType.RANDOM);
+	}
+	
+	@Override
+	public Optional<ExprType> getType() {
+		return this.getChildren().get(0).getType();
 	}
 
 

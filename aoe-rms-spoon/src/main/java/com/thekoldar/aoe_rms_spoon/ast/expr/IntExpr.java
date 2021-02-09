@@ -1,5 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast.expr;
 
+import java.util.Optional;
+
 import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
@@ -34,8 +36,8 @@ public class IntExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public ExprType getType() {
-		return ExprType.INT;
+	public Optional<ExprType> getType() {
+		return Optional.of(ExprType.INT);
 	}
 
 	@Override

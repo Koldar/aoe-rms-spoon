@@ -891,6 +891,15 @@ public abstract class AbstractAoEVersion {
 	//shortcuts
 	
 	/**
+	 * Number of objects to create
+	 * @param value number of objects to place
+	 * @return a new instance of the node
+	 */
+	public AbstractNumberOfObjects numberOfObjects(int value) {
+		return (AbstractNumberOfObjects) this.numberOfObjects().addArgument(value); 
+	}
+	
+	/**
 	 * Number of tiles between each elevation level.  Numbers larger than 1 will produce rings of flat terrain on each level of a hill.  
 
 	 * @param value number of tiles between each level of the hill

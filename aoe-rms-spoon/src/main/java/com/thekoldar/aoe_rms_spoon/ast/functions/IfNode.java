@@ -1,10 +1,13 @@
 package com.thekoldar.aoe_rms_spoon.ast.functions;
 
+import java.util.Optional;
+
 import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
 
+import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSCommand;
@@ -32,6 +35,22 @@ public class IfNode extends AbstractRMSNode {
 		var result = input.createOutput();
 		
 		return result.merge(this.semanticCheckChildren(input));
+	}
+	
+	/**
+	 * get the expression representing the condition of the if
+	 * @return
+	 */
+	public IRMSNode getCondition() {
+		return this.getChildren().get(0);
+	}
+	
+	/**
+	 * get the expression representing the then block
+	 * @return
+	 */
+	public IRMSNode getThenBlock() {
+		return this.getChildren().get(1);
 	}
 	
 	/**
@@ -85,6 +104,11 @@ public class IfNode extends AbstractRMSNode {
 		result.addLine();
 		
 		return result;
+	}
+
+	@Override
+	public Optional<ExprType> getType() {
+		return this.getThenBlock().getType();
 	}
 
 }

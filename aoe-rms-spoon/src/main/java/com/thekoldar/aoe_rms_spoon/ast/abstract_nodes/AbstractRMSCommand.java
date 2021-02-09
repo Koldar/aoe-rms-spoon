@@ -82,7 +82,7 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 		return this.getFormatArguments().size();
 	}
 	
-	public AbstractRMSCommand setOrAddArgument(int index, @Nullable AbstractExpressionNode node) {
+	public AbstractRMSCommand setOrAddArgument(int index, @Nullable IRMSNode node) {
 		if (node == null) {
 			//ignore if the node is empty
 			return this;
@@ -116,7 +116,7 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 		return this.setOrAddArgument(index, RMSExprs.floatVal(value));
 	}
 	
-	public AbstractRMSCommand addArgument(@Nullable AbstractExpressionNode node) {
+	public AbstractRMSCommand addArgument(@Nullable IRMSNode node) {
 		return this.setOrAddArgument(this.children.size(), node);
 	}
 	
@@ -235,13 +235,15 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 			var formalArgument = formalArguments.get(i);
 			var expectedExprType = formalArgument.getType();
 			
-			AbstractExpressionNode actualArgument = null;
+			IRMSNode actualArgument = null;
 			ExprType actualType = null;
 			if (i < this.getChildren().size()) {
 				//there is an actual argument
-				actualArgument = (AbstractExpressionNode) this.getChildren().get(i);
-				actualType = actualArgument.getType();
-				
+				actualArgument = this.getChildren().get(i);
+				if (actualArgument.getType().isEmpty()) {
+					throw new RMSSemanticErrorException(this, RMSErrorCode.INVALID_NODE_LOCATION, "Command %s expected as its %d-th argument a node that has a type. However, we got %s", this.getName(), i, actualArgument);
+				}
+				actualType = actualArgument.getType().get();
 				
 				if (!actualArgument.canBeCastedTo(expectedExprType)) {
 					result.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_EXPR_TYPE, "Command %s required as its %d-th argument (named %s) an expression of type %s, but got %s (which cannot be converted into %s)!", this.getName(), i, formalArgument.getName(), expectedExprType, actualType, expectedExprType));

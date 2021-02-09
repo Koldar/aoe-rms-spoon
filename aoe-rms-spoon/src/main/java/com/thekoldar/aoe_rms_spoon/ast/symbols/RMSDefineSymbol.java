@@ -32,4 +32,9 @@ public class RMSDefineSymbol implements IRMSSymbol {
 	public DefineRefExpr asRef() {
 		return new DefineRefExpr(this.name);
 	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

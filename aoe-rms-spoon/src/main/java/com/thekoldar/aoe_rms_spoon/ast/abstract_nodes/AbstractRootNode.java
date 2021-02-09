@@ -49,7 +49,22 @@ public abstract class AbstractRootNode extends AbstractRMSNode implements IAddSt
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		
-		return result.merge(this.semanticCheckChildren(input));
+		result.merge(this.semanticCheckChildren(input));
+		
+		result.ensureNodeIsDirectlySpecifiedExactlyOnce(this, RMSNodeType.PLAYER_SETUP);
+		result.ensureNodeIsDirectlySpecifiedExactlyOnce(this, RMSNodeType.LAND_GENERATION);
+		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.CONNECTION_GENERATION);
+		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.TERRAIN_GENERATION);
+		result.ensureNodeIsDirectlySpecifiedExactlyOnce(this, RMSNodeType.OBJECTS_GENERATION);
+		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.ELEVATION_GENERATION);
+		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.CLIFF_GENERATION);
+		
+		result.ensureWeHaveIncludedFile(this, "GeneratingObjects.inc", "This file is imporant if you want to create players in the positions specified by create_player_lands!");
+		result.ensureIsDefined("GNR_NORMALTC", "The define is required if you want to position players in the positions specified by creatE_player_lands");
+		result.ensureIsDefined("GNR_STARTVILLS", "The define is required if you want to position players in the positions specified by creatE_player_lands");
+		result.ensureIsDefined("GNR_CLASSICSCOUT", "The define is required if you want to position players in the positions specified by creatE_player_lands");
+		
+		return result;
 	}
 
 	@Override

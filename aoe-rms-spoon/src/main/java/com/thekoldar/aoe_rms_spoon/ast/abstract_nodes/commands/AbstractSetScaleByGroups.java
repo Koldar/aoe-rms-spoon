@@ -45,7 +45,7 @@ public abstract class AbstractSetScaleByGroups extends AbstractRMSNoArgumentComm
 		var result = super.codeGeneration(input);
 		
 		input.getSemanticInput().ifPresent(i -> {
-			var numberOfClumps = ((AbstractNumberOfTiles)this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_CLUMPS).getAny()).getArgumentAsInt(0, i);
+			var numberOfClumps = ((AbstractNumberOfClumps)this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_CLUMPS).getAny()).getArgumentAsInt(0, i);
 			
 			//add the corresponding values, since it has been scaled
 			result.addStringToLastLine(String.format("/* %s */", 

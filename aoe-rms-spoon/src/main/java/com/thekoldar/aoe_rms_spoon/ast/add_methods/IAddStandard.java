@@ -52,9 +52,9 @@ public interface IAddStandard<TPARENT extends IRMSNode> extends IAddComments<TPA
 	public default TPARENT defines(String... names) {
 		TPARENT result = null;
 		for (var n : names) {
-			result = this.define(n);
+			this.define(n);
 		}
-		return result;
+		return (TPARENT)this;
 	}
 	
 	public default TPARENT dict(AbstractRMSNode... values) {

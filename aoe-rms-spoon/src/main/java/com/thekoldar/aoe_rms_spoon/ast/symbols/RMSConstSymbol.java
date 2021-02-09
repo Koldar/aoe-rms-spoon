@@ -30,4 +30,9 @@ public class RMSConstSymbol implements IRMSSymbol {
 		return this.value;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("%s=%$d", this.name, this.value);
+	}
+	
 }

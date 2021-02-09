@@ -1,5 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast.expr;
 
+import java.util.Optional;
+
 import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
@@ -56,8 +58,8 @@ public class DictExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public ExprType getType() {
-		return ExprType.DICT;
+	public Optional<ExprType> getType() {
+		return Optional.of(ExprType.DICT);
 	}
 
 	@Override

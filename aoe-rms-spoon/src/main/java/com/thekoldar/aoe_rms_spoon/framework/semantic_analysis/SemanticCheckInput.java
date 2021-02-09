@@ -174,4 +174,10 @@ public class SemanticCheckInput {
 		return this.defineAvailable().containsKey(name);
 	}
 	
+	public String toString() {
+		var c = this.constAvailable().collect(ac -> String.format("%s=%d", ac.getName(), ac.getValue())).toSortedList(String::compareTo).makeString();
+		var d = this.defineAvailable().collect(ad -> String.format("%s", ad.getName())).toSortedList(String::compareTo).makeString();
+		return "Const: " + c + " Defines: " + d;
+	}
+	
 }

@@ -77,7 +77,7 @@ public abstract class AbstractLandGeneration extends AbstractRMSSection implemen
 		return this;
 	}	
 	
-	public AbstractLandGeneration createLand(AbstractExpressionNode... exprs) {
+	public AbstractLandGeneration createPlayerLands(AbstractExpressionNode... exprs) {
 		return this.createPlayerLands(RMSExprs.dict(exprs));
 	}
 	

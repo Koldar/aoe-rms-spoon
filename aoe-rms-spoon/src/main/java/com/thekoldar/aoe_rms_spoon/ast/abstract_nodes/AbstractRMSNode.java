@@ -1,5 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast.abstract_nodes;
 
+import java.util.Optional;
+
 import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.factory.Sets;
@@ -9,6 +11,7 @@ import org.eclipse.collections.api.set.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.add_methods.Adds;
@@ -41,6 +44,36 @@ public abstract class AbstractRMSNode implements IRMSNode {
 		this.parent = parent;
 		this.type = type;
 		this.adds = new Adds(this);
+	}
+	
+	@Override
+	public Optional<ExprType> getType() {
+		return Optional.empty();
+	}
+	
+	@Override
+	public boolean canBeCastedToInt() {
+		return false;
+	}
+	
+	@Override
+	public boolean canBeCastedToBoolean() {
+		return false;
+	}
+
+	@Override
+	public boolean canBeCastedToFloat() {
+		return false;
+	}
+	
+	@Override
+	public boolean canBeCastedToString() {
+		return false;
+	}
+	
+	@Override
+	public boolean canBeCastedToDict() {
+		return false;
 	}
 	
 	@Override

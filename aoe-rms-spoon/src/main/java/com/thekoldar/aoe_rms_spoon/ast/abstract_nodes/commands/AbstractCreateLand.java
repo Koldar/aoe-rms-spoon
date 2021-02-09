@@ -33,7 +33,6 @@ public abstract class AbstractCreateLand extends AbstractRMSSingleRequiredDictAr
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		
-		result.ensureThereAreNoSiblingOfTheSameType(this);
 		result.ensureItContainsCommonNodesAnd(this, RMSNodeType.TERRAIN_TYPE, RMSNodeType.LAND_PERCENT, RMSNodeType.NUMBER_OF_TILES, RMSNodeType.BASE_SIZE, RMSNodeType.LAND_POSITION, RMSNodeType.LEFT_BORDER, RMSNodeType.RIGHT_BORDER, RMSNodeType.TOP_BORDER, RMSNodeType.BOTTOM_BORDER, RMSNodeType.BORDER_FUZZINESS, RMSNodeType.CLUMPING_FACTOR, RMSNodeType.BASE_ELEVATION, RMSNodeType.ASSIGN_TO, RMSNodeType.ASSIGN_TO_PLAYER, RMSNodeType.ZONE, RMSNodeType.SET_ZONE_BY_TEAM, RMSNodeType.SET_ZONE_RANDOMLY, RMSNodeType.OTHER_ZONE_AVOIDANCE_DISTANCE, RMSNodeType.MIN_PLACEMENT_DISTANCE, RMSNodeType.LAND_ID);
 		
 		return result.merge(this.semanticCheckChildren(input));

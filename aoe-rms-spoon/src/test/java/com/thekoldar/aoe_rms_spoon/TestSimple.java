@@ -18,6 +18,7 @@ import com.thekoldar.aoe_rms_spoon.framework.ChangeLogEntry;
 import com.thekoldar.aoe_rms_spoon.framework.SpoonFramework;
 import com.thekoldar.aoe_rms_spoon.framework.models.Point2D;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 
 public class TestSimple {
 
@@ -27,6 +28,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 			.setOutputFile(outputFile)
+			.disableSemanticAnalysis()
 			;
 		
 		spoon.generate((root) -> {
@@ -42,6 +44,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.disableSemanticAnalysis()
 				;
 		
 		spoon.generate((root) -> {
@@ -64,6 +67,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.disableSemanticAnalysis()
 				;
 		
 		spoon.generate((root) -> {
@@ -87,6 +91,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 		.setOutputFile(outputFile)
+		.disableSemanticAnalysis()
 		;
 		
 		spoon.generate((root, log) -> {
@@ -125,6 +130,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.from(12))
 				;
 		
 		spoon.generate((root, log) -> {
@@ -168,6 +174,11 @@ public class TestSimple {
 				))
 				;
 			
+			root.objectsGeneration()
+				.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
+				.includeDrs("GeneratingObjects.inc")
+				;
+			
 			log.info("final script");
 			return root;
 		});
@@ -180,6 +191,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.from(12))
 				;
 		
 		spoon.generate((root, log) -> {
@@ -255,11 +267,16 @@ public class TestSimple {
 						spoon.getAgeVersion().topBorder().addArgument(topleft.getX()),
 						spoon.getAgeVersion().leftBorder().addArgument(topleft.getY()),
 						spoon.getAgeVersion().rightBorder().addArgument(bottomright.getX()),
-						spoon.getAgeVersion().topBorder().addArgument(bottomright.getY()),
+						spoon.getAgeVersion().bottomBorder().addArgument(bottomright.getY()),
 						spoon.getAgeVersion().landId().addArgument(9),
 						spoon.getAgeVersion().zone().addArgument(9)
 				));
 			}
+			
+			root.objectsGeneration()
+				.defines("GNR_NORMALTC")
+				.includeDrs("GeneratingObjects.inc")
+			;
 			
 			log.info("final script");
 			return root;
@@ -273,6 +290,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.from(12))
 				;
 		
 		spoon.generate((root, log) -> {
@@ -348,7 +366,7 @@ public class TestSimple {
 						spoon.getAgeVersion().topBorder().addArgument(topleft.getX()),
 						spoon.getAgeVersion().leftBorder().addArgument(topleft.getY()),
 						spoon.getAgeVersion().rightBorder().addArgument(bottomright.getX()),
-						spoon.getAgeVersion().topBorder().addArgument(bottomright.getY()),
+						spoon.getAgeVersion().bottomBorder().addArgument(bottomright.getY()),
 						spoon.getAgeVersion().landId().addArgument(9),
 						spoon.getAgeVersion().zone().addArgument(9)
 				));
@@ -362,10 +380,14 @@ public class TestSimple {
 						spoon.getAgeVersion().numberOfClumps().addArgument(100),
 						spoon.getAgeVersion().setAvoidPlayerStartAreas(),
 						spoon.getAgeVersion().setScaleByGroups(),
-						spoon.getAgeVersion().borderFuzziness().addArgument(15),
 						spoon.getAgeVersion().clumpingFactor().addArgument(15),
 						spoon.getAgeVersion().heightLimits().addArgument(0).addArgument(7)
 				));
+			
+			root.objectsGeneration()
+				.defines("GNR_NORMALTC")
+				.includeDrs("GeneratingObjects.inc")
+			;
 				
 			
 			log.info("final script");
@@ -380,6 +402,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.from(12))
 				;
 		
 		spoon.generate((root, log) -> {
@@ -455,7 +478,7 @@ public class TestSimple {
 						spoon.getAgeVersion().topBorder().addArgument(topleft.getX()),
 						spoon.getAgeVersion().leftBorder().addArgument(topleft.getY()),
 						spoon.getAgeVersion().rightBorder().addArgument(bottomright.getX()),
-						spoon.getAgeVersion().topBorder().addArgument(bottomright.getY()),
+						spoon.getAgeVersion().bottomBorder().addArgument(bottomright.getY()),
 						spoon.getAgeVersion().landId().addArgument(9),
 						spoon.getAgeVersion().zone().addArgument(9)
 				));
@@ -469,7 +492,6 @@ public class TestSimple {
 						spoon.getAgeVersion().numberOfClumps().addArgument(100),
 						spoon.getAgeVersion().setAvoidPlayerStartAreas(),
 						spoon.getAgeVersion().setScaleByGroups(),
-						spoon.getAgeVersion().borderFuzziness().addArgument(15),
 						spoon.getAgeVersion().clumpingFactor().addArgument(15),
 						spoon.getAgeVersion().heightLimits().addArgument(0).addArgument(7)
 				));
@@ -494,6 +516,11 @@ public class TestSimple {
 					spoon.getAgeVersion().terrainSize().addArguments("DESERT", 5, 0)
 			));
 			
+			root.objectsGeneration()
+				.defines("GNR_NORMALTC")
+				.includeDrs("GeneratingObjects.inc")
+			;
+			
 			log.info("final script");
 			return root;
 		});
@@ -506,6 +533,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.from(12))
 				;
 		
 		spoon.generate((root, log) -> {
@@ -581,7 +609,7 @@ public class TestSimple {
 						spoon.getAgeVersion().topBorder().addArgument(topleft.getX()),
 						spoon.getAgeVersion().leftBorder().addArgument(topleft.getY()),
 						spoon.getAgeVersion().rightBorder().addArgument(bottomright.getX()),
-						spoon.getAgeVersion().topBorder().addArgument(bottomright.getY()),
+						spoon.getAgeVersion().bottomBorder().addArgument(bottomright.getY()),
 						spoon.getAgeVersion().landId().addArgument(9),
 						spoon.getAgeVersion().zone().addArgument(9)
 				));
@@ -595,7 +623,6 @@ public class TestSimple {
 						spoon.getAgeVersion().numberOfClumps().addArgument(100),
 						spoon.getAgeVersion().setAvoidPlayerStartAreas(),
 						spoon.getAgeVersion().setScaleByGroups(),
-						spoon.getAgeVersion().borderFuzziness().addArgument(15),
 						spoon.getAgeVersion().clumpingFactor().addArgument(15),
 						spoon.getAgeVersion().heightLimits().addArgument(0).addArgument(7)
 				));
@@ -626,8 +653,13 @@ public class TestSimple {
 			
 			objectGeneration
 			.startRandom()
-				.percentChance(0, spoon.getAgeVersion().define("HI_VULTURE"))
+				.percentChance(4, spoon.getAgeVersion().define("HI_VULTURE"))
 			.endRandom()
+			;
+			
+			objectGeneration
+				.defines("GNR_NORMALTC")
+				.includeDrs("GeneratingObjects.inc")
 			;
 			
 			log.info("final script");
@@ -642,6 +674,7 @@ public class TestSimple {
 		var outputFile = Path.of(Thread.currentThread().getStackTrace()[1].getMethodName() + ".rms");
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.from(12))
 				;
 		
 		spoon.generate((root, log, aoe) -> {
@@ -717,7 +750,7 @@ public class TestSimple {
 						spoon.getAgeVersion().topBorder().addArgument(topleft.getX()),
 						spoon.getAgeVersion().leftBorder().addArgument(topleft.getY()),
 						spoon.getAgeVersion().rightBorder().addArgument(bottomright.getX()),
-						spoon.getAgeVersion().topBorder().addArgument(bottomright.getY()),
+						spoon.getAgeVersion().bottomBorder().addArgument(bottomright.getY()),
 						spoon.getAgeVersion().landId().addArgument(9),
 						spoon.getAgeVersion().zone().addArgument(9)
 				));
@@ -731,7 +764,6 @@ public class TestSimple {
 						spoon.getAgeVersion().numberOfClumps().addArgument(100),
 						spoon.getAgeVersion().setAvoidPlayerStartAreas(),
 						spoon.getAgeVersion().setScaleByGroups(),
-						spoon.getAgeVersion().borderFuzziness().addArgument(15),
 						spoon.getAgeVersion().clumpingFactor().addArgument(15),
 						spoon.getAgeVersion().heightLimits().addArgument(0).addArgument(7)
 				));
@@ -762,23 +794,43 @@ public class TestSimple {
 			
 			objectGeneration
 			.startRandom()
-				.percentChance(0, spoon.getAgeVersion().define("HI_VULTURE"))
+				.percentChance(4, spoon.getAgeVersion().define("HI_VULTURE"))
 			.endRandom()
 			;
 			
-			objectGeneration
-			.beginIf()
-			.condition(RMSExprs.defineVal("HI_VULTURE"))
-			.then(spoon.getAgeVersion().createObject().addArgument("VULTURE"))
-			.elseBlock(spoon.getAgeVersion().createObject().addArgument("HAWK"))
-			.endIf()
+			var ifNode = IfBlockBuilder.instance(aoe)
+				.condition("HI_VULTURE")
+				.then("VULTURE")
+				.elseBlock("HAWK")
+				.endIf()
 			;
-			objectGeneration.dict(
-					aoe.numberOfObjects().addArgument(4),
-					aoe.setGaiaObjectOnly(),
-					aoe.setScaleBySize(),
-					aoe.numberOfGroups().addArgument(RMSExprs.rndVal(5, 10))
-			);
+			
+			objectGeneration.createObject(ifNode, (d) -> {
+				d.addStatements(
+						aoe.numberOfObjects(4),
+						aoe.setGaiaObjectOnly(),
+						aoe.numberOfGroups().addArgument(RMSExprs.rndVal(5, 10))
+				);
+			});
+			
+//			objectGeneration
+//			.beginIf()
+//			.condition(RMSExprs.defineVal("HI_VULTURE"))
+//			.then(spoon.getAgeVersion().createObject().addArgument("VULTURE"))
+//			.elseBlock(spoon.getAgeVersion().createObject().addArgument("HAWK"))
+//			.endIf()
+//			;
+//			objectGeneration.dict(
+//					aoe.numberOfObjects().addArgument(4),
+//					aoe.setGaiaObjectOnly(),
+//					aoe.setScaleBySize(),
+//					aoe.numberOfGroups().addArgument(RMSExprs.rndVal(5, 10))
+//			);
+			
+			objectGeneration
+				.defines("GNR_NORMALTC")
+				.includeDrs("GeneratingObjects.inc")
+			;
 			
 			log.info("final script");
 			return root;

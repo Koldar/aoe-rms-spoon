@@ -1,6 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast;
 
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -22,6 +23,7 @@ import org.eclipse.collections.impl.lazy.LazyIterableAdapter;
 import org.eclipse.collections.impl.tuple.primitive.PrimitiveTuples;
 
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.sections.AbstractLandGeneration;
+import com.thekoldar.aoe_rms_spoon.ast.functions.RandomNumberNode;
 import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
@@ -47,6 +49,69 @@ public interface IRMSNode
 	public IRMSNode getParent();
 	
 	public void setParent(IRMSNode newParent);
+	
+	/**
+	 * See if the RMS node has an expression type.
+	 * For instance a RMS node representing a number literal, the node has {@link ExprType#INT}.
+	 * A {@link RandomNumberNode} does not have a clear value, but is still {@link ExprType#INT}.
+	 * If an expression does not have a type, the result is empty 
+	 *  
+	 * @return
+	 */
+	public Optional<ExprType> getType();
+	
+	/**
+	 * is the node convertible into an int?
+	 * @return
+	 */
+	public abstract boolean canBeCastedToInt();
+	
+	/**
+	 * is the node convertible into a boolean?
+	 * @return
+	 */
+	public abstract boolean canBeCastedToBoolean();
+
+	/**
+	 * is the node convertible into a float
+	 * @return
+	 */
+	public abstract boolean canBeCastedToFloat();
+	
+	/**
+	 * is the node convertible into a string
+	 * @return
+	 */
+	public abstract boolean canBeCastedToString();
+	
+	/**
+	 * is the node convertible into a dictionary
+	 * @return
+	 */
+	public abstract boolean canBeCastedToDict();
+	
+	/**
+	 * Check if the node can be casted to a value of type {@link ExprType} 
+	 * 
+	 * @param exprType type to cast
+	 * @return true if the node can be casted to {@code exprType}
+	 */
+	public default boolean canBeCastedTo(ExprType exprType) {
+		switch (exprType) {
+		case BOOLEAN:
+			return this.canBeCastedToBoolean();
+		case DICT:
+			return this.canBeCastedToDict();
+		case FLOAT:
+			return this.canBeCastedToFloat();
+		case INT:
+			return this.canBeCastedToInt();
+		case STRING:
+			return this.canBeCastedToString();
+		default:
+			throw new IllegalArgumentException(String.format("Invalid expr type %s!", exprType));
+		}
+	}
 	
 	/**
 	 * type of the node

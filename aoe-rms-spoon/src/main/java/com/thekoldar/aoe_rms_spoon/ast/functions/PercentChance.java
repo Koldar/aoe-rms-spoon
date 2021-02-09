@@ -1,5 +1,9 @@
 package com.thekoldar.aoe_rms_spoon.ast.functions;
 
+import java.util.Optional;
+
+import com.thekoldar.aoe_rms_spoon.ast.ExprType;
+import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSNode;
@@ -29,7 +33,24 @@ public class PercentChance extends AbstractRMSNode {
 	 * @return 
 	 */
 	public int getPercentvalue(SemanticCheckInput input) {
-		return ((AbstractExpressionNode)this.getChildren().get(0)).getAsInt(input);
+		return this.getPercentExpr().getAsInt(input);
+	}
+	
+	/**
+	 * get the expression repersenting the number of the percentage
+	 * @return
+	 */
+	public AbstractExpressionNode getPercentExpr() {
+		return (AbstractExpressionNode) this.getChildren().get(0);
+	}
+	
+	public IRMSNode getPercentBlock() {
+		return this.getChildren().get(1);
+	}
+	
+	@Override
+	public Optional<ExprType> getType() {
+		return this.getPercentBlock().getType();
 	}
 
 	@Override
@@ -37,7 +58,7 @@ public class PercentChance extends AbstractRMSNode {
 		var result = input.createOutput();
 		
 		//percent_chance needs to be in (0, 100]
-		result.ensureArgumentIsBetween(this.getChildren().get(0), 0, 0, 100, false, true);
+		result.ensureArgumentIsBetween(this.getPercentExpr(), 0, 100, false, true);
 		
 		return result.merge(this.semanticCheckChildren(input));
 	}

@@ -17,24 +17,4 @@ public class StandardRootRMSNode extends AbstractRootNode {
 		super(version);
 	}
 
-	@Override
-	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
-		var result = input.createOutput();
-
-		result.ensureNodeIsDirectlySpecifiedExactlyOnce(this, RMSNodeType.PLAYER_SETUP);
-		result.ensureNodeIsDirectlySpecifiedExactlyOnce(this, RMSNodeType.LAND_GENERATION);
-		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.CONNECTION_GENERATION);
-		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.TERRAIN_GENERATION);
-		result.ensureNodeIsDirectlySpecifiedExactlyOnce(this, RMSNodeType.OBJECTS_GENERATION);
-		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.ELEVATION_GENERATION);
-		result.ensureNodeIsDirectlySpecifiedAtMostOnce(this, RMSNodeType.CLIFF_GENERATION);
-
-		return result.merge(this.semanticCheckChildren(input));
-	}
-
-	@Override
-	public CodeGenerationOutput codeGeneration(CodeGenerationInput input) {
-		return super.codeGeneration(input);
-	}
-
 }

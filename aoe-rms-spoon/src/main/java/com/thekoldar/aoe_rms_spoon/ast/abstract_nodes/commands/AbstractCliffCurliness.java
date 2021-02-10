@@ -39,7 +39,7 @@ public abstract class AbstractCliffCurliness extends AbstractRMSSingleOptionalIn
 		var result = input.createOutput();
 		
 		result.ensureThereAreNoSiblingOfTheSameType(this);
-		result.ensureArgumentIsPercentage(this.getArgument(0), 0);
+		result.ensureArgumentIsPercentage(this.getArgument(0));
 		
 		return result.merge(this.semanticCheckChildren(input));
 	}

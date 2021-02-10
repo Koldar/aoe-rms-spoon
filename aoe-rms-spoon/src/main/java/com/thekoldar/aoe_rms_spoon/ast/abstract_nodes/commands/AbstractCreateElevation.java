@@ -36,7 +36,7 @@ public abstract class AbstractCreateElevation extends AbstractRMSCommand {
 		var result = input.createOutput();
 		
 		result.ensureArgumentIsLiteralInteger(this, 0);
-		result.ensureArgumentIsBetween(this.getArgument(0), 0, 1, 7, true, true);
+		result.ensureArgumentIsBetween(this.getArgument(0), 1, 7, true, true);
 		
 		result.ensureItContainsCommonNodesAnd(this.getArgument(1), RMSNodeType.BASE_TERRAIN, RMSNodeType.BASE_LAYER, RMSNodeType.NUMBER_OF_TILES, RMSNodeType.NUMBER_OF_CLUMPS, RMSNodeType.SET_SCALE_BY_SIZE, RMSNodeType.SET_SCALE_BY_GROUPS, RMSNodeType.SPACING, RMSNodeType.ENABLE_BALANCED_ELEVATION);
 		

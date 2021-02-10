@@ -12,6 +12,8 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRootNode;
 import com.thekoldar.aoe_rms_spoon.ast.add_methods.IAddStandard;
 import com.thekoldar.aoe_rms_spoon.ast.builders.IfBlockBuilder;
 import com.thekoldar.aoe_rms_spoon.ast.builders.RandomBlockBuilder;
+import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
+import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
@@ -94,6 +96,18 @@ public abstract class AbstractCliffGeneration extends AbstractRMSSection impleme
 		
 		return result.merge(this.semanticCheck(input));
 	}
+
+	@Override
+	public CodeGenerationOutput codeGeneration(CodeGenerationInput input) {
+		var result = CodeGenerationOutput.instance();
+		
+		result.addLine("/* cliffs comes with terrain underneath them. The terrain has id 16. Cliffs do not scale with map size. Cliffs avoid water by default. */");
+		result.merge(super.codeGeneration(input));
+		
+		return result;
+	}
+	
+	
 
 	
 	

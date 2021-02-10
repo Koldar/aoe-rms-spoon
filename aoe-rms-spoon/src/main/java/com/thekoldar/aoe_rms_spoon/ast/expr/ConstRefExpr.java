@@ -10,6 +10,7 @@ import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSExcept
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticErrorException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticWarningException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -75,13 +76,13 @@ public class ConstRefExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public int getAsInt(SemanticCheckInput input) {
+	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
 		return input.getConstValue(this.name);
 	}
 
 	@Override
-	public boolean getAsBool(SemanticCheckInput input) {
-		return input.getConstValue(this.name) != 0;
+	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
+		return this.getAsInt(input).collect(i -> i != 0);
 	}
 
 	@Override

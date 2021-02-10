@@ -1,16 +1,20 @@
 package com.thekoldar.aoe_rms_spoon.ast.functions;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import com.thekoldar.aoe_rms_spoon.ast.ExprType;
+import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DictExpr;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
 
 /**
  * one ofthe few rms functions. allows to generate a number between 2 others
@@ -28,6 +32,14 @@ public class RandomNumberNode extends AbstractExpressionNode {
 		return Optional.of(ExprType.INT);
 	}
 	
+	public AbstractExpressionNode getMin() {
+		return (AbstractExpressionNode) this.getChildren().get(0);
+	}
+	
+	public AbstractExpressionNode getMax() {
+		return (AbstractExpressionNode) this.getChildren().get(1);
+	} 
+	
 
 	@Override
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
@@ -35,13 +47,13 @@ public class RandomNumberNode extends AbstractExpressionNode {
 		
 		result.ensureNChildren(this, 2);
 		
-		var min = this.getChildren().get(0);
-		var max = this.getChildren().get(1);
+		var min = this.getMin();
+		var max = this.getMax();
 		result.ensureIsExpression(min);
 		result.ensureIsExpression(max);
 		
-		if (((AbstractExpressionNode)min).getAsInt(input) == 0) {
-			result.addWarning(RMSErrorCode.BEHAVIOR_MAY_BE_ALTERED, "min of rnd is set to 0. upperbound of rns (i.e., max) is exclusive, not inclusive!");
+		if (((AbstractExpressionNode)min).getAsInt(input).containsOnly(0)) {
+			result.addWarning(RMSErrorCode.BEHAVIOR_MAY_BE_ALTERED, "min of rnd is set to 0. Hence upperbound of rns (i.e., max) is treated as exclusive, not inclusive!");
 		}
 		
 		return result.merge(this.semanticCheckChildren(input));
@@ -90,12 +102,14 @@ public class RandomNumberNode extends AbstractExpressionNode {
 	}
 
 	@Override
-	public int getAsInt(SemanticCheckInput input) {
-		throw new IllegalArgumentException();
+	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
+		var min = this.getMin().getAsInt(input).getAny();
+		var max = this.getMax().getAsInt(input).getAny();
+		return new SetPossibleValue<Integer>(IntStream.range(min, max + (min != 0 ? 1 : 0)).mapToObj(i -> Integer. valueOf(i)).toArray(i -> new Integer[] {}));
 	}
 
 	@Override
-	public boolean getAsBool(SemanticCheckInput input) {
+	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
 		throw new IllegalArgumentException();
 	}
 

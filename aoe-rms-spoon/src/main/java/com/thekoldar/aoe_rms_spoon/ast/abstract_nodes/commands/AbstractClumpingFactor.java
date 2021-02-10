@@ -41,7 +41,7 @@ public abstract class AbstractClumpingFactor extends AbstractRMSSingleOptionalIn
 		
 		result.ensureIsCommand(this);
 		result.ensureArgumentIsLiteralInteger(this, 0);
-		result.ensureArgumentIsBetween(this.getArgument(0), 0, 0, 100, true, true);
+		result.ensureArgumentIsBetween(this.getArgument(0), 0, 100, true, true);
 		
 		return result.merge(this.semanticCheckChildren(input));
 	}

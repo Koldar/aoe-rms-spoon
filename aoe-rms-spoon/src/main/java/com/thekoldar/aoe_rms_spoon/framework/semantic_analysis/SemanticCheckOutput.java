@@ -94,7 +94,7 @@ public class SemanticCheckOutput {
 	 * declare that the player with the given lobby order needs to be set
 	 * @param playerLobbyOrder
 	 */
-	public SemanticCheckOutput declareThatPlayerWithLobbyOrderNeedsToBePlaying(int player) {
+	public SemanticCheckOutput declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Integer> player) {
 		this.input.declareThatPlayerWithLobbyOrderNeedsToBePlaying(player);
 		return this;
 	}
@@ -103,7 +103,7 @@ public class SemanticCheckOutput {
 	 * declare that the player with the given color order needs to be set
 	 * @param playerLobbyOrder
 	 */
-	public SemanticCheckOutput declareThatPlayerWithColorNeedsToBePlaying(int player) {
+	public SemanticCheckOutput declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Integer> player) {
 		this.input.declareThatPlayerWithColorNeedsToBePlaying(player);
 		return this;
 	}
@@ -383,12 +383,12 @@ public class SemanticCheckOutput {
 	}
 	
 	/**
-	 * Ensure you have defined the given directive
+	 * Ensure the only option available is that a certain define is indeed defined with the given directive
 	 * @param define
 	 * @throws AbstractRMSException 
 	 */
 	public void ensureIsDefined(String define, String note) throws AbstractRMSException {
-		if (!this.input.isDefined(define)) {
+		if (!this.input.isForSureDefined(define)) {
 			this.add(new RMSSemanticErrorException(RMSErrorCode.DEFINE_IS_NOT_DEFINED, "Expected to have defined the required define %s, but you did not! Note: %s", define, note));
 		}
 	}
@@ -403,7 +403,7 @@ public class SemanticCheckOutput {
 	 * @throws AbstractRMSException
 	 */
 	public void ensureIsNotDefined(String define) throws AbstractRMSException {
-		if (this.input.isDefined(define)) {
+		if (this.input.isForSureUndefined(define)) {
 			this.add(new RMSSemanticErrorException(RMSErrorCode.DEFINE_IS_DEFINED, "Expected to have undefined %s, but you defined it!"));
 		}
 	}
@@ -450,16 +450,18 @@ public class SemanticCheckOutput {
 	 * Ensure that an int argument is among the one the user has given
 	 * 
 	 * @param arg node representing the actual argument
-	 * @param argIndex indexo f the argument
-	 * @param possibleValues allowed values
+	 * @param possibleValues allowed integer values. Each possible values represent the values of a single const
 	 * @throws AbstractRMSException
 	 */
-	public void ensureIntArgumentIsOneOf(IRMSNode arg, int argIndex, int... possibleValues) throws AbstractRMSException {
+	public void ensureIntArgumentIsOneOf(IRMSNode arg, IPossibleValue<Integer>... possibleValues) throws AbstractRMSException {
 		this.ensureIsExpression(arg);
 		var actualvalue = ((AbstractExpressionNode)arg).getAsInt(this.input);
+		if (!actualvalue.isSubsetOfAtLeastOne(possibleValues)) {
+			this.addError(arg, RMSErrorCode.INVALID_ARGUMENT, "arg %s cannot be set to value %s. Only %s are allowed", arg, actualvalue, Lists.immutable.of(possibleValues).makeString());
+		}
 		var s = Sets.immutable.of(possibleValues);
 		if (!s.contains(actualvalue)) {
-			this.addError(RMSErrorCode.INVALID_ARGUMENT, "%d-th arg %s cannot be set to value %d. Only %s are allowed", argIndex, arg, actualvalue, s.makeString());
+			this.addError(arg, RMSErrorCode.INVALID_ARGUMENT, "arg %s cannot be set to value %s. Only %s are allowed", arg, actualvalue, s.makeString());
 		}
 	}
 	
@@ -531,8 +533,8 @@ public class SemanticCheckOutput {
 	 * convenience method telling that the argument should be between 0 and 100, both extermis included
 	 * @throws AbstractRMSException 
 	 */
-	public void ensureArgumentIsPercentage(IRMSNode node, int argumentIndex) throws AbstractRMSException {
-		this.ensureArgumentIsBetween(node, argumentIndex, 0, 100, true, true);
+	public void ensureArgumentIsPercentage(IRMSNode argument) throws AbstractRMSException {
+		this.ensureArgumentIsBetween(argument, 0, 100, true, true);
 	}
 	
 	/**
@@ -541,33 +543,17 @@ public class SemanticCheckOutput {
 	 * @param argumentIndex index of the argument we need to check
 	 * @throws AbstractRMSException 
 	 */
-	public void ensureArgumentIsBetween(IRMSNode node, int argumentIndex, int lowbound, int upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
+	public void ensureArgumentIsBetween(IRMSNode node, int lowbound, int upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
 		var n = arg.getAsInt(this.input);
-		if ((n == lowbound) && (lowIncluded)) {
-			return;
+		if (n.intersect(new IntRangeOfPossibleValue(lowbound, upperbound, lowIncluded, upperIncluded)).isEmpty()) {
+			//none of the possible values of arg matches the range. throw error
+			this.addError(arg, RMSErrorCode.INVALID_RANGE, "argument %s needs to be between %d and %d (%d %s and %d %s), but it is %s", node, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded", n);
 		}
-		if ((n == upperbound) && (upperIncluded)) {
-			return;
+		if (n.intersect(new IntRangeOfPossibleValue(lowbound, upperbound, lowIncluded, upperIncluded)).size() < n.size()) {
+			//some of the possible values of arg are outside the matc.h raise warning
+			this.addWarning(arg, RMSErrorCode.INVALID_RANGE, "some of the actual values in argument %s are outside the range between %d and %d (%d %s and %d %s), they are %s", node, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded", n);
 		}
-		if (n > lowbound && n < upperbound) {
-			return;
-		}
-		this.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_RANGE, "command %s argument %d needs to be between %d and %d (%d %s and %d %s)", node, argumentIndex, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded"));
-	}
-	
-	public void ensureArgumentIsBetween(AbstractExpressionNode argument, int lowbound, int upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
-		var n = argument.getAsInt(this.input);
-		if ((n == lowbound) && (lowIncluded)) {
-			return;
-		}
-		if ((n == upperbound) && (upperIncluded)) {
-			return;
-		}
-		if (n > lowbound && n < upperbound) {
-			return;
-		}
-		this.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_RANGE, "argument %s needs to be between %d and %d (%d %s and %d %s)", argument, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded"));
 	}
 	
 	/**
@@ -576,23 +562,22 @@ public class SemanticCheckOutput {
 	 * @param argumentIndex index of the argument we need to check
 	 * @throws AbstractRMSException 
 	 */
-	public void ensureArgumentGreaterThan(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
+	public void ensureArgumentGreaterThan(IRMSNode node, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
 		var n = arg.getAsInt(this.input);
-		if (n > value) {
+		if (n.getPossibleValues().allSatisfy(i -> i > value)) {
 			return;
 		}
-		this.add(new RMSSemanticErrorException(RMSErrorCode.GREATER_THAN, "node %s argument %d needs to be greater than %d", arg.getNodeType(), argumentIndex, value));
+		this.add(new RMSSemanticErrorException(node, RMSErrorCode.GREATER_THAN, "node %s argument %d needs to be greater than %d", arg.getNodeType(), value));
 	}
 	
 	/**
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
-	 * @param argumentIndex index of the argument we need to check
 	 * @throws AbstractRMSException 
 	 */
-	public void ensureArgumentGreaterThan0(IRMSNode node, int argumentIndex) throws AbstractRMSException {
-		this.ensureArgumentGreaterThan(node, argumentIndex, 0);
+	public void ensureArgumentGreaterThan0(IRMSNode node) throws AbstractRMSException {
+		this.ensureArgumentGreaterThan(node, 0);
 	}
 	
 	/**
@@ -604,7 +589,7 @@ public class SemanticCheckOutput {
 	public void ensureArgumentGreaterThanOrEqual(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
 		var n = arg.getAsInt(this.input);
-		if (n >= value) {
+		if (n.getPossibleValues().allSatisfy(i -> i >= value)) {
 			return;
 		}
 		this.add(new RMSSemanticErrorException(RMSErrorCode.GREATER_OR_EQUAL_THAN, "node %s argument %d needs to be greater than or equal to %d", arg.getNodeType(), argumentIndex, value));
@@ -629,7 +614,7 @@ public class SemanticCheckOutput {
 	public void ensureArgumentLessThan(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
 		var n = arg.getAsInt(this.input);
-		if (n < value) {
+		if (n.getPossibleValues().allSatisfy(i -> i < value)) {
 			return;
 		}
 		this.add(new RMSSemanticErrorException(RMSErrorCode.LESS_THAN, "node %s argument %d needs to be less than %d", arg.getNodeType(), argumentIndex, value));
@@ -654,7 +639,7 @@ public class SemanticCheckOutput {
 	public void ensureArgumentLessThanOrEqual(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
 		var n = arg.getAsInt(this.input);
-		if (n <= value) {
+		if (n.getPossibleValues().allSatisfy(i -> i <= value)) {
 			return;
 		}
 		this.add(new RMSSemanticErrorException(RMSErrorCode.LESS_OR_EQUAL_THAN, "node %s argument %d needs to be less or equal to %d", arg.getNodeType(), argumentIndex, value));

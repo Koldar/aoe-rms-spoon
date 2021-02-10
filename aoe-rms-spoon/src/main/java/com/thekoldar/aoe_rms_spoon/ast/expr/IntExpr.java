@@ -7,8 +7,10 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
 
 public class IntExpr extends AbstractExpressionNode {
 
@@ -66,13 +68,13 @@ public class IntExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public int getAsInt(SemanticCheckInput input) {
-		return this.value;
+	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
+		return new SetPossibleValue<Integer>(this.value);
 	}
 
 	@Override
-	public boolean getAsBool(SemanticCheckInput input) {
-		return this.value != 0;
+	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
+		return new SetPossibleValue<Boolean>(this.value != 0);
 	}
 
 	@Override

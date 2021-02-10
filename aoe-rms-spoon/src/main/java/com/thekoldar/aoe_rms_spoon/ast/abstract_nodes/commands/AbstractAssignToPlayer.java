@@ -49,7 +49,7 @@ public abstract class AbstractAssignToPlayer extends AbstractRMSSingleOptionalIn
 		
 		this.infoCmd("the number {} refers to the lobby orders. Colors do not matter", playerNumber);
 		result.ensureThereAreNoSiblingOfTheSameType(this);
-		result.ensureArgumentIsBetween(this.getArgument(0), 0, 1, 8, true, true);
+		result.ensureArgumentIsBetween(this.getArgument(0), 1, 8, true, true);
 		
 		result.declareThatPlayerWithLobbyOrderNeedsToBePlaying(playerNumber);
 		

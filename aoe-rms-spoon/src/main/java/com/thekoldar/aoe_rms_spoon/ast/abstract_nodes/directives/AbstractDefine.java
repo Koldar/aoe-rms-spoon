@@ -27,10 +27,13 @@ public class AbstractDefine extends AbstractDirective {
 	@Override
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
-		if (input.isDefined(this.define) ) {
+		if (input.isForSureDefined(this.define)) {
 			result.add(new RMSSemanticWarningException(RMSErrorCode.DEFINE_REDEFINED, "You have redefined the define %s", this.define));
 		}
-		input.knowThatDefineIsDefined(this.define);
+		if (input.isMaybeDefined(this.define)) {
+			result.add(new RMSSemanticWarningException(RMSErrorCode.DEFINE_REDEFINED, "It is possble that you redefined the define %s", this.define));
+		}
+		input.knowThatDefineCanOnlyBe(this.define, true);
 		return result;
 	}
 

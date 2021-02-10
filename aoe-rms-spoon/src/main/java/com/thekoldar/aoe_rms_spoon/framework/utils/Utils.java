@@ -10,10 +10,21 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.rmi.server.RemoteObjectInvocationHandler;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.factory.Lists;
+import org.eclipse.collections.api.factory.Sets;
+import org.eclipse.collections.api.list.MutableList;
+import org.eclipse.collections.api.list.primitive.MutableIntList;
+import org.eclipse.collections.api.set.MutableSet;
+import org.eclipse.collections.api.set.primitive.IntSet;
+import org.eclipse.collections.api.tuple.primitive.BooleanObjectPair;
 import org.eclipse.collections.api.tuple.primitive.IntObjectPair;
+import org.eclipse.collections.impl.factory.primitive.IntLists;
+import org.eclipse.collections.impl.factory.primitive.IntSets;
 import org.eclipse.collections.impl.tuple.primitive.PrimitiveTuples;
 
 import com.thekoldar.aoe_rms_spoon.age_versions.common.constants.MapConstants;
@@ -25,6 +36,56 @@ import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
  *
  */
 public class Utils {
+	
+	public static <T> RichIterable<MutableList<T>> cartesianProduct(MutableSet<T>... s) {
+		return cartesianProductFromSet(Lists.fixedSize.of(s));
+	}
+	
+	public static <T> RichIterable<MutableList<T>> cartesianProductFromSet(RichIterable<MutableSet<T>> s) {
+		return cartesianProduct(s.collect(i -> i.toList()));
+	}
+	
+	/**
+	 * generate all the cartesian products bwetwen the sets
+	 * @param <T>
+	 * @param s sets to consider
+	 * @return all the combinations in this product cartesian 
+	 * @see https://stackoverflow.com/a/9591777/1887602
+	 */
+	public static <T> RichIterable<MutableList<T>> cartesianProduct(RichIterable<MutableList<T>> s) {
+		return cartesianProductAndStopAsFirstReject((e) -> true, s).getTwo();
+	}
+	
+	/**
+	 * generate all the cartesian products but stops as soon as we detect a combination that does not satisfy the predicate
+	 * 
+	 * @param <T>
+	 * @param predicate predicate each combination in the cartesian product needs to satisfy
+	 * @param s sets to consider
+	 * @return if true, all the combinations. If false a single list containing the first problematic combination that didn't suprssed the predicate
+	 */
+	public static <T> BooleanObjectPair<RichIterable<MutableList<T>>> cartesianProductAndStopAsFirstReject(Predicate<MutableList<T>> predicate, RichIterable<MutableList<T>> s) {
+		int solutions = 1;
+		var sets = s.toList();
+		MutableSet<MutableList<T>> result = Sets.mutable.empty();
+		
+		for (int i=0; i<sets.size(); solutions *= sets.get(i).size(), ++i) {};
+		
+		for (int i=0; i<solutions; ++i) {
+			int j = 1;
+			MutableList<T> tmp = Lists.mutable.empty();
+			for (var set : sets) {
+				tmp.add(set.get((i/j) % set.size()));
+				j *= set.size();
+			}
+			if (!predicate.test(tmp)) {
+				return PrimitiveTuples.pair(false, Lists.fixedSize.of(tmp));
+			}
+			result.add(tmp);
+		}
+		return PrimitiveTuples.pair(true, result);
+	}
+	
 	
 	/**
 	 * get all the values in constants

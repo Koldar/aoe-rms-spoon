@@ -6,6 +6,7 @@ import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DictExpr;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 
 /**
@@ -26,7 +27,7 @@ public abstract class AbstractExpressionNode extends AbstractRMSNode {
 	 * May fail if {@link #canBeCastedToInt()} is false
 	 * @return
 	 */
-	public abstract int getAsInt(SemanticCheckInput input);
+	public abstract IPossibleValue<Integer> getAsInt(SemanticCheckInput input);
 	
 	/**
 	 * try to cast the expression to an bool.
@@ -34,7 +35,7 @@ public abstract class AbstractExpressionNode extends AbstractRMSNode {
 	 * May fail if {@link #canBeCastedToBoolean()} is false
 	 * @return
 	 */
-	public abstract boolean getAsBool(SemanticCheckInput input);
+	public abstract IPossibleValue<Boolean> getAsBool(SemanticCheckInput input);
 	
 	/**
 	 * try to cast the expression to an string.

@@ -37,7 +37,7 @@ public abstract class AbstractMinDistanceCliffs extends AbstractRMSSingleOptiona
 		var result = input.createOutput();
 		
 		result.ensureThereAreNoSiblingOfTheSameType(this);
-		result.ensureArgumentGreaterThan0(this.getArgument(0), 0);
+		result.ensureArgumentGreaterThan0(this.getArgument(0));
 		
 		return result.merge(this.semanticCheckChildren(input));
 	}

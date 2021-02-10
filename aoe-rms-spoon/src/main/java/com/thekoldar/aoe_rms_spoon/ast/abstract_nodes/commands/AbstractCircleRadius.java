@@ -52,10 +52,10 @@ public abstract class AbstractCircleRadius extends AbstractRMSRequiredIntOptiona
 		
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		result.ensureArgumentIsLiteralInteger(this, 0);
-		result.ensureArgumentIsBetween(this.getArgument(0), 0, 1, 50, true, true);
+		result.ensureArgumentIsBetween(this.getArgument(0), 1, 50, true, true);
 		if (this.getChildren().size() > 1) {
 			result.ensureArgumentIsLiteralInteger(this, 1);
-			result.ensureArgumentIsBetween(this.getArgument(1), 1, 0, 100, true, true);	
+			result.ensureArgumentIsBetween(this.getArgument(1), 0, 100, true, true);	
 		}
 		
 		

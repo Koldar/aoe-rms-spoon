@@ -12,6 +12,7 @@ import org.eclipse.collections.api.set.primitive.MutableIntSet;
 import org.eclipse.collections.api.tuple.Pair;
 import org.eclipse.collections.impl.factory.primitive.IntSets;
 import org.eclipse.collections.impl.tuple.Tuples;
+import org.eclipse.collections.impl.tuple.primitive.PrimitiveTuples;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +26,27 @@ public class SemanticCheckInput {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SemanticCheckInput.class);
 
-	private MutableMap<String, IRMSSymbol> symbolTable;
-	private MutableIntSet playerLobbyOrderThatNeedsToBePlaying;
-	private MutableIntSet playerColorOrderThatNeedsToBePlaying;
+	/**
+	 * All the available const symbol we know the user has declare in the file as well as its possible values.
+	 * MNotice that a symbol may have multiple values (e.g., rnd function may generate differen values).
+	 * A const which has not been defined is not cited in this map
+	 */
+	private MutableMap<String, IPossibleValue<Integer>> constSymbolTable;
+	/**
+	 * All the available define symbols we know the user has declare in the file as well as its possible values.
+	 * MNotice that a symbol may have multiple values (e.g., rnd function may generate differen values).
+	 * 
+	 * A const which has not been defined is not cited in this map
+	 */
+	private MutableMap<String, IPossibleValue<Boolean>> defineSymbolTable;
+	/**
+	 * the player (in lobby order) that needs to be set in order for this RMS to work
+	 */
+	private MutableSet<IPossibleValue<Integer>> playerLobbyOrderThatNeedsToBePlaying;
+	/**
+	 * the player (in color order) that needs to be set in order for this RMS to work
+	 */
+	private MutableSet<IPossibleValue<Integer>> playerColorOrderThatNeedsToBePlaying;
 	
 	private ImmutableSet<RMSErrorCode> treatedAsWarning;
 	private ImmutableSet<RMSErrorCode> treatedAsErrors;
@@ -35,27 +54,34 @@ public class SemanticCheckInput {
 	
 	
 	public SemanticCheckInput(ImmutableSet<RMSErrorCode> treatedAsWarning, ImmutableSet<RMSErrorCode> treatedAsErrors, ConstNotFoundInSymbolTableActionEnum action) {
-		this.symbolTable = Maps.mutable.empty();
+		this.constSymbolTable = Maps.mutable.empty();
+		this.defineSymbolTable = Maps.mutable.empty();
 		this.treatedAsErrors = treatedAsErrors;
 		this.treatedAsWarning = treatedAsWarning;
 		this.constNotFoundInSymbolTableAction = action;
-		this.playerLobbyOrderThatNeedsToBePlaying = IntSets.mutable.empty();
-		this.playerColorOrderThatNeedsToBePlaying = IntSets.mutable.empty();
+		this.playerLobbyOrderThatNeedsToBePlaying = Sets.mutable.empty();
+		this.playerColorOrderThatNeedsToBePlaying = Sets.mutable.empty();
 	}
 	
 	private SemanticCheckInput(SemanticCheckInput other) {
 		this(other.treatedAsWarning, other.treatedAsErrors, other.constNotFoundInSymbolTableAction);
-		this.symbolTable = Maps.mutable.empty();
-		for (var entry : this.symbolTable.entrySet()) {
-			this.symbolTable.put(entry.getKey(), entry.getValue());
+		//copy const symbol table
+		for (var entry : other.constSymbolTable.entrySet()) {
+			this.constSymbolTable.put(entry.getKey(), entry.getValue());
 		}
-		this.playerColorOrderThatNeedsToBePlaying = IntSets.mutable.empty();
-		for (var i : other.playerColorOrderThatNeedsToBePlaying.toArray()) {
+		// copy define symbol table
+		for (var entry : other.defineSymbolTable.entrySet()) {
+			this.defineSymbolTable.put(entry.getKey(), entry.getValue());
+		}
+		//copy the player colors that needs to be set
+		this.playerColorOrderThatNeedsToBePlaying = Sets.mutable.empty();
+		for (var i : other.playerColorOrderThatNeedsToBePlaying) {
 			this.playerColorOrderThatNeedsToBePlaying.add(i);
 		}
 		
-		this.playerLobbyOrderThatNeedsToBePlaying = IntSets.mutable.empty();
-		for (var i : other.playerLobbyOrderThatNeedsToBePlaying.toArray()) {
+		//copy the player lobby that needs to be set
+		this.playerLobbyOrderThatNeedsToBePlaying = Sets.mutable.empty();
+		for (var i : other.playerLobbyOrderThatNeedsToBePlaying) {
 			this.playerLobbyOrderThatNeedsToBePlaying.add(i);
 		}
 	}
@@ -72,7 +98,7 @@ public class SemanticCheckInput {
 	 * declare that the player with the given lobby order needs to be set
 	 * @param playerLobbyOrder
 	 */
-	public void declareThatPlayerWithLobbyOrderNeedsToBePlaying(int playerLobbyOrder) {
+	public void declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Integer> playerLobbyOrder) {
 		this.playerLobbyOrderThatNeedsToBePlaying.add(playerLobbyOrder);
 	}
 	
@@ -80,7 +106,7 @@ public class SemanticCheckInput {
 	 * declare that the player with the given color order needs to be set
 	 * @param playerColor
 	 */
-	public void declareThatPlayerWithColorNeedsToBePlaying(int playerColor) {
+	public void declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Integer> playerColor) {
 		this.playerColorOrderThatNeedsToBePlaying.add(playerColor);
 	}
 	
@@ -89,20 +115,19 @@ public class SemanticCheckInput {
 	 * @param name
 	 * @return
 	 */
-	public int getConstValue(String name) {
-		if (!this.symbolTable.contains(name)) {
+	public IPossibleValue<Integer> getConstValue(String name) {
+		if (!this.constSymbolTable.contains(name)) {
 			switch (this.constNotFoundInSymbolTableAction) {
 			case ASSUME_0:
 				LOG.warn("We tried to access the value of the const \"%s\". Sadly such a const was not present in the symbol table! We assume the const value is 0!", name);
-				return 0;
+				return new SetPossibleValue<Integer>(0);
 			case RAISE_EXCEPTION:
 				throw new IllegalArgumentException(String.format("We tried to access the value of the const \"%s\". sadly such a const was not present in the symbol table!", name));
 			default:
 				throw new IllegalArgumentException(String.format("Invalid constNotFoundInSymbolTableAction %s", this.constNotFoundInSymbolTableAction));
 			}
 		}
-		assert this.symbolTable.get(name) instanceof RMSConstSymbol;
-		return ((RMSConstSymbol)this.symbolTable.get(name)).getValue();
+		return this.constSymbolTable.get(name);
 	}
 	
 	/**
@@ -125,31 +150,40 @@ public class SemanticCheckInput {
 	 * generate a map representing all the const that we know the script has defined
 	 * @return
 	 */
-	public MutableMap<String, RMSConstSymbol> constAvailable() {
-		return this.symbolTable
-				.select((k,symbol) -> symbol.getType().equals(RMSSymbolType.CONST))
-				.collect((k,symbol) -> Tuples.pair(k, (RMSConstSymbol)symbol))
-				;
+	public MutableMap<String, IPossibleValue<Integer>> constAvailable() {
+		return this.constSymbolTable.asUnmodifiable();
 	}
 	
 	/**
 	 * generate a map representing all the defines that we know the script has defined
 	 * @return
 	 */
-	public MutableMap<String, RMSDefineSymbol> defineAvailable() {
-		return this.symbolTable
-				.select((k,symbol) -> symbol.getType().equals(RMSSymbolType.DEFINE))
-				.collect((k,symbol) -> Tuples.pair(k, (RMSDefineSymbol)symbol))
-				;
+	public MutableMap<String, IPossibleValue<Boolean>> defineAvailable() {
+		return this.defineSymbolTable.asUnmodifiable();
 	}
 	
 	/**
-	 * Use this method to declare the fact that the compiler knows that the given constant has the associated value
+	 * Use this method to declare the fact that the compiler knows that the given constant can also have the associated value
 	 * @param name
 	 * @param val
 	 */
-	public void knowThatConstIs(String name, int val) {
-		this.symbolTable.put(name, new RMSConstSymbol(name, val));
+	public void knowThatConstCanAlsoBe(String name, int val) {
+		if (this.constSymbolTable.containsKey(name)) {
+			var values = this.constSymbolTable.get(name);
+			this.constSymbolTable.put(name, values.union(Integer.valueOf(val)));
+		} else {
+			this.constSymbolTable.put(name, new SetPossibleValue<Integer>(val));
+		}
+		LOG.info("We now know that \"{}\" name is associated with the int value {}", name, val);
+	}
+	
+	/**
+	 * Use this method to declare the fact that the compiler knows that the given constant can only have this value
+	 * @param name
+	 * @param val
+	 */
+	public void knowThatConstCanOnlyBe(String name, int val) {
+		this.constSymbolTable.put(name, new SetPossibleValue<Integer>(val));
 		LOG.info("We now know that \"{}\" name is associated with the int value {}", name, val);
 	}
 	
@@ -157,26 +191,104 @@ public class SemanticCheckInput {
 	 * Use this method to declare that the compiler knows that the given define is in fact defined
 	 * @param name define to check
 	 */
-	public void knowThatDefineIsDefined(String name) {
-		this.symbolTable.put(name, new RMSDefineSymbol(name));
+	public void knowThatDefineCanAlsoBe(String name, boolean defined) {
+		if (this.defineSymbolTable.containsKey(name)) {
+			var values = this.defineSymbolTable.get(name);
+			this.defineSymbolTable.put(name, values.union(defined));
+		} else {
+			this.defineSymbolTable.put(name, new SetPossibleValue<Boolean>(defined));
+		}
 		LOG.info("We now know that \"{}\" is defined", name);
+	}
+	
+	/**
+	 * Use this method to declare that the compiler knows that the given define is in fact defined
+	 * @param name define to check
+	 */
+	public void knowThatDefineCanOnlyBe(String name, boolean defined) {
+		this.defineSymbolTable.put(name, new SetPossibleValue<Boolean>(defined));
+		LOG.info("We now know that \"{}\" is defined {}", name, defined);
 	}
 	
 	public boolean isConstDefined(String name) {
 		return this.constAvailable().containsKey(name);
 	}
 	
-	public boolean isConstUndefined(String name) {
+	public boolean isConstNotdefined(String name) {
 		return !this.constAvailable().containsKey(name);
 	}
 	
-	public boolean isDefined(String name) {
-		return this.defineAvailable().containsKey(name);
+	/**
+	 * check if the we know for sure that the define is defined
+	 * 
+	 * @param name name of the defined
+	 * @return true if the only possible scenario right now is that the define is defined
+	 */
+	public boolean isForSureDefined(String name) {
+		if (!this.defineAvailable().containsKey(name)) {
+			return false;
+		}
+		if (this.defineAvailable().get(name).contains(false)) {
+			return false;
+		}
+		return this.defineAvailable().get(name).contains(true);
+	}
+	
+	/**
+	 * check if the we know for sure that the define is undefined
+	 * 
+	 * @param name name of the defined
+	 * @return true if the only possible scenario right now is that the define is defined
+	 */
+	public boolean isForSureUndefined(String name) {
+		if (!this.defineAvailable().containsKey(name)) {
+			return true;
+		}
+		if (this.defineAvailable().get(name).contains(true)) {
+			return false;
+		}
+		return this.defineAvailable().get(name).contains(false);
+	}
+	
+	/**
+	 * check if there is at least one scenario where the define is defined
+	 * @param name
+	 * @return
+	 */
+	public boolean isMaybeDefined(String name) {
+		if (!this.defineAvailable().containsKey(name)) {
+			return false;
+		}
+		return this.defineAvailable().get(name).contains(true);
+	}
+	
+	/**
+	 * get the possible values of the define. If the define is not present, we assume it can only be undefined
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public IPossibleValue<Boolean> getDefinedValue(String name) {
+		if (!this.defineSymbolTable.contains(name)) {
+			//assume undefined
+			return new SetPossibleValue<Boolean>(false);
+		}
+		return this.defineSymbolTable.get(name);
 	}
 	
 	public String toString() {
-		var c = this.constAvailable().collect(ac -> String.format("%s=%d", ac.getName(), ac.getValue())).toSortedList(String::compareTo).makeString();
-		var d = this.defineAvailable().collect(ad -> String.format("%s", ad.getName())).toSortedList(String::compareTo).makeString();
+		var c = this
+				.constAvailable()
+				.collect((name, values) -> Tuples.pair(name, String.format("%s=%s", name, values)))
+				.toSortedList(String::compareTo)
+				.makeString();
+				;
+		var d = this
+				.defineAvailable()
+				.collect((name, values) -> Tuples.pair(name, String.format("%s=%s", name, values)))
+				.toSortedList(String::compareTo)
+				.makeString()
+				;
 		return "Const: " + c + " Defines: " + d;
 	}
 	

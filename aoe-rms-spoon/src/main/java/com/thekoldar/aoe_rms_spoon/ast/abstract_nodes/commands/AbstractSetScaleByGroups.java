@@ -1,5 +1,6 @@
 package com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands;
 
+import org.eclipse.collections.impl.tuple.Tuples;
 import org.eclipse.collections.impl.tuple.primitive.PrimitiveTuples;
 
 import com.thekoldar.aoe_rms_spoon.age_versions.common.conditionals.MapSizes;
@@ -49,12 +50,15 @@ public abstract class AbstractSetScaleByGroups extends AbstractRMSNoArgumentComm
 			
 			//add the corresponding values, since it has been scaled
 			result.addStringToLastLine(String.format("/* %s */", 
-				MapSizes.all()
-					.collect(ms -> PrimitiveTuples.pair(ms, numberOfClumps * ms.getTilesPer100x100()))
-					.collect(pair -> PrimitiveTuples.pair(pair.getOne(), (int)Math.round(pair.getTwo())))
-					.collect(pair -> String.format("%s=%d", pair.getOne().getName(), pair.getTwo()))
-					.makeString()
-					));
+					MapSizes.all()
+						.collect(ms -> Tuples.pair(
+								ms, 
+								numberOfClumps.getPossibleValues().collect(j -> (int)(Math.round(j * ms.getTilesPer100x100()))).makeString()
+							)
+						)
+						.collect(pair -> String.format("%s=%s", pair.getOne().getName(), pair.getTwo()))
+						.makeString()
+						));
 		});
 	
 		

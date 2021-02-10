@@ -21,6 +21,7 @@ import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSExcept
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticErrorException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticWarningException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -210,7 +211,7 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 	 * @param input semantic analysis input
 	 * @return int rerpesentation of the i-th argument
 	 */
-	public int getArgumentAsInt(int index, SemanticCheckInput input) {
+	public IPossibleValue<Integer> getArgumentAsInt(int index, SemanticCheckInput input) {
 		return this.getArgument(index).getAsInt(input);
 	}
 

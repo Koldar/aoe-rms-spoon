@@ -7,6 +7,7 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -73,13 +74,13 @@ public class DefineRefExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public int getAsInt(SemanticCheckInput input) {
-		return input.isDefined(this.name) ? 1 : 0;
+	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
+		return input.getDefinedValue(this.name).collect(d -> d ? 1: 0);
 	}
 
 	@Override
-	public boolean getAsBool(SemanticCheckInput input) {
-		return input.isDefined(this.name);
+	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
+		return input.getDefinedValue(this.name);
 	}
 
 	@Override

@@ -38,10 +38,10 @@ public abstract class AbstractLandPercent extends AbstractRMSSingleOptionalIntAr
 		var result = input.createOutput();
 		
 		result.ensureThereAreNoSiblingOfTheSameType(this);
-		result.ensureArgumentIsPercentage(this.getArgument(0), 0);
+		result.ensureArgumentIsPercentage(this.getArgument(0));
 		result.ensureArgumentIsLiteralInteger(this, 0);
 		
-		result.ensureArgumentGreaterThan(this.getArgument(0), 0, 0);
+		result.ensureArgumentGreaterThan(this.getArgument(0), 0);
 		if (this.hasAtLeastOneSiblingOfTypes(RMSNodeType.TOP_BORDER, RMSNodeType.BOTTOM_BORDER, RMSNodeType.LEFT_BORDER, RMSNodeType.RIGHT_BORDER)) {
 			result.addWarning(RMSErrorCode.BEHAVIOR_MAY_BE_ALTERED, "If land growth is constrained by borders or other lands, lands may be smaller than specified.");
 		}

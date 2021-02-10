@@ -44,7 +44,7 @@ public abstract class AbstractLandId extends AbstractRMSSingleOptionalIntArgumen
 		
 		result.ensureArgumentIsLiteralInteger(this, 0);
 		
-		if (first.getAsInt(input) == -9) {
+		if (first.getAsInt(input).contains(-9)) {
 			result.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_ARGUMENT, "Zone Id -9 should not be used since it is used by gaia"));
 		}
 		

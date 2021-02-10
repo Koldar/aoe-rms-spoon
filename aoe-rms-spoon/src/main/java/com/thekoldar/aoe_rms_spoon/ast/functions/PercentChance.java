@@ -10,6 +10,7 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSNode;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -32,7 +33,7 @@ public class PercentChance extends AbstractRMSNode {
 	 * @param input
 	 * @return 
 	 */
-	public int getPercentvalue(SemanticCheckInput input) {
+	public IPossibleValue<Integer> getPercentValue(SemanticCheckInput input) {
 		return this.getPercentExpr().getAsInt(input);
 	}
 	

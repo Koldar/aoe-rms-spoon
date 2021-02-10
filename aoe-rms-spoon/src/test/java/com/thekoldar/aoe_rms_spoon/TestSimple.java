@@ -274,7 +274,7 @@ public class TestSimple {
 			}
 			
 			root.objectsGeneration()
-				.defines("GNR_NORMALTC")
+				.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 				.includeDrs("GeneratingObjects.inc")
 			;
 			
@@ -385,7 +385,7 @@ public class TestSimple {
 				));
 			
 			root.objectsGeneration()
-				.defines("GNR_NORMALTC")
+			.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 				.includeDrs("GeneratingObjects.inc")
 			;
 				
@@ -517,7 +517,7 @@ public class TestSimple {
 			));
 			
 			root.objectsGeneration()
-				.defines("GNR_NORMALTC")
+			.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 				.includeDrs("GeneratingObjects.inc")
 			;
 			
@@ -653,12 +653,12 @@ public class TestSimple {
 			
 			objectGeneration
 			.startRandom()
-				.percentChance(4, spoon.getAgeVersion().define("HI_VULTURE"))
+				.percentChance(100, spoon.getAgeVersion().define("HI_VULTURE"))
 			.endRandom()
 			;
 			
 			objectGeneration
-				.defines("GNR_NORMALTC")
+			.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 				.includeDrs("GeneratingObjects.inc")
 			;
 			
@@ -794,7 +794,7 @@ public class TestSimple {
 			
 			objectGeneration
 			.startRandom()
-				.percentChance(4, spoon.getAgeVersion().define("HI_VULTURE"))
+				.percentChance(100, spoon.getAgeVersion().define("HI_VULTURE"))
 			.endRandom()
 			;
 			
@@ -828,7 +828,7 @@ public class TestSimple {
 //			);
 			
 			objectGeneration
-				.defines("GNR_NORMALTC")
+			.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 				.includeDrs("GeneratingObjects.inc")
 			;
 			

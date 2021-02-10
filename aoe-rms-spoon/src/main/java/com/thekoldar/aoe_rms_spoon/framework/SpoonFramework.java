@@ -424,14 +424,14 @@ public class SpoonFramework {
 		//before eprforming semantic analysis, we need to load the consts implicitly avaiable by the AGE of Empires versions
 		LOG.info("Adding to the known constants the one available from {}...", this.targetVersion.getName());
 		for (var c : this.targetVersion.availableConst()) {
-			semanticInput.knowThatConstIs(c.getName(), c.getValue());
+			semanticInput.knowThatConstCanOnlyBe(c.getName(), c.getValue());
 		}
 		
 		//before eprforming semantic analysis, we need to load the defines implicitly avaiable by the AGE of Empires versions
 		LOG.info("Adding to the known define the one available from {}...", this.targetVersion.getName());
 		var availableDefines = this.targetVersion.availableDefines().toList();
 		for (var define : availableDefines) {
-			semanticInput.knowThatDefineIsDefined(define.getName());	
+			semanticInput.knowThatDefineCanOnlyBe(define.getName(), true);	
 		}
 		LOG.info("Added {} defines", availableDefines.size());
 		

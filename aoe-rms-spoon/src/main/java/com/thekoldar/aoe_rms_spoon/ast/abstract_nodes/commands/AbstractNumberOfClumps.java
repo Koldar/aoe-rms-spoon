@@ -39,7 +39,7 @@ public abstract class AbstractNumberOfClumps extends AbstractRMSSingleOptionalIn
 		var result = input.createOutput();
 		
 		result.ensureArgumentIsLiteralInteger(this, 0);
-		result.ensureArgumentGreaterThan(this.getArgument(0), 0, 1);
+		result.ensureArgumentGreaterThan(this.getArgument(0), 1);
 		
 		return this.semanticCheckChildren(input);
 	}

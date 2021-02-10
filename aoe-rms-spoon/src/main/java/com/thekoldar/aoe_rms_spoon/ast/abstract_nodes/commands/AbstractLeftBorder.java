@@ -52,7 +52,7 @@ public abstract class AbstractLeftBorder extends AbstractRMSSingleOptionalIntArg
 		var result = input.createOutput();
 		
 		result.ensureThereAreNoSiblingOfTheSameType(this);
-		result.ensureArgumentIsBetween(this.getArgument(0), 0, 0, 97, true, true);
+		result.ensureArgumentIsBetween(this.getArgument(0), 0, 97, true, true);
 		
 		this.infoCmd("Using a borders. This means that the genrated lands will not be square like but octagon like");
 		

@@ -33,7 +33,7 @@ public abstract class AbstractConst extends AbstractDirective {
 		if (input.isConstDefined(name)) {
 			result.add(new RMSSemanticWarningException(RMSErrorCode.CONST_REDEFINED, "You are redefining const %s. Old value was %d but the new one is %d", this.name, input.getConstValue(this.name), this.value));
 		}
-		input.knowThatConstIs(this.name, this.value);
+		input.knowThatConstCanOnlyBe(this.name, this.value);
 		return result;
 	}
 

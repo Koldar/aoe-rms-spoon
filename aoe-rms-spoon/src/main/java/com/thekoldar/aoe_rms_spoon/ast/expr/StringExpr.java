@@ -7,6 +7,7 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -66,12 +67,12 @@ public class StringExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public int getAsInt(SemanticCheckInput input) {
+	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
 		throw new IllegalArgumentException();
 	}
 
 	@Override
-	public boolean getAsBool(SemanticCheckInput input) {
+	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
 		throw new IllegalArgumentException();
 	}
 

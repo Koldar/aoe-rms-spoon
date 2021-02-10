@@ -2,5 +2,10 @@ language: java
 
 jobs:
   include:
+    - stage: install-dependencies
+      script: |
+        wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
+        sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ 
+        sudo apt-get install adoptopenjdk-15-hotspot
     - stage: test
       script: cd aoe-rms-spoon && mvn test

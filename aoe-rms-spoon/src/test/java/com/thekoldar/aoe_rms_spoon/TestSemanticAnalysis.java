@@ -3,21 +3,32 @@ package com.thekoldar.aoe_rms_spoon;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Path;
 
 import org.eclipse.collections.api.factory.Lists;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import com.github.zafarkhaja.semver.Version;
 import com.thekoldar.aoe_rms_spoon.age_versions.de.DefinitiveEdition;
 import com.thekoldar.aoe_rms_spoon.age_versions.de.DefinitiveEditionImportantFiles;
 import com.thekoldar.aoe_rms_spoon.ast.RMSExprs;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
+import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRootNode;
+import com.thekoldar.aoe_rms_spoon.ast.builders.RandomBlockBuilder;
+import com.thekoldar.aoe_rms_spoon.ast.functions.RandomNumberNode;
+import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 import com.thekoldar.aoe_rms_spoon.framework.ChangeLogEntry;
 import com.thekoldar.aoe_rms_spoon.framework.SpoonFramework;
+import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticErrorException;
+import com.thekoldar.aoe_rms_spoon.framework.models.functionalinterfaces.TriFunction;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.usefulscripts.CreateRandomTerrains;
 import com.thekoldar.aoe_rms_spoon.framework.usefulscripts.Libraries;
 
@@ -519,6 +530,98 @@ public class TestSemanticAnalysis {
 				objectGeneration
 					.includeDrs(((DefinitiveEditionImportantFiles)aoe.getImportantFiles()).generatingObjects());
 				;
+				
+				log.info("final script");
+				return root;
+			});
+		
+			Assert.assertFalse(outputFile.toFile().exists());
+			
+		});
+	}
+	
+	public void generate(TriFunction<AbstractRootNode, Logger, AbstractAoEVersion, AbstractRootNode> script) throws AbstractRMSException {
+		
+		var ex = assertThrows(AbstractRMSException.class, () -> {
+			var outputFile = Path.of("test.rms");
+			var spoon = SpoonFramework.instance(new DefinitiveEdition());
+			
+			spoon
+				.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.WRONG_CHILDREN_NUMBER)
+				.setCodeAsError(RMSErrorCode.WRONG_CHILDREN_NUMBER)
+				.deleteOutputFilesIfPossible()
+				.setOutputFileInLocalMods("ya-team-arena")
+				;
+				
+			spoon.generate((root, log, aoe) -> {
+				log.info("add file info");
+			
+				root
+					.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
+					.addStatement(Libraries.stdBool(aoe))
+				;
+				
+				var playerSetup = root.playerSetup();
+				
+				playerSetup
+					.groupedByTeam()
+					.aiInfoMapType(
+							RMSExprs.constVal("BLACK_FOREST"), 
+							RMSExprs.constVal("FALSE"),
+							RMSExprs.constVal("FALSE"),
+							RMSExprs.constVal("TRUE")
+					)
+				;
+				
+				var landGeneration = root.landGeneration();
+				
+				landGeneration
+					.baseTerrain(RMSExprs.constVal("DESERT"))
+				;
+				
+				//setting DLC_RAINFOREST with a terrain_type will cerate the forest as well!
+				landGeneration
+					.comment("Setup player positions")
+					.createPlayerLands(RMSExprs.dict(
+							aoe.terrainType("GRASS"),
+							aoe.baseSize(5),
+							aoe.landPercent(10),
+							aoe.clumpingFactor(5),
+							aoe.borderFuzziness(100),
+							aoe.setZoneByTeam(),
+							aoe.otherZoneAvoidanceDistance(0),
+							aoe.circlePlacement(),
+							aoe.circleRadius(20, 0)
+					))
+				;
+				
+				landGeneration.createLand(RMSExprs.dict(
+						spoon.getAgeVersion().terrainType().addArgument("DLC_SAVANNAH"),
+						//spoon.getAgeVersion().baseSize(20),
+						spoon.getAgeVersion().landPercent(30),
+						spoon.getAgeVersion().clumpingFactor(10),
+						spoon.getAgeVersion().landPosition(50, 50),
+						spoon.getAgeVersion().topBorder(20),
+						spoon.getAgeVersion().leftBorder(20),
+						spoon.getAgeVersion().rightBorder(20),
+						spoon.getAgeVersion().bottomBorder(20),
+						spoon.getAgeVersion().borderFuzziness(0),
+						spoon.getAgeVersion().otherZoneAvoidanceDistance(0),
+						spoon.getAgeVersion().landId(9),
+						spoon.getAgeVersion().zone(4)
+				));
+				var objectGeneration = root.objectsGeneration();
+				
+				objectGeneration
+					.includeDrs(((DefinitiveEditionImportantFiles)aoe.getImportantFiles()).generatingObjects());
+				;
+				
+				RandomBlockBuilder.instance()
+					.percentChance(5, aoe.constant("ABS", 42))
+				.endRandom();
+				
+				
 				
 				log.info("final script");
 				return root;

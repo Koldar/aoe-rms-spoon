@@ -21,6 +21,10 @@ public class RandomBlockBuilder {
 	private IRMSNode parent;
 	private RandomNode building;
 	
+	public static RandomBlockBuilder instance() {
+		return new RandomBlockBuilder(null);
+	}
+	
 	public static RandomBlockBuilder instance(IRMSNode parent) {
 		return new RandomBlockBuilder(parent); 
 	}

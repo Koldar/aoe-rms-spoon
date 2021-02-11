@@ -58,7 +58,7 @@ public abstract class AbstractLandPosition extends AbstractRMSOptionalIntOptiona
 		result.ensureArgumentIsBetween(this.getArgument(0), 0, 100, true, true);
 		result.ensureArgumentIsBetween(this.getArgument(1), 0, 100, true, true);
 		
-		if (this.getArgumentAsInt(0, input).contains(100)) {
+		if (this.getArgumentAsInt(0, input).contains(100L)) {
 			var connectionGeneration = !this.getAllNodesInASTOfTypes(RMSNodeType.CONNECTION_GENERATION).isEmpty();
 			if (connectionGeneration) {
 				result.addWarning(RMSErrorCode.MAY_CRASH, "If a connection goes to the land with land_position y set to 100, the game will crash! Consider changing y to any other value");

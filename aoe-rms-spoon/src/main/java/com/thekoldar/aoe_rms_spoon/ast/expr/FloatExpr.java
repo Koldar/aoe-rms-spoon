@@ -8,6 +8,7 @@ import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
@@ -68,13 +69,13 @@ public class FloatExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
-		return new SetPossibleValue<Integer>((int)this.value);
+	public IPossibleValue<Long> getAsLong(SemanticCheckInput input) {
+		return new LongSetPossible((long)this.value);
 	}
 
 	@Override
 	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
-		return this.getAsInt(input).collect(i -> i != 0);
+		return this.getAsLong(input).collect(i -> i != 0);
 	}
 
 	@Override

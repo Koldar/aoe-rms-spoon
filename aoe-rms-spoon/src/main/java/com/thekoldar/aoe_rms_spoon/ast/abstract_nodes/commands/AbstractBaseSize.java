@@ -43,15 +43,15 @@ public abstract class AbstractBaseSize extends AbstractRMSSingleOptionalIntArgum
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		
 		if (this.hasAtLeastOneSiblingOfTypes(RMSNodeType.LAND_PERCENT) && this.hasAtLeastOneSiblingOfTypes(RMSNodeType.NUMBER_OF_TILES)) {
-			var isLandPercent0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.LAND_PERCENT).getAny()).getArgumentAsInt(0, input).containsOnly(0);
-			var isNumberOfTiles0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_TILES).getAny()).getArgumentAsInt(0, input).containsOnly(0);
+			var isLandPercent0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.LAND_PERCENT).getAny()).getArgumentAsInt(0, input).containsOnly(0L);
+			var isNumberOfTiles0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_TILES).getAny()).getArgumentAsInt(0, input).containsOnly(0L);
 			
 			if (isLandPercent0 && isNumberOfTiles0) {
 				this.infoCmd("base_size will generate a perfect square since land_pecent and numbher_of_tiles are both set to 0");
 			}
 			
-			var isLandPercentMaybe0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.LAND_PERCENT).getAny()).getArgumentAsInt(0, input).contains(0);
-			var isNumberOfTilesMaybe0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_TILES).getAny()).getArgumentAsInt(0, input).contains(0);
+			var isLandPercentMaybe0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.LAND_PERCENT).getAny()).getArgumentAsInt(0, input).contains(0L);
+			var isNumberOfTilesMaybe0 = ((AbstractRMSCommand) this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_TILES).getAny()).getArgumentAsInt(0, input).contains(0L);
 			
 			if (isLandPercentMaybe0 && isNumberOfTilesMaybe0) {
 				this.infoCmd("base_size may generate a perfect square since land_pecent and numbher_of_tiles can both be set to 0");

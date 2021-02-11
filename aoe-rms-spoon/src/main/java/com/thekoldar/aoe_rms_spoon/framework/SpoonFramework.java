@@ -26,6 +26,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.api.factory.Sets;
 import org.eclipse.collections.api.list.ImmutableList;
@@ -81,6 +82,16 @@ public class SpoonFramework {
 	private ConstNotFoundInSymbolTableActionEnum constNotFoundInSymbolTableAction;
 	
 	/**
+	 * structure that is used by the semantic analysis to keep bookmark about the state of the anslysis
+	 */
+	private SemanticCheckInput semanticInput;
+	
+	/**
+	 * if true, we will show additional information before generating the script
+	 */
+	private boolean showInfo;
+	
+	/**
 	 * if not null, represent sthe csv file that we want to create containing all the terrains detected by the framework
 	 */
 	@Nullable
@@ -99,6 +110,8 @@ public class SpoonFramework {
 		this.csvOutputFile = null;
 		this.disableSemanticAnalysis = false;
 		this.enableComments = true;
+		this.semanticInput = null;
+		this.showInfo = false;
 	}
 	
 	public SpoonFramework setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum x) {
@@ -108,6 +121,16 @@ public class SpoonFramework {
 	
 	public SpoonFramework setOutputFile(Path outputFile) {
 		this.outputFile = outputFile;
+		return this;
+	}
+	
+	/**
+	 * if true, we will show additional information when starting the script
+	 * @param s
+	 * @return
+	 */
+	public SpoonFramework requestShowInfo(boolean s) {
+		this.showInfo = s;
 		return this;
 	}
 	
@@ -291,6 +314,37 @@ public class SpoonFramework {
 		return this.targetVersion;
 	}
 	
+	/**
+	 * Inform the semantic analysis that a constant has been defined. It is usually very useful when you include a file and you
+	 * know that such a file generates some "const" set to some values. For examnple "F_season.inc" is such a file 
+	 * @param constant const to set
+	 */
+	public void informSemanticAnalysisThatConstIsDefined(String constant) {
+		if (this.semanticInput != null) {
+			this.semanticInput.knowThatConstCanAlsoBe(constant, 0); // 0: a dummy value
+		}
+	}
+	
+	/**
+	 * Inform the semantic analysis that a constant has been defined. It is usually very useful when you include a file and you
+	 * know that such a file generates some "const" set to some values. For examnple "F_season.inc" is such a file
+	 *  
+	 * @param constants const to set
+	 */
+	public void informSemanticAnalysisThatConstIsDefined(RichIterable<String> constants) {
+		constants.forEach(c -> this.informSemanticAnalysisThatConstIsDefined(c));
+	}
+	
+	/**
+	 * Inform the semantic analysis that a constant has been defined. It is usually very useful when you include a file and you
+	 * know that such a file generates some "const" set to some values. For examnple "F_season.inc" is such a file
+	 *  
+	 * @param constants const to set
+	 */
+	public void informSemanticAnalysisThatConstIsDefined(String... constants) {
+		this.informSemanticAnalysisThatConstIsDefined(Lists.immutable.of(constants));
+	}
+	
 	public void generate(Function<AbstractRootNode, AbstractRootNode> script) throws AbstractRMSException{
 		this.generate((root, logger) -> {
 			return script.apply(root);
@@ -393,6 +447,10 @@ public class SpoonFramework {
 		for (var forest : this.targetVersion.getUsableTerrains().select(t -> t.isForest())) {
 			logFunction.accept("Forest terrain: {} (value={})", new Object[] {forest.getConstName(), forest.getConstValue()});
 		}
+		
+		for (var gameObject: this.targetVersion.getUsableGameObjects()) {
+			logFunction.accept("Game Object: {}", new Object[] { gameObject });
+		}
 	}
 	
 	public void generate(TriFunction<AbstractRootNode, Logger, AbstractAoEVersion, AbstractRootNode> script) throws AbstractRMSException {
@@ -406,6 +464,13 @@ public class SpoonFramework {
 		LOG.info("Output path: {}", this.outputFile.toAbsolutePath().normalize());
 		var root = this.targetVersion.root();
 		
+		//create semantci analysis (we do it here since the suer may give additional information to the smantic analyzer in generate)
+		this.semanticInput = new SemanticCheckInput(
+				this.treatedAsWarning.toImmutable(), 
+				this.treatedAsError.toImmutable(),
+				this.constNotFoundInSymbolTableAction
+		);
+		
 		LOG.info("Computing Script to generate...");
 		var rmsASTTree = script.apply(root, LOG, this.targetVersion);
 		
@@ -415,23 +480,18 @@ public class SpoonFramework {
 		
 		//now perform some semantic analysis
 		LOG.info("Performing semantic analysis...");
-		var semanticInput = new SemanticCheckInput(
-				this.treatedAsWarning.toImmutable(), 
-				this.treatedAsError.toImmutable(),
-				this.constNotFoundInSymbolTableAction
-		);
 		
 		//before eprforming semantic analysis, we need to load the consts implicitly avaiable by the AGE of Empires versions
 		LOG.info("Adding to the known constants the one available from {}...", this.targetVersion.getName());
 		for (var c : this.targetVersion.availableConst()) {
-			semanticInput.knowThatConstCanOnlyBe(c.getName(), c.getValue());
+			this.semanticInput.knowThatConstCanOnlyBe(c.getName(), c.getValue());
 		}
 		
 		//before eprforming semantic analysis, we need to load the defines implicitly avaiable by the AGE of Empires versions
 		LOG.info("Adding to the known define the one available from {}...", this.targetVersion.getName());
 		var availableDefines = this.targetVersion.availableDefines().toList();
 		for (var define : availableDefines) {
-			semanticInput.knowThatDefineCanOnlyBe(define.getName(), true);	
+			this.semanticInput.knowThatDefineCanOnlyBe(define.getName(), true);	
 		}
 		LOG.info("Added {} defines", availableDefines.size());
 		
@@ -439,7 +499,9 @@ public class SpoonFramework {
 		// show info
 		// **********************************************************
 		
-		this.showInfo();
+		if (this.showInfo) {
+			this.showInfo();	
+		}
 		
 		// *******************************************************
 		// generating AST image (if present)
@@ -474,7 +536,7 @@ public class SpoonFramework {
 			LOG.warn("The user reuqested to disable Semantic analysis. Skipping this important phase. Note that this implies that the semantic input will be absent in the code generation phase as well");
 		} else {
 			try {
-				var semanticOutput = rmsASTTree.semanticCheck(semanticInput);
+				var semanticOutput = rmsASTTree.semanticCheck(this.semanticInput);
 				if (semanticOutput != null) {
 					//if null, the semantic analysis is completely correct
 					for (var w : semanticOutput.getWarnings()) {
@@ -498,7 +560,7 @@ public class SpoonFramework {
 		
 		
 		LOG.info("generate RMS code");
-		var codeGenerationInput = new CodeGenerationInput(this.disableSemanticAnalysis ? null : semanticInput, this.enableComments);
+		var codeGenerationInput = new CodeGenerationInput(this.disableSemanticAnalysis ? null : this.semanticInput, this.enableComments);
 		var codeGenerationOutput = rmsASTTree.codeGeneration(codeGenerationInput);
 		
 		// *******************************************************

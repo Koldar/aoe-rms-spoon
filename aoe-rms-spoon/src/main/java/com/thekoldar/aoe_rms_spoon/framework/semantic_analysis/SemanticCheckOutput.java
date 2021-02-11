@@ -16,12 +16,14 @@ import org.eclipse.collections.api.set.MutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractInclude;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.directives.AbstractIncludeDrs;
+import com.thekoldar.aoe_rms_spoon.ast.expr.DictExpr;
 import com.thekoldar.aoe_rms_spoon.ast.expr.IntExpr;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
@@ -94,7 +96,7 @@ public class SemanticCheckOutput {
 	 * declare that the player with the given lobby order needs to be set
 	 * @param playerLobbyOrder
 	 */
-	public SemanticCheckOutput declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Integer> player) {
+	public SemanticCheckOutput declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Long> player) {
 		this.input.declareThatPlayerWithLobbyOrderNeedsToBePlaying(player);
 		return this;
 	}
@@ -103,7 +105,7 @@ public class SemanticCheckOutput {
 	 * declare that the player with the given color order needs to be set
 	 * @param playerLobbyOrder
 	 */
-	public SemanticCheckOutput declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Integer> player) {
+	public SemanticCheckOutput declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Long> player) {
 		this.input.declareThatPlayerWithColorNeedsToBePlaying(player);
 		return this;
 	}
@@ -120,6 +122,20 @@ public class SemanticCheckOutput {
 		this.errors.addAll(other.errors);
 		this.warnings.addAll(other.warnings);
 		return this;
+	}
+	
+	/**
+	 * fetch the nearest {@link DictExpr} of the path to root from the current node. Then ensures that every path in the dictionary has no node of this type. 
+	 * @param node
+	 * @throws AbstractRMSException 
+	 */
+	public void ensureItIsOnlyInstructionOfTypeInDict(IRMSNode node) throws AbstractRMSException {
+		var dictNode = node.getFirstNodeFromPathSatisfying(p -> p.getNodeType().equals(RMSNodeType.EXPR) && p.getType().isPresent() && p.getType().get().equals(ExprType.DICT)).getAny();
+		//now consider all the branches in all the chidlren of the node and ensure that node is the only node with the given node type
+		var result = dictNode.getNodesOfTypes(node.getNodeType()).toList();
+		if (result.size() > 1) {
+			this.addError(node, RMSErrorCode.DUPLICATE_TYPE, "The type %s is present in the dictionary %d times!", node.getNodeType(), result.size());
+		}
 	}
 	
 	/**
@@ -453,9 +469,9 @@ public class SemanticCheckOutput {
 	 * @param possibleValues allowed integer values. Each possible values represent the values of a single const
 	 * @throws AbstractRMSException
 	 */
-	public void ensureIntArgumentIsOneOf(IRMSNode arg, IPossibleValue<Integer>... possibleValues) throws AbstractRMSException {
+	public void ensureIntArgumentIsOneOf(IRMSNode arg, IPossibleValue<Long>... possibleValues) throws AbstractRMSException {
 		this.ensureIsExpression(arg);
-		var actualvalue = ((AbstractExpressionNode)arg).getAsInt(this.input);
+		var actualvalue = ((AbstractExpressionNode)arg).getAsLong(this.input);
 		if (!actualvalue.isSubsetOfAtLeastOne(possibleValues)) {
 			this.addError(arg, RMSErrorCode.INVALID_ARGUMENT, "arg %s cannot be set to value %s. Only %s are allowed", arg, actualvalue, Lists.immutable.of(possibleValues).makeString());
 		}
@@ -544,13 +560,23 @@ public class SemanticCheckOutput {
 	 * @throws AbstractRMSException 
 	 */
 	public void ensureArgumentIsBetween(IRMSNode node, int lowbound, int upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
+		this.ensureArgumentIsBetween(node, (long)lowbound, (long)upperbound, lowIncluded, upperIncluded);
+	}
+	
+	/**
+	 * Ensure the given argument at index is a number that satisfies the range.
+	 * 
+	 * @param argumentIndex index of the argument we need to check
+	 * @throws AbstractRMSException 
+	 */
+	public void ensureArgumentIsBetween(IRMSNode node, long lowbound, long upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
-		var n = arg.getAsInt(this.input);
-		if (n.intersect(new IntRangeOfPossibleValue(lowbound, upperbound, lowIncluded, upperIncluded)).isEmpty()) {
+		var n = arg.getAsLong(this.input);
+		if (n.intersect(new LongRangeOfPossibleValue(lowbound, upperbound, lowIncluded, upperIncluded)).isEmpty()) {
 			//none of the possible values of arg matches the range. throw error
 			this.addError(arg, RMSErrorCode.INVALID_RANGE, "argument %s needs to be between %d and %d (%d %s and %d %s), but it is %s", node, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded", n);
 		}
-		if (n.intersect(new IntRangeOfPossibleValue(lowbound, upperbound, lowIncluded, upperIncluded)).size() < n.size()) {
+		if (n.intersect(new LongRangeOfPossibleValue(lowbound, upperbound, lowIncluded, upperIncluded)).size() < n.size()) {
 			//some of the possible values of arg are outside the matc.h raise warning
 			this.addWarning(arg, RMSErrorCode.INVALID_RANGE, "some of the actual values in argument %s are outside the range between %d and %d (%d %s and %d %s), they are %s", node, lowbound, upperbound, lowbound, lowIncluded ? "included" : "excluded", upperbound, upperIncluded ? "included" : "excluded", n);
 		}
@@ -564,7 +590,7 @@ public class SemanticCheckOutput {
 	 */
 	public void ensureArgumentGreaterThan(IRMSNode node, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
-		var n = arg.getAsInt(this.input);
+		var n = arg.getAsLong(this.input);
 		if (n.getPossibleValues().allSatisfy(i -> i > value)) {
 			return;
 		}
@@ -588,7 +614,7 @@ public class SemanticCheckOutput {
 	 */
 	public void ensureArgumentGreaterThanOrEqual(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
-		var n = arg.getAsInt(this.input);
+		var n = arg.getAsLong(this.input);
 		if (n.getPossibleValues().allSatisfy(i -> i >= value)) {
 			return;
 		}
@@ -613,7 +639,7 @@ public class SemanticCheckOutput {
 	 */
 	public void ensureArgumentLessThan(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
-		var n = arg.getAsInt(this.input);
+		var n = arg.getAsLong(this.input);
 		if (n.getPossibleValues().allSatisfy(i -> i < value)) {
 			return;
 		}
@@ -638,7 +664,7 @@ public class SemanticCheckOutput {
 	 */
 	public void ensureArgumentLessThanOrEqual(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
-		var n = arg.getAsInt(this.input);
+		var n = arg.getAsLong(this.input);
 		if (n.getPossibleValues().allSatisfy(i -> i <= value)) {
 			return;
 		}

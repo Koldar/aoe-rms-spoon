@@ -35,7 +35,8 @@ public enum RMSErrorCode {
 	CONFLICTING_COMMANDS(30, true),
 	EXPECTED_REQUIRED_COMMAND(31, true),
 	NOT_A_EXPR(32, true),
-	INVALID_NODE_LOCATION(33, true)
+	INVALID_NODE_LOCATION(33, true),
+	NOT_RECOMMENDED(34, false)
 	;
 	
 	public static RMSErrorCode from(int id) {

@@ -6,6 +6,12 @@ import org.eclipse.collections.api.list.ImmutableList;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSCommand;
 import com.thekoldar.aoe_rms_spoon.framework.CommandFormalArgument;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
 public abstract class AbstractTerrainSize extends AbstractRMSCommand {
 
@@ -21,12 +27,39 @@ public abstract class AbstractTerrainSize extends AbstractRMSCommand {
 				CommandFormalArgument.optionalInt("variance", 0, "")
 		).toImmutable();
 	}
+	
+	public LongSetPossible getTerrainType(SemanticCheckInput input) {
+		return LongSetPossible.of(this.getArgumentAsInt(0, input));
+	}
 
-
+	public LongSetPossible getRadius(SemanticCheckInput input) {
+		return LongSetPossible.of(this.getArgumentAsInt(1, input));
+	}
+	
+	public LongSetPossible getVariance(SemanticCheckInput input) {
+		return LongSetPossible.of(this.getArgumentAsInt(2, input));
+	}
 
 	@Override
 	public String getComment() {
-		return "";
+		return "When a connection passes through a tile of the specified terrain, the area within radius +/- variance will be subject to replace_terrain / default_terrain_replacement and terrains will be replaced accordingly.";
 	}
+
+	@Override
+	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
+		var result = input.createOutput();
+		
+		if (this.getRadius(input).contains(0L)) {
+			result.addWarning(this, RMSErrorCode.BEHAVIOR_MAY_BE_ALTERED, "Setting the radius to 0 will still generate a single-tile width path");
+		}
+		
+		if (this.getVariance(input).areAtLeastOneGreaterThanAnyOf(this.getRadius(input))) {
+			result.addWarning(this, RMSErrorCode.BEHAVIOR_MAY_BE_ALTERED, "Setting the variance to be greater than the radius will avoid generating some parts of the road");
+		}
+		
+		return result;
+	}
+	
+	
 
 }

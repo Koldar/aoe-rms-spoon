@@ -31,7 +31,7 @@ public class SemanticCheckInput {
 	 * MNotice that a symbol may have multiple values (e.g., rnd function may generate differen values).
 	 * A const which has not been defined is not cited in this map
 	 */
-	private MutableMap<String, IPossibleValue<Integer>> constSymbolTable;
+	private MutableMap<String, IPossibleValue<Long>> constSymbolTable;
 	/**
 	 * All the available define symbols we know the user has declare in the file as well as its possible values.
 	 * MNotice that a symbol may have multiple values (e.g., rnd function may generate differen values).
@@ -42,11 +42,11 @@ public class SemanticCheckInput {
 	/**
 	 * the player (in lobby order) that needs to be set in order for this RMS to work
 	 */
-	private MutableSet<IPossibleValue<Integer>> playerLobbyOrderThatNeedsToBePlaying;
+	private MutableSet<IPossibleValue<Long>> playerLobbyOrderThatNeedsToBePlaying;
 	/**
 	 * the player (in color order) that needs to be set in order for this RMS to work
 	 */
-	private MutableSet<IPossibleValue<Integer>> playerColorOrderThatNeedsToBePlaying;
+	private MutableSet<IPossibleValue<Long>> playerColorOrderThatNeedsToBePlaying;
 	
 	private ImmutableSet<RMSErrorCode> treatedAsWarning;
 	private ImmutableSet<RMSErrorCode> treatedAsErrors;
@@ -98,7 +98,7 @@ public class SemanticCheckInput {
 	 * declare that the player with the given lobby order needs to be set
 	 * @param playerLobbyOrder
 	 */
-	public void declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Integer> playerLobbyOrder) {
+	public void declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Long> playerLobbyOrder) {
 		this.playerLobbyOrderThatNeedsToBePlaying.add(playerLobbyOrder);
 	}
 	
@@ -106,7 +106,7 @@ public class SemanticCheckInput {
 	 * declare that the player with the given color order needs to be set
 	 * @param playerColor
 	 */
-	public void declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Integer> playerColor) {
+	public void declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Long> playerColor) {
 		this.playerColorOrderThatNeedsToBePlaying.add(playerColor);
 	}
 	
@@ -115,12 +115,12 @@ public class SemanticCheckInput {
 	 * @param name
 	 * @return
 	 */
-	public IPossibleValue<Integer> getConstValue(String name) {
+	public IPossibleValue<Long> getConstValue(String name) {
 		if (!this.constSymbolTable.contains(name)) {
 			switch (this.constNotFoundInSymbolTableAction) {
 			case ASSUME_0:
-				LOG.warn("We tried to access the value of the const \"%s\". Sadly such a const was not present in the symbol table! We assume the const value is 0!", name);
-				return new SetPossibleValue<Integer>(0);
+				LOG.warn("We tried to access the value of the const \"{}\". Sadly such a const was not present in the symbol table! We assume the const value is 0!", name);
+				return new LongSetPossible(0);
 			case RAISE_EXCEPTION:
 				throw new IllegalArgumentException(String.format("We tried to access the value of the const \"%s\". sadly such a const was not present in the symbol table!", name));
 			default:
@@ -150,7 +150,7 @@ public class SemanticCheckInput {
 	 * generate a map representing all the const that we know the script has defined
 	 * @return
 	 */
-	public MutableMap<String, IPossibleValue<Integer>> constAvailable() {
+	public MutableMap<String, IPossibleValue<Long>> constAvailable() {
 		return this.constSymbolTable.asUnmodifiable();
 	}
 	
@@ -170,9 +170,9 @@ public class SemanticCheckInput {
 	public void knowThatConstCanAlsoBe(String name, int val) {
 		if (this.constSymbolTable.containsKey(name)) {
 			var values = this.constSymbolTable.get(name);
-			this.constSymbolTable.put(name, values.union(Integer.valueOf(val)));
+			this.constSymbolTable.put(name, values.union(Long.valueOf(val)));
 		} else {
-			this.constSymbolTable.put(name, new SetPossibleValue<Integer>(val));
+			this.constSymbolTable.put(name, new LongSetPossible(val));
 		}
 		LOG.info("We now know that \"{}\" name is associated with the int value {}", name, val);
 	}
@@ -183,7 +183,7 @@ public class SemanticCheckInput {
 	 * @param val
 	 */
 	public void knowThatConstCanOnlyBe(String name, int val) {
-		this.constSymbolTable.put(name, new SetPossibleValue<Integer>(val));
+		this.constSymbolTable.put(name, new LongSetPossible(val));
 		LOG.info("We now know that \"{}\" name is associated with the int value {}", name, val);
 	}
 	

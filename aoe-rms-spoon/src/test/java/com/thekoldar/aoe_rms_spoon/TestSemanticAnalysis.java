@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 
 import com.github.zafarkhaja.semver.Version;
+import com.thekoldar.aoe_rms_spoon.age_versions.common.constants.SeasonProvidedConstants;
 import com.thekoldar.aoe_rms_spoon.age_versions.de.DefinitiveEdition;
 import com.thekoldar.aoe_rms_spoon.age_versions.de.DefinitiveEditionImportantFiles;
 import com.thekoldar.aoe_rms_spoon.ast.RMSExprs;
@@ -24,13 +25,17 @@ import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 import com.thekoldar.aoe_rms_spoon.framework.ChangeLogEntry;
 import com.thekoldar.aoe_rms_spoon.framework.SpoonFramework;
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput;
+import com.thekoldar.aoe_rms_spoon.framework.models.Point2D;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticErrorException;
 import com.thekoldar.aoe_rms_spoon.framework.models.functionalinterfaces.TriFunction;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.ConstNotFoundInSymbolTableActionEnum;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.usefulscripts.CreateRandomTerrains;
+import com.thekoldar.aoe_rms_spoon.framework.usefulscripts.Lands;
 import com.thekoldar.aoe_rms_spoon.framework.usefulscripts.Libraries;
+import com.thekoldar.aoe_rms_spoon.framework.usefulscripts.Switches;
 
 public class TestSemanticAnalysis {
 
@@ -629,6 +634,75 @@ public class TestSemanticAnalysis {
 		
 			Assert.assertFalse(outputFile.toFile().exists());
 			
+		});
+	}
+	
+	@Test
+	public void defaultTerrainReplacement() throws AbstractRMSException {
+
+		Assert.assertThrows(AbstractRMSException.class, () -> {
+			var spoon = SpoonFramework.instance(new DefinitiveEdition());
+
+			//configure spoon
+			spoon
+				//.setOutputFile(outputFile)
+				.setCodeAsWarning(RMSErrorCode.WRONG_CHILDREN_NUMBER)
+				.setCodeAsError(RMSErrorCode.WRONG_CHILDREN_NUMBER)
+				.deleteOutputFilesIfPossible()
+				.setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum.ASSUME_0)
+			;
+			
+			//create script
+
+			spoon.generate((root, log, aoe) -> {
+
+				//add season
+				root
+					.includeDrs("F_seasons.inc")
+					.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
+				;
+
+				var playerSetup = root.playerSetup();
+
+				playerSetup.groupedByTeam()
+					.aiInfoMapType(RMSExprs.constVal("BLACK_FOREST"), RMSExprs.constVal("FALSE"), RMSExprs.constVal("FALSE"), RMSExprs.constVal("TRUE"))
+				;
+				
+				var connectionGeneration = root.connectionGeneration();
+				
+				connectionGeneration
+					.createConnectTeamsLands(
+						aoe.replaceTerrain("DESERT", "DESERT"),
+						aoe.replaceTerrain("PALM_DESERT", "GRASS"),
+						aoe.replaceTerrain("GRASS", "GRASS"),
+						aoe.replaceTerrain("GRASS3", "GRASS3"),
+						aoe.defaultTerrainReplacement("CUSTOM_BASE_PLAYER_TERRAIN"),
+						
+						aoe.terrainCost("PALM_DESERT", 3),
+						aoe.terrainCost("GRASS", 1),
+						aoe.terrainCost("GRASS2", 1),
+						aoe.terrainCost("GRASS3", 1),
+						aoe.terrainCost("ROAD", 0),
+						
+						aoe.terrainSize("PALM_DESERT", 5, 0),
+						aoe.terrainSize("GRASS", 5, 0),
+						aoe.terrainSize("GRASS3", 5, 0),
+						aoe.terrainSize("DESERT", 5, 0)
+				);
+//				
+//				root.constant("WELL", 1567);
+
+				var objectGeneration = root.objectsGeneration();
+
+				objectGeneration
+						.includeDrs(((DefinitiveEditionImportantFiles) aoe.getImportantFiles()).generatingObjects());
+				;
+
+				log.info("final script");
+				return root;
+			});
+			
+			Assert.assertFalse(spoon.getOutputFile().toFile().exists());
 		});
 	}
 }

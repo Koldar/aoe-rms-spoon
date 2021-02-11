@@ -24,7 +24,7 @@ public abstract class AbstractCirclePlacement extends AbstractRMSNoArgumentComma
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		
-		result.add(new RMSSemanticWarningException(RMSErrorCode.COMMAND_DOES_NOTHING, "It seems that %s does nothing", this.getName()));
+		result.addWarning(this, RMSErrorCode.COMMAND_DOES_NOTHING, "It seems that %s does nothing", this.getName());
 		
 		return result.merge(this.semanticCheckChildren(input));
 	}

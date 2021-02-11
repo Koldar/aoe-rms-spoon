@@ -26,6 +26,10 @@ public class RMSConstSymbol implements IRMSSymbol {
 		return RMSSymbolType.CONST;
 	}
 	
+	public long getValueAsLong() {
+		return this.value;
+	}
+	
 	public int getValue() {
 		return this.value;
 	}

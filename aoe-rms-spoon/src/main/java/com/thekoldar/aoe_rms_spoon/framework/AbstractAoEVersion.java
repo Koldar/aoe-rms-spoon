@@ -196,6 +196,11 @@ public abstract class AbstractAoEVersion {
 	public abstract RichIterable<RMSConstSymbol> getAvailableMapTypes();
 	
 	/**
+	 * get all the game objects you can use in the script
+	 */
+	public abstract RichIterable<IAoeObject> getUsableGameObjects();
+	
+	/**
 	 * name of the age of empires version
 	 * @return
 	 */
@@ -210,6 +215,7 @@ public abstract class AbstractAoEVersion {
 		MutableList<RMSConstSymbol> result = Lists.mutable.empty();
 		
 		result.addAllIterable(this.getUsableTerrains().collect(t -> t.getConstSymbol()));
+		result.addAllIterable(this.getUsableGameObjects().collect(t -> t.getConst()));
 		result.addAllIterable(this.getAvailableMapTypes());
 		result.addAllIterable(this.getSpecificConstSymbols());
 		
@@ -889,6 +895,14 @@ public abstract class AbstractAoEVersion {
 	public abstract AbstractAvoidAllActorAreas avoidAllActorAreas();
 	
 	//shortcuts
+	
+	public AbstractDefaultTerrainReplacement defaultTerrainReplacement(String terrainType) {
+		return (AbstractDefaultTerrainReplacement) this.defaultTerrainReplacement().addArgument(terrainType);
+	}
+
+	public AbstractDefaultTerrainReplacement defaultTerrainReplacement(int terrainType) {
+		return (AbstractDefaultTerrainReplacement) this.defaultTerrainReplacement().addArgument(terrainType);
+	}
 	
 	public AbstractMinNumberOfCliffs minNumberOfCliffs(int amount) {
 		return (AbstractMinNumberOfCliffs) this.minNumberOfCliffs().addArgument(amount);

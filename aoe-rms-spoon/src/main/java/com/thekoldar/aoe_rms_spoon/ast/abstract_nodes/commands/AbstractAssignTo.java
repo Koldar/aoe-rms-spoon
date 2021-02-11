@@ -11,6 +11,7 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalI
 import com.thekoldar.aoe_rms_spoon.framework.CommandFormalArgument;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
@@ -49,16 +50,16 @@ public abstract class AbstractAssignTo extends AbstractRMSCommand {
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		
 		result.ensureIntArgumentIsOneOf(assignTarget, input.getConstValue("AT_PLAYER"), input.getConstValue("AT_COLOR"), input.getConstValue("AT_TEAM"));
-		if (assignTarget.getAsInt(input) == input.getConstValue("AT_PLAYER")) {
+		if (assignTarget.getAsLong(input) == input.getConstValue("AT_PLAYER")) {
 			this.infoCmd("argument 1 of assign_to refers to lobby order");
 			result.ensureArgumentIsBetween(number, 1, 8, true, true);
 		}
-		else if (assignTarget.getAsInt(input) == input.getConstValue("AT_COLOR")) {
+		else if (assignTarget.getAsLong(input) == input.getConstValue("AT_COLOR")) {
 			this.infoCmd("argument 1 of assign_to refers to player color (e.g., 1: blue, 2: red)");
 			result.ensureArgumentIsBetween(number, 1, 8, true, true);
 		}
-		else if (assignTarget.getAsInt(input) == input.getConstValue("AT_TEAM")) {
-			result.ensureIntArgumentIsOneOf(number, new SetPossibleValue<Integer>(-10, -4, -3, -2, -1, 0, 1, 2, 3, 4));
+		else if (assignTarget.getAsLong(input) == input.getConstValue("AT_TEAM")) {
+			result.ensureIntArgumentIsOneOf(number, new LongSetPossible(-10, -4, -3, -2, -1, 0, 1, 2, 3, 4));
 		}
 		
 		if (this.hasAtLeastOneSiblingOfTypes(RMSNodeType.LAND_POSITION)) {
@@ -72,8 +73,8 @@ public abstract class AbstractAssignTo extends AbstractRMSCommand {
 			result.addError(RMSErrorCode.IGNORE_VALUE, "assign_to resets the previous land_id");
 		}
 		
-		result.ensureIntArgumentIsOneOf(mode, new SetPossibleValue<Integer>(0, -1));
-		result.ensureIntArgumentIsOneOf(flags, new SetPossibleValue<Integer>(0, 1, 2, 3));
+		result.ensureIntArgumentIsOneOf(mode, new LongSetPossible(0, -1));
+		result.ensureIntArgumentIsOneOf(flags, new LongSetPossible(0, 1, 2, 3));
 		
 		
 		return result.merge(this.semanticCheckChildren(input));

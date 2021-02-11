@@ -142,7 +142,9 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.sections.AbstractTerrainGe
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSDefineSymbol;
 import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
+import com.thekoldar.aoe_rms_spoon.framework.IAoeObject;
 import com.thekoldar.aoe_rms_spoon.framework.ITerrain;
+import com.thekoldar.aoe_rms_spoon.framework.models.StandardAoeObject;
 import com.thekoldar.aoe_rms_spoon.framework.models.StandardTerrain;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
@@ -162,10 +164,12 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 	
 	private DefinitiveEditionImportantFiles importantFiles;
 	private MutableList<ITerrain> usableTerrains;
+	private MutableList<IAoeObject> usableObjects;
 
 	public DefinitiveEdition(Path installationFolder) {
 		this.importantFiles = new DefinitiveEditionImportantFiles(installationFolder);
 		this.usableTerrains = Lists.mutable.empty();
+		this.usableObjects = Lists.mutable.empty();
 	}
 	
 	public DefinitiveEdition() {
@@ -740,6 +744,9 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "jungle")) {
 			return true;
 		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+			return false;
+		}
 		return false;
 	}
 	
@@ -759,6 +766,9 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "water")) {
 			return false;
 		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+			return true;
+		}
 		return true;
 	}
 	
@@ -774,6 +784,9 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "not navigable")) {
 			return false;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+			return true;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "navigable")) {
 			return true;
@@ -797,12 +810,18 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "no building")) {
 			return false;
 		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "not buildable")) {
+			return false;
+		}
 		if (row[DefinitiveEdition.RMS_CONST_NAME].equalsIgnoreCase("ice")) {
 			//we detected that on ice you cannot walk
 			return true;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "building possible")) {
 			return true;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+			return false;
 		}
 		return true;
 	}
@@ -820,6 +839,9 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 			return true;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "no building possible")) {
+			return false;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
 			return false;
 		}
 		return true;
@@ -844,6 +866,9 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "forest")) {
 			return false;
 		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+			return false;
+		}
 		return false;
 		
 	}
@@ -858,6 +883,9 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 			return false;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "no natural resources")) {
+			return false;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
 			return false;
 		}
 		return true;
@@ -928,6 +956,36 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		}
 		
 		return this.usableTerrains;
+	}
+	
+	@Override
+	public RichIterable<IAoeObject> getUsableGameObjects() {
+		if (this.usableObjects.isEmpty()) {
+			this.usableObjects = Lists.mutable.empty();
+			try (CSVReader reader = new CSVReader(Utils.LoadResourceAsReader("data/Definitive Constants List - Everything.csv", StandardCharsets.UTF_8))) {
+				var csv = reader.readAll();
+				
+				//skip header
+				for (int i=1; i<csv.size(); ++i) {
+					var row = csv.get(i);
+					
+					int id = 0;
+					try {
+						id = Integer.parseInt(row[0]);
+					} catch (NumberFormatException e) {
+						//in the csv the id column does not have all parsable ids
+						continue;
+					}
+					var constName = row[1];
+					var description = row[2];
+					
+					this.usableObjects.add(new StandardAoeObject(id, constName, description));
+				}
+			} catch (IOException | CsvException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return this.usableObjects;
 	}
 
 	@Override

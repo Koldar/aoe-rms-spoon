@@ -1,6 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.framework.semantic_analysis;
 
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import org.eclipse.collections.api.RichIterable;
 import org.eclipse.collections.api.factory.Lists;
@@ -10,34 +11,42 @@ import org.eclipse.collections.api.factory.Lists;
  * @author massi
  *
  */
-public class IntRangeOfPossibleValue extends AbstractRangeOfPossibleValue<Integer>{
+public class LongRangeOfPossibleValue extends AbstractRangeOfPossibleValue<Long>{
 
-	public IntRangeOfPossibleValue(Integer lowerBound, Integer upperBound,
+	public LongRangeOfPossibleValue(Long lowerBound, Long upperBound,
 			boolean lowerboundIncluded, boolean upperboundIncluded) {
 		super(lowerBound, upperBound, lowerboundIncluded, upperboundIncluded);
 	}
 	
 	@Override
-	public RichIterable<Integer> getPossibleValues() {
+	public RichIterable<Long> getPossibleValues() {
 		var lb = this.lowerBound.intValue() + (this.lowerboundIncluded ? 0 : 1);
 		var ub = this.upperBound.intValue() - (this.upperboundIncluded ? 0 : 1);
-		return Lists.fixedSize.fromStream(IntStream.range(lb, ub + 1).mapToObj(i -> Integer.valueOf(i)));
+		return Lists.fixedSize.fromStream(LongStream.range(lb, ub + 1).mapToObj(i -> Long.valueOf(i)));
 	}
 	
-	public IntRangeOfPossibleValue clone() {
-		return new IntRangeOfPossibleValue(this.lowerBound, this.upperBound, this.lowerboundIncluded, this.upperboundIncluded);
+	public LongRangeOfPossibleValue clone() {
+		return new LongRangeOfPossibleValue(this.lowerBound, this.upperBound, this.lowerboundIncluded, this.upperboundIncluded);
 	}
 	
-	public int getActualLowerbound() {
+	public int getActualLowerboundAsInt() {
+		return (int)this.getActualLowerbound();
+	}
+	
+	public long getActualLowerbound() {
 		return this.lowerBound + (this.lowerboundIncluded ? 0 : 1);
 	}
 	
-	public int getActualUpperbound() {
+	public int getActualUpperboundAsInt() {
+		return (int)this.getActualUpperbound();
+	}
+	
+	public long getActualUpperbound() {
 		return this.upperBound - (this.upperboundIncluded ? 0 : 1);
 	}
 
 	@Override
-	public Integer getAny() {
+	public Long getAny() {
 		if (this.isEmpty()) {
 			throw new IllegalArgumentException("Interval is empty!");
 		}
@@ -45,7 +54,7 @@ public class IntRangeOfPossibleValue extends AbstractRangeOfPossibleValue<Intege
 	}
 
 	@Override
-	public Integer getOnly() {
+	public Long getOnly() {
 		if (this.isEmpty()) {
 			throw new IllegalArgumentException("Interval is empty!");
 		}
@@ -58,11 +67,11 @@ public class IntRangeOfPossibleValue extends AbstractRangeOfPossibleValue<Intege
 	}
 
 	@Override
-	public boolean contains(Integer value) {
+	public boolean contains(Long value) {
 		if (this.isEmpty()) {
 			return false;
 		}
-		return value.intValue() >= this.getActualLowerbound() && value.intValue() <= this.getActualUpperbound();
+		return value.longValue() >= this.getActualLowerbound() && value.longValue() <= this.getActualUpperbound();
 	}
 
 	@Override

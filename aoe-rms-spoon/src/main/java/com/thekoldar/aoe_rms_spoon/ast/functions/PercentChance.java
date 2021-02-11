@@ -33,8 +33,8 @@ public class PercentChance extends AbstractRMSNode {
 	 * @param input
 	 * @return 
 	 */
-	public IPossibleValue<Integer> getPercentValue(SemanticCheckInput input) {
-		return this.getPercentExpr().getAsInt(input);
+	public IPossibleValue<Long> getPercentValue(SemanticCheckInput input) {
+		return this.getPercentExpr().getAsLong(input);
 	}
 	
 	/**

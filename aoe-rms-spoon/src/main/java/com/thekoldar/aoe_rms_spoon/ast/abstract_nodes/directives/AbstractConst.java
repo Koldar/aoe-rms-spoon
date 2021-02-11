@@ -31,7 +31,7 @@ public abstract class AbstractConst extends AbstractDirective {
 	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
 		var result = input.createOutput();
 		if (input.isConstDefined(name)) {
-			result.add(new RMSSemanticWarningException(RMSErrorCode.CONST_REDEFINED, "You are redefining const %s. Old value was %d but the new one is %d", this.name, input.getConstValue(this.name), this.value));
+			result.addWarning(this, RMSErrorCode.CONST_REDEFINED, "You are redefining const %s. Old value was %s but the new one is %d", this.name, input.getConstValue(this.name), this.value);
 		}
 		input.knowThatConstCanOnlyBe(this.name, this.value);
 		return result;

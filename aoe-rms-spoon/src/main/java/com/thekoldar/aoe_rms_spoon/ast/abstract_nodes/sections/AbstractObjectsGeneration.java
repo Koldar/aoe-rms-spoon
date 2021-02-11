@@ -15,6 +15,9 @@ import com.thekoldar.aoe_rms_spoon.ast.add_methods.IAddStandard;
 import com.thekoldar.aoe_rms_spoon.ast.builders.IfBlockBuilder;
 import com.thekoldar.aoe_rms_spoon.ast.builders.RandomBlockBuilder;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DictExpr;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
 public abstract class AbstractObjectsGeneration extends AbstractRMSSection implements IAddStandard<AbstractObjectsGeneration>{
 
@@ -27,6 +30,11 @@ public abstract class AbstractObjectsGeneration extends AbstractRMSSection imple
 	public String getSectionName() {
 		return "OBJECTS_GENERATION";
 	}
+	
+	public AbstractObjectsGeneration createObject(String name, Consumer<DictExpr> specifics) {
+		return this.createObject(RMSExprs.constVal(name), specifics);
+	}
+	
 	
 	public AbstractObjectsGeneration createObject(IRMSNode object, Consumer<DictExpr> specifics) {
 		var m = RMSExprs.dict();
@@ -43,5 +51,16 @@ public abstract class AbstractObjectsGeneration extends AbstractRMSSection imple
 		this.addStatement(result);
 		return this;
 	}
+
+	@Override
+	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
+		var result = input.createOutput();
+		
+		result.ensureItContainsCommonNodesAnd(this, RMSNodeType.CREATE_OBJECT);
+		
+		return result;
+	}
+	
+	
 	
 }

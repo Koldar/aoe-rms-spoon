@@ -1,4 +1,4 @@
-Const. ID#,RMS Const. Name,WK Const.,DE Scenario Editor,HD Scenario Editor,UP 1.5 Scenario Editor,AoC 1.0 Scenario Editor,HD Texture File,DE Texture File,Minimap Color ,Comments
+Const. ID#,RMS Const. Name,WK Const.,DE Scenario Editor,HD Scenario Editor,UP 1.5 Scenario Editor,AoC 1.0 Scenario Editor,HD Texture File,DE Texture File(s),Minimap Color ,Comments
 0,GRASS,GRASS,Grass 1,Grass 1,Grass 1,Grass,g_grs,g_grs,,default terrain
 1,WATER,"WATER, DLC_WATER5","Water, Shallow","Water, Shallow","Water, Shallow","Water, Shallow",g_wtr,g_wtr,,dockable
 2,BEACH,"BEACH, DLC_BEACH2, DLC_BEACH3, DLC_BEACH4",Beach,Beach,Beach,-,g_bch,g_bch,,automatically placed when most terrains border water; can build walls on; navigable
@@ -34,7 +34,7 @@ Const. ID#,RMS Const. Name,WK Const.,DE Scenario Editor,HD Scenario Editor,UP 1.
 32,SNOW,SNOW,Snow,Snow,Snow,Snow,g_sno,g_sno,,icy beach when bordering water
 33,DIRT_SNOW,"ROAD_SNOW, ROAD_SNOWY",-,Snow Dirt,Snow Dirt,Snow Dirt,g_snd,g_snd,,icy beach when bordering water
 34,GRASS_SNOW,GRASS_SNOW,-,Snow Grass,Snow Grass,Snow Grass,g_sng,g_grs and g_sno,,icy beach when bordering water
-35,ICE,ICE,Ice,Ice2,Ice,Ice,g_ice,g_ice,,not navigable
+35,ICE,ICE,Ice,Ice2,Ice,Ice,g_ice,g_ice,,"not navigable, not buildable"
 36,-,DIRT_SNOW,"Snow, Foundation","Snow, Foundation",Building (Snow),-,g_snd,g_snd,,like SNOW_DIRT; no beaches; still dockable; left behind by buildings on snowy terrains
 37, ICYSHORE,-,"Beach, Ice","Ice, Beach",Beach (Ice),-,g_ice,g_ice,,looks like ICE; behaves like BEACH; can place walls; navigable; constant only defined in DE
 38,-,CRACKEDIT,-,"Road, Snow","Road, Snow","Road, Snow",g_sr1,g_rd2 and g_sno,,road with dirt and snow patches; cannot place natural resources

@@ -89,7 +89,7 @@ public class DictExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
+	public IPossibleValue<Long> getAsLong(SemanticCheckInput input) {
 		throw new IllegalArgumentException();
 	}
 

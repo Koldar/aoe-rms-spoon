@@ -1,5 +1,7 @@
 package com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.sections;
 
+import java.util.function.Consumer;
+
 import org.eclipse.collections.api.RichIterable;
 
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
@@ -11,6 +13,9 @@ import com.thekoldar.aoe_rms_spoon.ast.add_methods.IAddStandard;
 import com.thekoldar.aoe_rms_spoon.ast.builders.IfBlockBuilder;
 import com.thekoldar.aoe_rms_spoon.ast.builders.RandomBlockBuilder;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DictExpr;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
 public abstract class AbstractConnectionGeneration extends AbstractRMSSection implements IAddStandard<AbstractConnectionGeneration> {
 
@@ -19,8 +24,39 @@ public abstract class AbstractConnectionGeneration extends AbstractRMSSection im
 		super(RMSNodeType.CONNECTION_GENERATION);
 	}
 	
+	
+	
+	// createConnectAllPlayersLand
+	
+	@Override
+	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
+		var result = input.createOutput();
+		
+		result.ensureItContainsCommonNodesAnd(this, RMSNodeType.CREATE_CONNECT_ALL_PLAYERS_LAND, RMSNodeType.CREATE_CONNECT_TEAMS_LANDS, RMSNodeType.CREATE_CONNECT_ALL_LANDS, RMSNodeType.CREATE_CONNECT_SAME_LAND_ZONES, RMSNodeType.CREATE_CONNECT_TO_NONPLAYER_LAND);
+		
+		return result.merge(this.semanticCheckChildren(input));
+	}
+
+
+
 	public AbstractConnectionGeneration createConnectAllPlayersLand(DictExpr dict) {
 		this.addStatement(this.getAgeVersion().createConnectAllPlayersLand().addArgument(dict));
+		return this;
+	}
+	
+	public AbstractConnectionGeneration createConnectAllPlayersLand(Consumer<DictExpr> dict) {
+		var d = RMSExprs.dict();
+		this.createConnectAllPlayersLand(d);
+		dict.accept(d);
+		return this;
+	}
+	
+	// createConnectTeamsLands
+	
+	public AbstractConnectionGeneration createConnectTeamsLands(Consumer<DictExpr> dict) {
+		var d = RMSExprs.dict();
+		this.createConnectTeamsLands(d);
+		dict.accept(d);
 		return this;
 	}
 	
@@ -33,6 +69,15 @@ public abstract class AbstractConnectionGeneration extends AbstractRMSSection im
 		return this.createConnectTeamsLands(RMSExprs.dict(attributes));
 	}
 	
+	// createConnectAllLands
+	
+	public AbstractConnectionGeneration createConnectAllLands(Consumer<DictExpr> dict) {
+		var d = RMSExprs.dict();
+		this.createConnectAllLands(d);
+		dict.accept(d);
+		return this;
+	}
+	
 	public AbstractConnectionGeneration createConnectAllLands(DictExpr dict) {
 		this.addStatement(this.getAgeVersion().createConnectAllLands().addArgument(dict));
 		return this;
@@ -42,6 +87,15 @@ public abstract class AbstractConnectionGeneration extends AbstractRMSSection im
 		return this.createConnectAllLands(RMSExprs.dict(attributes));
 	}
 	
+	// createConnectSameLandZones
+	
+	public AbstractConnectionGeneration createConnectSameLandZones(Consumer<DictExpr> dict) {
+		var d = RMSExprs.dict();
+		this.createConnectSameLandZones(d);
+		dict.accept(d);
+		return this;
+	}
+	
 	public AbstractConnectionGeneration createConnectSameLandZones(DictExpr dict) {
 		this.addStatement(this.getAgeVersion().createConnectSameLandZones().addArgument(dict));
 		return this;
@@ -49,6 +103,15 @@ public abstract class AbstractConnectionGeneration extends AbstractRMSSection im
 	
 	public AbstractConnectionGeneration createConnectSameLandZones(IRMSNode... attributes) {
 		return this.createConnectSameLandZones(RMSExprs.dict(attributes));
+	}
+	
+	// createConnectToNonPlayerLand
+	
+	public AbstractConnectionGeneration createConnectToNonPlayerLand(Consumer<DictExpr> dict) {
+		var d = RMSExprs.dict();
+		this.createConnectToNonPlayerLand(d);
+		dict.accept(d);
+		return this;
 	}
 	
 	public AbstractConnectionGeneration createConnectToNonPlayerLand(DictExpr dict) {

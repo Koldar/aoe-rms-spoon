@@ -47,7 +47,7 @@ public abstract class AbstractNumberOfTiles extends AbstractRMSSingleOptionalInt
 		var behaviour = this.getSiblings()
 			.select(n -> n.getNodeType().equals(RMSNodeType.BEHAVIOR_VERSION))
 			.collect(n -> (AbstractRMSCommand)n)
-			.select(n -> n.getArgumentAsInt(0, input).contains(1))
+			.select(n -> n.getArgumentAsInt(0, input).contains(1L))
 			.isEmpty();
 		
 		if (behaviour) {

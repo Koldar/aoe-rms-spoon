@@ -2,10 +2,11 @@ package com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands;
 
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractExpressionNode;
+import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalIntArgumentCommand;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
-import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IntSetPossible;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
@@ -42,10 +43,10 @@ public abstract class AbstractMinLengthOfCliff extends AbstractRMSSingleOptional
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		result.ensureArgumentGreaterThan(this.getArgument(0), 3);
 		
-		var min = IntSetPossible.of(this.getArgumentAsInt(0, input));
-		var max = IntSetPossible.of(9);
+		var min = LongSetPossible.of(this.getArgumentAsInt(0, input));
+		var max = LongSetPossible.of(9);
 		if (this.hasAtLeastOneNextSiblingOfTypes(RMSNodeType.MAX_LENGTH_OF_CLIFF)) {
-			max = IntSetPossible.of(((AbstractExpressionNode)this.getSiblingOfTypes(RMSNodeType.MAX_LENGTH_OF_CLIFF).getAny()).getAsInt(input));
+			max = LongSetPossible.of(((AbstractRMSCommand)this.getSiblingOfTypes(RMSNodeType.MAX_LENGTH_OF_CLIFF).getAny()).getArgumentAsInt(0, input));
 		}
 		
 		if (min.areAtLeastOneGreaterThanAnyOf(max)) {

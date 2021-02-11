@@ -22,8 +22,10 @@ import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticErrorException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSSemanticWarningException;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
 
 /**
  * a generic RMS command
@@ -211,8 +213,8 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 	 * @param input semantic analysis input
 	 * @return int rerpesentation of the i-th argument
 	 */
-	public IPossibleValue<Integer> getArgumentAsInt(int index, SemanticCheckInput input) {
-		return this.getArgument(index).getAsInt(input);
+	public LongSetPossible getArgumentAsInt(int index, SemanticCheckInput input) {
+		return LongSetPossible.of(this.getArgument(index).getAsLong(input));
 	}
 
 	/**
@@ -242,16 +244,16 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 				//there is an actual argument
 				actualArgument = this.getChildren().get(i);
 				if (actualArgument.getType().isEmpty()) {
-					throw new RMSSemanticErrorException(this, RMSErrorCode.INVALID_NODE_LOCATION, "Command %s expected as its %d-th argument a node that has a type. However, we got %s", this.getName(), i, actualArgument);
+					result.addError(this, RMSErrorCode.INVALID_NODE_LOCATION, "Command %s expected as its %d-th argument a node that has a type. However, we got %s", this.getName(), i, actualArgument);
 				}
 				actualType = actualArgument.getType().get();
 				
 				if (!actualArgument.canBeCastedTo(expectedExprType)) {
-					result.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_EXPR_TYPE, "Command %s required as its %d-th argument (named %s) an expression of type %s, but got %s (which cannot be converted into %s)!", this.getName(), i, formalArgument.getName(), expectedExprType, actualType, expectedExprType));
+					result.addError(this, RMSErrorCode.INVALID_EXPR_TYPE, "Command %s required as its %d-th argument (named %s) an expression of type %s, but got %s (which cannot be converted into %s)!", this.getName(), i, formalArgument.getName(), expectedExprType, actualType, expectedExprType);
 				} else {
 					
 					if (!actualType.equals(expectedExprType)) {
-						result.add(new RMSSemanticWarningException(RMSErrorCode.INVALID_EXPR_TYPE, "Command %s requires as its %d-th argument (named %s) an expression of type %s, but got %s. This can still be eprformed since %s can be casted into %s. Still, consider using the formal type.", this.getName(), i, formalArgument.getName(), expectedExprType, actualType, actualType, expectedExprType));
+						result.addWarning(this, RMSErrorCode.INVALID_EXPR_TYPE, "Command %s requires as its %d-th argument (named %s) an expression of type %s, but got %s. This can still be performed since %s can be casted into %s. Still, consider using the formal type.", this.getName(), i, formalArgument.getName(), expectedExprType, actualType, actualType, expectedExprType);
 					}
 					//the type is actually the same, so no implicit cast is needed
 				}
@@ -261,7 +263,7 @@ public abstract class AbstractRMSCommand extends AbstractRMSNode {
 			} else {
 				
 				if (!formalArgument.isOptional()) {
-					result.add(new RMSSemanticErrorException(RMSErrorCode.EXPECTED_REQUIRED_PARAMETER, "Command %s requires as its %d-th paraemeters a required one", this.getName(), i));
+					result.addError(this, RMSErrorCode.EXPECTED_REQUIRED_PARAMETER, "Command %s requires as its %d-th paraemeters a required one", this.getName(), i);
 				}
 				
 				//there is not an actual argument. Use the default one

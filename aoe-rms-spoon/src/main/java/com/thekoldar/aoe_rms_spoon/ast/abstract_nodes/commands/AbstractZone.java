@@ -41,7 +41,7 @@ public abstract class AbstractZone extends AbstractRMSSingleRequiredIntArgumentC
 		result.ensureArgumentIsLiteralInteger(this, 0);
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		
-		if (this.getArgumentAsInt(0, input).contains(99)) {
+		if (this.getArgumentAsInt(0, input).contains(99L)) {
 			result.add(new RMSSemanticErrorException(RMSErrorCode.INVALID_ARGUMENT, "Invalid Zone 99, since it will crash the game"));
 		}
 		

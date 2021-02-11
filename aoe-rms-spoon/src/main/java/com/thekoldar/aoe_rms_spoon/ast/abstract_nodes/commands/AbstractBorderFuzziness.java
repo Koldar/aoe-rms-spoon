@@ -42,10 +42,10 @@ public abstract class AbstractBorderFuzziness extends AbstractRMSSingleOptionalI
 		result.ensureThereAreNoSiblingOfTheSameType(this);
 		result.ensureArgumentIsLiteralInteger(this, 0);
 		result.ensureArgumentIsPercentage(this.getArgument(0));
-		if (this.getArgumentAsInt(0, input).contains(0) && this.hasAtLeastOneSiblingOfTypes(RMSNodeType.TOP_BORDER, RMSNodeType.BOTTOM_BORDER, RMSNodeType.LEFT_BORDER, RMSNodeType.RIGHT_BORDER)) {
+		if (this.getArgumentAsInt(0, input).contains(0L) && this.hasAtLeastOneSiblingOfTypes(RMSNodeType.TOP_BORDER, RMSNodeType.BOTTOM_BORDER, RMSNodeType.LEFT_BORDER, RMSNodeType.RIGHT_BORDER)) {
 			result.add(new RMSSemanticWarningException(RMSErrorCode.IGNORE_VALUE, "borders are ignore when %s is set to 0", this.getName()));
 		}
-		if (this.getArgumentAsInt(0, input).containsOnly(100)) {
+		if (this.getArgumentAsInt(0, input).containsOnly(100L)) {
 			this.infoCmd("Borders are fully respected, resulting in perfectly straight lands along borders");
 		}
 		

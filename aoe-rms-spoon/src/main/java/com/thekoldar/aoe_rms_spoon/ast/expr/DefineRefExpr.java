@@ -74,8 +74,8 @@ public class DefineRefExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
-		return input.getDefinedValue(this.name).collect(d -> d ? 1: 0);
+	public IPossibleValue<Long> getAsLong(SemanticCheckInput input) {
+		return input.getDefinedValue(this.name).collect(d -> d ? 1L: 0L);
 	}
 
 	@Override

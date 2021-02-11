@@ -193,6 +193,9 @@ public class Utils {
 	
 	public static Reader LoadResourceAsReader(String classPathPath, Charset encoding) {
 		var inputStream = Utils.class.getClassLoader().getResourceAsStream(classPathPath);
+		if (inputStream == null) {
+			throw new RuntimeException(String.format("Could not find file %s", classPathPath));
+		}
 		return new InputStreamReader(inputStream, encoding);
 	}
 	

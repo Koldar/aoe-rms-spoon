@@ -37,7 +37,7 @@ public class TestArena {
 		spoon
 			//.setOutputFile(outputFile)
 			.setCodeAsWarning(RMSErrorCode.WRONG_CHILDREN_NUMBER)
-			.setCodeAsError(RMSErrorCode.WRONG_CHILDREN_NUMBER)
+			.setCodeAsWarning(RMSErrorCode.from(30))
 			.deleteOutputFilesIfPossible()
 			.setOutputFileInLocalMods("ya-team-arena")
 			.generateASTTreeImage("ast.png")
@@ -46,7 +46,7 @@ public class TestArena {
 			.setCodeAsWarning(RMSErrorCode.from(12))
 			.setCodeAsWarning(RMSErrorCode.from(20))
 			.setCodeAsWarning(RMSErrorCode.DUPLICATE_TYPE)
-			.disableSemanticAnalysis()
+			//.disableSemanticAnalysis()
 			//.outputComments(false)
 		;
 		
@@ -80,6 +80,8 @@ public class TestArena {
 				.includeDrs("F_seasons.inc")
 				.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 			;
+			// F_seasons.inc define some consts. Use this method to notify the semantci analysis abnout them (atm spoon is not able to parse RMS files)
+			spoon.informSemanticAnalysisThatConstIsDefined(SeasonProvidedConstants.all());
 			
 
 			root.comment("By definibg them we can crete_player_lands safely");
@@ -181,150 +183,35 @@ public class TestArena {
 				})
 			;
 			
-//			var param = RMSExprs.dict();
-//			param = UsefulScripts.createOctagonalLand(param, aoe, 30, 30, 30, 30);
-//			landGeneration.createLand(param.addStatements(
-//					spoon.getAgeVersion().terrainType().addArgument("JUNGLE"),
-//					spoon.getAgeVersion().clumpingFactor(10),
-//					spoon.getAgeVersion().borderFuzziness(8),
-//					spoon.getAgeVersion().otherZoneAvoidanceDistance(0), 
-//					spoon.getAgeVersion().landId(CENTRAL_ZONE_ID),
-//					spoon.getAgeVersion().zone(CENTRAL_ZONE_ID))
-//			);
-					// spoon.getAgeVersion().baseSize(20),
-//					spoon.getAgeVersion().landPercent(100), 
-//					 
-//					spoon.getAgeVersion().topBorder(20),
-//					spoon.getAgeVersion().leftBorder(20), 
-//					spoon.getAgeVersion().rightBorder(20),
-//					spoon.getAgeVersion().bottomBorder(20), 
-//					spoon.getAgeVersion().borderFuzziness(8),
-//					spoon.getAgeVersion().otherZoneAvoidanceDistance(0), 
-//					spoon.getAgeVersion().landId(9),
-//					spoon.getAgeVersion().zone(9)));
-
-//			//20x20 -> 40x40
-//			//20x40 -> 20x40
-//			//40x20 -> 40x20
-//			//40x40 -> 20x20
-//			var borders = new Point2D[][] { 
-//					new Point2D[] { new Point2D(20, 20), new Point2D(40, 40), },
-//					new Point2D[] { new Point2D(20, 40), new Point2D(20, 40), },
-//					new Point2D[] { new Point2D(40, 20), new Point2D(40, 20), },
-//					new Point2D[] { new Point2D(40, 40), new Point2D(20, 20), },
-//			};
-//			
-//			for (var border : borders) {
-//				var topleft = border[0];
-//				var bottomright = border[1];
-//				landGeneration.createLand(RMSExprs.dict(
-//						spoon.getAgeVersion().terrainType().addArgument("GRASS3"),
-//						spoon.getAgeVersion().baseSize().addArgument(20),
-//						spoon.getAgeVersion().landPercent().addArgument(30),
-//						spoon.getAgeVersion().clumpingFactor().addArgument(3),
-//						spoon.getAgeVersion().borderFuzziness().addArgument(8),
-//						spoon.getAgeVersion().otherZoneAvoidanceDistance().addArgument(0),
-//						spoon.getAgeVersion().topBorder().addArgument(topleft.getX()),
-//						spoon.getAgeVersion().leftBorder().addArgument(topleft.getY()),
-//						spoon.getAgeVersion().rightBorder().addArgument(bottomright.getX()),
-//						spoon.getAgeVersion().topBorder().addArgument(bottomright.getY()),
-//						spoon.getAgeVersion().landId().addArgument(9),
-//						spoon.getAgeVersion().zone().addArgument(9)
-//				));
-//			}
-//			
-//			root.terrainGeneration()
-//				.createTerrain("PALM_DESERT", 
-//						aoe.baseTerrain("DESERT"),
-//						aoe.spacingToOtherTerrainTypes(0),
-//						aoe.landPercent(100),
-//						aoe.numberOfClumps(100),
-//						aoe.setAvoidPlayerStartAreas(),
-//						aoe.setScaleByGroups(),
-//						aoe.borderFuzziness(15),
-//						aoe.clumpingFactor(15),
-//						aoe.heightLimits(0, 7)
-//				)
-//				.createTerrain("DLC_BEACH2",
-//						aoe.baseTerrain("GRASS3"),
-//						aoe.spacingToOtherTerrainTypes(0),
-//						aoe.landPercent(3),
-//						aoe.numberOfClumps(30),
-//						aoe.clumpingFactor(5),
-//						aoe.borderFuzziness(3),
-//						aoe.terrainMask(1),
-//						aoe.heightLimits(0, 4)
-//				)
-//				.createTerrain("BAMBOO",
-//						aoe.baseTerrain("GRASS3"),
-//						aoe.spacingToOtherTerrainTypes(5),
-//						aoe.landPercent(1),
-//						aoe.numberOfClumps(2),
-//						aoe.setAvoidPlayerStartAreas(),
-//						aoe.setScaleByGroups(),
-//						aoe.borderFuzziness(15),
-//						aoe.clumpingFactor(12),
-//						aoe.heightLimits(0, 0)
-//				)
-//				.createTerrain("GRASS3",
-//						aoe.baseTerrain("GRASS3"),
-//						aoe.spacingToOtherTerrainTypes(3),
-//						aoe.landPercent(20),
-//						aoe.numberOfClumps(12),
-//						aoe.setAvoidPlayerStartAreas(),
-//						aoe.setScaleByGroups(),
-//						aoe.clumpingFactor(5),
-//						aoe.heightLimits(0, 0)
-//				)
-//				.createTerrain("GRASS3",
-//						aoe.baseTerrain("GRASS3"),
-//						aoe.spacingToOtherTerrainTypes(3),
-//						aoe.landPercent(20),
-//						aoe.numberOfClumps(50),
-//						aoe.setAvoidPlayerStartAreas(),
-//						aoe.setScaleByGroups(),
-//						aoe.clumpingFactor(4),
-//						aoe.heightLimits(3, 7)
-//				)
-//				.createTerrain("DLC_BEACH2",
-//						aoe.baseTerrain("GRASS3"),
-//						aoe.spacingToOtherTerrainTypes(0),
-//						aoe.landPercent(6),
-//						aoe.numberOfClumps(50),
-//						aoe.clumpingFactor(5),
-//						aoe.borderFuzziness(1),
-//						aoe.terrainMask(1),
-//						aoe.heightLimits(0, 0)
-//				)
-//				;
-//			
-//			var connectionGeneration = root.connectionGeneration();
-//			
-//			connectionGeneration
-//				.createConnectTeamsLands(
-//					aoe.replaceTerrain("DESERT", "DESERT"),
-//					aoe.replaceTerrain("PALM_DESERT", "GRASS"),
-//					aoe.replaceTerrain("GRASS", "GRASS"),
-//					aoe.replaceTerrain("GRASS3", "GRASS3"),
-//					
-//					aoe.terrainCost("PALM_DESERT", 3),
-//					aoe.terrainCost("GRASS", 1),
-//					aoe.terrainCost("GRASS2", 1),
-//					aoe.terrainCost("GRASS3", 1),
-//					aoe.terrainCost("ROAD", 0),
-//					
-//					aoe.terrainSize("PALM_DESERT", 5, 0),
-//					aoe.terrainSize("GRASS", 5, 0),
-//					aoe.terrainSize("GRASS3", 5, 0),
-//					aoe.terrainSize("DESERT", 5, 0)
-//			);
+			var connectionGeneration = root.connectionGeneration();
+			
+			connectionGeneration
+				.createConnectTeamsLands(
+					aoe.defaultTerrainReplacement(SeasonProvidedConstants.ROAD),
+					aoe.replaceTerrain("CUSTOM_BASE_PLAYER_TERRAIN", SeasonProvidedConstants.ROAD),
+					aoe.replaceTerrain("CUSTOM_ARENA_TERRAIN", SeasonProvidedConstants.ROAD),
+					
+					aoe.terrainCost("CUSTOM_BASE_PLAYER_TERRAIN", 2),
+					aoe.terrainCost("CUSTOM_ARENA_TERRAIN", 1),
+					aoe.terrainCost(SeasonProvidedConstants.ROAD, 0),
+					
+					aoe.terrainSize("CUSTOM_BASE_PLAYER_TERRAIN", 5, 1)
+			);
 //			
 //			root.constant("WELL", 1567);
 
 			var objectGeneration = root.objectsGeneration();
 
 			objectGeneration
-					.includeDrs(((DefinitiveEditionImportantFiles) aoe.getImportantFiles()).generatingObjects());
+					.includeDrs(((DefinitiveEditionImportantFiles) aoe.getImportantFiles()).generatingObjects())
+					//create hawk
+					.createObject("HAWK", (d) -> {
+						d.addStatements(
+								aoe.numberOfObjects(4),
+								aoe.setGaiaObjectOnly(),
+								aoe.setScalingToMapSize()
+						);
+					})
 			;
 
 //			objectGeneration

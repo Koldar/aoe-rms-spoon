@@ -8,6 +8,7 @@ import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationInput
 import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutput;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
@@ -68,8 +69,8 @@ public class BooleanExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
-		return new SetPossibleValue<Integer>(this.value ? 1 : 0);
+	public IPossibleValue<Long> getAsLong(SemanticCheckInput input) {
+		return new LongSetPossible(this.value ? 1 : 0);
 	}
 
 	@Override

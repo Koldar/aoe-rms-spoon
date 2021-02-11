@@ -22,12 +22,12 @@ public abstract class AbstractExpressionNode extends AbstractRMSNode {
 	}
 	
 	/**
-	 * try to cast the expression to an int.
+	 * try to cast the expression to an long.
 	 * 
 	 * May fail if {@link #canBeCastedToInt()} is false
 	 * @return
 	 */
-	public abstract IPossibleValue<Integer> getAsInt(SemanticCheckInput input);
+	public abstract IPossibleValue<Long> getAsLong(SemanticCheckInput input);
 	
 	/**
 	 * try to cast the expression to an bool.

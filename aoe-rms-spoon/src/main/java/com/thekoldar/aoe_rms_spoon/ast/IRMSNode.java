@@ -279,6 +279,16 @@ public interface IRMSNode
 	}
 	
 	/**
+	 * get all the nodes which satisfying a given criterion from the path from the current node (excluded) to the root (excluded)
+	 *  
+	 * @param predicate criterion a node needs to satisfy
+	 * @return
+	 */
+	public default RichIterable<IRMSNode> getFirstNodeFromPathSatisfying(Predicate<IRMSNode> predicate) {
+		return this.getPathToRoot(false, false).select(i -> predicate.test(i));
+	}
+	
+	/**
 	 * Get all the nodes in the whole AST that is satisfying the given criterion
 	 * @param criterion criterion that a node needs to satisfy in order to be in the output
 	 * @return
@@ -539,6 +549,17 @@ public interface IRMSNode
 					}
 				})
 				;
+	}
+	
+	/**
+	 * fetches all the siblings occuring before this node with a particular type
+	 *  
+	 * @param criterion criterion to satisfy
+	 * @return
+	 */
+	public default RichIterable<IntObjectPair<IRMSNode>> getPreviousSiblingofTypes(RMSNodeType... types) {
+		var l = Sets.immutable.of(types);
+		return this.getPreviousSiblingSatisfying((i,n ) -> l.contains(n.getNodeType()));
 	}
 	
 	/**

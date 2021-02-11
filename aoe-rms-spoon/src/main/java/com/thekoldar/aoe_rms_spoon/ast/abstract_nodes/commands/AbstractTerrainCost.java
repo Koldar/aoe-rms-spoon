@@ -7,6 +7,9 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSRequiredIntRequ
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalBooleanArgumentCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalIntArgumentCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleRequiredIntArgumentCommand;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
 public abstract class AbstractTerrainCost extends AbstractRMSRequiredIntOptionalIntArgumentCommand {
 
@@ -41,7 +44,22 @@ public abstract class AbstractTerrainCost extends AbstractRMSRequiredIntOptional
 
 	@Override
 	public String getComment() {
-		return "";
+		return "The cost of having the connection run through the specified terrain";
 	}
+
+	@Override
+	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
+		var result = input.createOutput();
+		
+		result.ensureArgumentIsBetween(this.getArgument(0), 0L, 4294967296L, true, true);
+		
+		if (this.getArgument(0).getAsLong(input).contains(0L)) {
+			this.infoCmd("setting terrain_cost to 0 means that the terrain will be avoided at all costs by the connection algorithm");
+		}
+		
+		return result.merge(this.semanticCheckChildren(input));
+	}
+	
+	
 
 }

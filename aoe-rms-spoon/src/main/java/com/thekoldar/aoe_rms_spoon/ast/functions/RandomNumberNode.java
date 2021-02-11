@@ -2,6 +2,7 @@ package com.thekoldar.aoe_rms_spoon.ast.functions;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 import com.thekoldar.aoe_rms_spoon.ast.ExprType;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
@@ -12,6 +13,7 @@ import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutpu
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.LongSetPossible;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
@@ -52,7 +54,7 @@ public class RandomNumberNode extends AbstractExpressionNode {
 		result.ensureIsExpression(min);
 		result.ensureIsExpression(max);
 		
-		if (((AbstractExpressionNode)min).getAsInt(input).containsOnly(0)) {
+		if (((AbstractExpressionNode)min).getAsLong(input).containsOnly(0L)) {
 			result.addWarning(RMSErrorCode.BEHAVIOR_MAY_BE_ALTERED, "min of rnd is set to 0. Hence upperbound of rns (i.e., max) is treated as exclusive, not inclusive!");
 		}
 		
@@ -102,10 +104,10 @@ public class RandomNumberNode extends AbstractExpressionNode {
 	}
 
 	@Override
-	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
-		var min = this.getMin().getAsInt(input).getAny();
-		var max = this.getMax().getAsInt(input).getAny();
-		return new SetPossibleValue<Integer>(IntStream.range(min, max + (min != 0 ? 1 : 0)).mapToObj(i -> Integer. valueOf(i)).toArray(i -> new Integer[] {}));
+	public IPossibleValue<Long> getAsLong(SemanticCheckInput input) {
+		var min = this.getMin().getAsLong(input).getAny();
+		var max = this.getMax().getAsLong(input).getAny();
+		return new LongSetPossible(LongStream.range(min, max + (min != 0 ? 1 : 0)).mapToObj(i -> Long.valueOf(i)).toArray(i -> new Long[] {}));
 	}
 
 	@Override

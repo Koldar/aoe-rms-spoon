@@ -1,5 +1,11 @@
 package com.thekoldar.aoe_rms_spoon.age_versions.common.constants;
 
+import org.eclipse.collections.api.RichIterable;
+
+import com.thekoldar.aoe_rms_spoon.ast.expr.ConstRefExpr;
+import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
+import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
+
 /**
  * List of all the constants names provided by F_seasons.inc.
  * We have introduced this class since some names are not in english
@@ -7,6 +13,14 @@ package com.thekoldar.aoe_rms_spoon.age_versions.common.constants;
  *
  */
 public class SeasonProvidedConstants {
+	
+	/**
+	 * get all the const name that F_seasons.inc generates
+	 * @return
+	 */
+	public static RichIterable<String> all() {
+		return Utils.getPublicStaticFinalFieldsOfClass(SeasonProvidedConstants.class, String.class);
+	}
 
 	public static final String LAYER_MAIN = "LAYER_A";
 	public static final String LAYER_2 = "LAYER_B";

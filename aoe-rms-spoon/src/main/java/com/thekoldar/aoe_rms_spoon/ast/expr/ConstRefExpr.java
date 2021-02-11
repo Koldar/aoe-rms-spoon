@@ -76,13 +76,13 @@ public class ConstRefExpr extends AbstractExpressionNode {
 	}
 
 	@Override
-	public IPossibleValue<Integer> getAsInt(SemanticCheckInput input) {
+	public IPossibleValue<Long> getAsLong(SemanticCheckInput input) {
 		return input.getConstValue(this.name);
 	}
 
 	@Override
 	public IPossibleValue<Boolean> getAsBool(SemanticCheckInput input) {
-		return this.getAsInt(input).collect(i -> i != 0);
+		return this.getAsLong(input).collect(i -> i != 0);
 	}
 
 	@Override

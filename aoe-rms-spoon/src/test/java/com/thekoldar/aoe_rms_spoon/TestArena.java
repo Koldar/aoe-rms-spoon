@@ -78,7 +78,6 @@ public class TestArena {
 			//add season
 			root
 				.includeDrs("F_seasons.inc")
-				.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
 			;
 			// F_seasons.inc define some consts. Use this method to notify the semantci analysis abnout them (atm spoon is not able to parse RMS files)
 			spoon.informSemanticAnalysisThatConstIsDefined(SeasonProvidedConstants.all());
@@ -203,15 +202,60 @@ public class TestArena {
 			var objectGeneration = root.objectsGeneration();
 
 			objectGeneration
+					.comment("Allows to place the players in the correct position")
+					.defines("GNR_NORMALTC", "GNR_STARTVILLS", "GNR_CLASSICSCOUT")
+					.comment("Put a correct number fo relics on the map (5)")
+					.defines("GNR_GIVERELICS", "GNR_RELICMODERN_MEDIUM")
+					//.defines("GNR_RESCLOSE")
+					.comment("Alter herdables, gold and stone position by putting them close")
+					.define("GNR_RESCLOSE")
+					.comment("Request that gold should be generated")
+					.define("GNR_STARTINGGOLD")
+					.comment("give to all players 7 patches or near gold, 4 to medium gold and finally 4 patches of far gold")
+					.define("GNR_STARTGOLD744CL")
+					.comment("Request that stone should be generated")
+					.define("GNR_STARTINGSTONE")
+					.comment("Request that all player should have 5 patches of main stone and 4 patches of home stone")
+					.define("GNR_STARTSTONE54CL")
+					.comment("Request that berries needs to be generated. If GNR_KERIK7NUMBER is also set, we generate 7 patches of berries, 6 otherwise. GNR_HIDEOUTGS_DISTANCE and GNR_RESSUPERCLOSE control distance")
+					.define("GNR_6KER")
+					.comment("Given herdables of type A. Groups of heardables A are controlled by GNR_HERD4CLASSIC_A, GNR_HERD3_A, GNR_HERD2_A, GNR_HERD1_A, GNR_HERD6_A")
+					.defines("GNR_GIVEHERD_A", "GNR_HERD4CLASSIC_A")
+					.comment("Given herdables of type B. Groups of heardables B are controller by GNR_HERD22CLASSIC_B, GNR_HERD33_B, GNR_HERD23_B, GNR_HERD4_B, GNR_HERD3_B, GNR_HERD2_B, GNR_HERD1_B. Distance affected by GNR_RESCLOSE, GNR_RESSUPERCLOSE, GNR_HERDBDIST_CL, GNR_HERDBDIST_SCL, GNR_HERDBDIST_FAR")
+					.defines("GNR_GIVEHERD_B", "GNR_HERD22CLASSIC_B")
+					.comment("Generate deers or hunt-like. Number affected by GNR_HUNT3OR4CLASSIC, GNR_HUNT8MODERN, GNR_HUNT6MODERN, GNR_HUNT5MODERN, GNR_HUNT4MODERN, GNR_HUNT3MODERN, GNR_HUNT2MODERN. Group number affected by GNR_HUNTGROUPS_2. Ditances affected by GNR_RESSUPERCLOSE, GNR_RESCLOSE, GNR_HUNTDIST_CL, GNR_HUNTDIST_SCL, GNR_HUNTDIST_HIDEOUT, GNR_HUNTDIST_FAR")
+					.defines("GNR_GIVEHUNT", "GNR_HUNT3OR4CLASSIC")
+					.comment("Add boar-like animals. Number affected by GNR_CLASSICLURES, GNR_CLASSICLURES_ONE, GNR_CLASSICLURES_TWO, GNR_CLASSICLURES_THREE. Distance Affected by GNR_LUREDIST_CL, GNR_LUREDIST_SCL, GNR_LUREDIST_FAR, GNR_LUREDIST_OPENDIST, GNR_RESSUPERCLOSE, GNR_RESCLOSE.")
+					.defines("GNR_GIVELURES", "GNR_CLASSICLURES")
+					.comment("If GNR_DOUBLEPRED is set, we create a predator. If GNR_CLASSICPRED is set we create another predator")
+					.defines("GNR_CLASSICPRED")
+					.comment("generates brd. Create 2 bird fo type A and 2 birds of type B. Otherwise if GNR_ABIRDS_ONLY only birds A are set")
+					.define("GNR_NORMALBIRDS")
+					.comment("Create another 2 predators A")
+					.define("GNR_ADDITIONALPRED")
 					.includeDrs(((DefinitiveEditionImportantFiles) aoe.getImportantFiles()).generatingObjects())
 					//create hawk
+					.comment("Create hawks")
 					.createObject("HAWK", (d) -> {
 						d.addStatements(
-								aoe.numberOfObjects(4),
+								aoe.numberOfObjects(3),
 								aoe.setGaiaObjectOnly(),
 								aoe.setScalingToMapSize()
 						);
 					})
+					
+//					.createObject("GOLD", (d) -> {
+//						d.addStatements(
+//							aoe.numberOfObjects(4),
+//							aoe.numberOfGroups(1),
+//							aoe.groupPlacementRadius(1),
+//							aoe.setGaiaObjectOnly(),
+//							aoe.setPlaceForEveryPlayer(),
+//							aoe.minDistanceToPlayers(4),
+//							aoe.maxDistanceToPlayers(8),
+//							aoe.tempMinDistanceGroupPlacement(3)
+//						);
+//					})
 			;
 
 //			objectGeneration

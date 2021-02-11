@@ -896,6 +896,50 @@ public abstract class AbstractAoEVersion {
 	
 	//shortcuts
 	
+	public AbstractMinDistanceToPlayers minDistanceToPlayers(int distance) {
+		return (AbstractMinDistanceToPlayers) this.minDistanceToPlayers().addArgument(distance);
+	}
+	
+	public AbstractMaxDistanceToPlayers maxDistanceToPlayers(int distance) {
+		return (AbstractMaxDistanceToPlayers) this.maxDistanceToPlayers().addArgument(distance);
+	}
+	
+	public AbstractMaxDistanceToOtherZones maxDistanceToOtherZones(int distance) {
+		return (AbstractMaxDistanceToOtherZones) this.maxDistanceToOtherZones().addArgument(distance);
+	}
+	
+	public AbstractMinDistanceGroupPlacement minDistanceGroupPlacement(int distance) {
+		return (AbstractMinDistanceGroupPlacement) this.minDistanceGroupPlacement().addArgument(distance);
+	}
+	
+	public AbstractTempMinDistanceGroupPlacement tempMinDistanceGroupPlacement(int distance) {
+		return (AbstractTempMinDistanceGroupPlacement) this.tempMinDistanceGroupPlacement().addArgument(distance);
+	}
+	
+	public AbstractGroupPlacementRadius groupPlacementRadius(int radius) {
+		return (AbstractGroupPlacementRadius) this.groupPlacementRadius().addArgument(radius);
+	}
+	
+	public AbstractNumberOfGroups numberOfGroups(int value) {
+		return (AbstractNumberOfGroups) this.numberOfGroups().addArgument(value); 
+	}
+	
+	public AbstractGroupVariance groupVariance(int variance) {
+		return (AbstractGroupVariance) this.groupVariance().addArgument(variance);
+	}
+	
+	public AbstractResourceDelta resourceDelta(int delta) {
+		return (AbstractResourceDelta) this.resourceDelta().addArgument(delta);
+	}
+	
+	public AbstractSecondObject secondObject(int objectType) {
+		return (AbstractSecondObject) this.secondObject().addArgument(objectType);
+	}
+	
+	public AbstractSecondObject secondObject(String objectType) {
+		return (AbstractSecondObject) this.secondObject().addArgument(objectType);
+	}
+	
 	public AbstractDefaultTerrainReplacement defaultTerrainReplacement(String terrainType) {
 		return (AbstractDefaultTerrainReplacement) this.defaultTerrainReplacement().addArgument(terrainType);
 	}

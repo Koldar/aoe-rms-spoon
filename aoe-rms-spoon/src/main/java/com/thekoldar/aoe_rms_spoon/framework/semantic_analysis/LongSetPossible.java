@@ -55,44 +55,54 @@ public class LongSetPossible extends SetPossibleValue<Long> {
 		return new LongSetPossible(argumentAsInt);
 	}
 	
+	/**
+	 * check if the 2 sets contains the same values
+	 * @param other
+	 * @return
+	 */
+	public boolean areAtLeastOneEqualsToAnyOf(IPossibleValue<Long> other) {
+		return this.getPossibleValues()
+				.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i.longValue() == j.longValue()));
+	}
+	
 	public boolean areAtLeastOneGreaterThanAnyOf(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i > j));
+			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i.longValue() > j.longValue()));
 	}
 	
 	public boolean areAtLeastOneGreaterOrEqualThanAnyOf(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i >= j));
+			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i.longValue() >= j.longValue()));
 	}
 	
 	public boolean areAtLeastOneLessThanAnyOf(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i < j));
+			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i.longValue() < j.longValue()));
 	}
 	
 	public boolean areAtLeastOneLessOrEqualThanAnyOf(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i <= j));
+			.anySatisfy(i -> other.getPossibleValues().anySatisfy(j -> i.longValue() <= j.longValue()));
 	}
 
 	public boolean areAllGreaterThan(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i > j));
+			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i.longValue() > j.longValue()));
 	}
 	
 	public boolean areAllGreaterOrEqualThan(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i >= j));
+			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i.longValue() >= j.longValue()));
 	}
 	
 	public boolean areAllLessThan(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i < j));
+			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i.longValue() < j.longValue()));
 	}
 	
 	public boolean areAllLessOrEqualThan(IPossibleValue<Long> other) {
 		return this.getPossibleValues()
-			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i <= j));
+			.allSatisfy(i -> other.getPossibleValues().allSatisfy(j -> i.longValue() <= j.longValue()));
 	}
 	
 	/**

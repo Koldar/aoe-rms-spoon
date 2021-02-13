@@ -19,6 +19,7 @@ import com.thekoldar.aoe_rms_spoon.framework.SpoonFramework;
 import com.thekoldar.aoe_rms_spoon.framework.models.Point2D;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.ConstNotFoundInSymbolTableActionEnum;
 
 public class TestSimple {
 
@@ -403,6 +404,7 @@ public class TestSimple {
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
 				.setCodeAsWarning(RMSErrorCode.from(12))
+				.setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum.ASSUME_0)
 				;
 		
 		spoon.generate((root, log) -> {
@@ -534,6 +536,7 @@ public class TestSimple {
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
 				.setCodeAsWarning(RMSErrorCode.from(12))
+				.setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum.ASSUME_0)
 				;
 		
 		spoon.generate((root, log) -> {
@@ -675,6 +678,7 @@ public class TestSimple {
 		var spoon = SpoonFramework.instance(new DefinitiveEdition())
 				.setOutputFile(outputFile)
 				.setCodeAsWarning(RMSErrorCode.from(12))
+				.setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum.ASSUME_0)
 				;
 		
 		spoon.generate((root, log, aoe) -> {

@@ -112,6 +112,7 @@ public class SpoonFramework {
 		this.enableComments = true;
 		this.semanticInput = null;
 		this.showInfo = false;
+		this.constNotFoundInSymbolTableAction = ConstNotFoundInSymbolTableActionEnum.RAISE_EXCEPTION;
 	}
 	
 	public SpoonFramework setConstNotFoundInSymbolTableAction(ConstNotFoundInSymbolTableActionEnum x) {

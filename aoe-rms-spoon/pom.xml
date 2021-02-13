@@ -4,7 +4,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thekoldar</groupId>
 	<artifactId>aoe-rms-spoon</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.1-SNAPSHOT</version>
+	
+	<name>AoE RMS Spoon</name>
+	<description>A utility to programmatically create RMS files</description>
+	
+	<scm>
+		<connection>scm:git:https://github.com/Koldar/aoe-rms-spoon</connection>
+		<url>https://github.com/Koldar/aoe-rms-spoon</url>
+		<developerConnection>scm:git:https://github.com/Koldar/aoe-rms-spoon</developerConnection>
+	</scm>
+	
+	<developers>
+		<developer>
+			<id>koldar</id>
+			<name>Koldar</name>
+			<timezone>GMT</timezone>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,11 +34,30 @@
 			<url>https://repo.spring.io/plugins-release/</url>
 		</repository>
 	</repositories>
+	
+	<profiles>
+		<profile>
+			<id>release-profile</id>
+			<build>
+				
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
-		
 	
 		<plugins>
+			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-release-plugin</artifactId>
+			    <version>2.5.3</version>
+			    <configuration>
+			    	<tagNameFormat>v{@project.version}</tagNameFormat>
+			    	<autoVersionSubmodules>true</autoVersionSubmodules>
+			    	<releaseProfiles>release-profile</releaseProfiles>
+			    </configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

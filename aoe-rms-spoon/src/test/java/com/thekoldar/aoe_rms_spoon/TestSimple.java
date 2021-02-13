@@ -501,10 +501,6 @@ public class TestSimple {
 			var connectionGeneration = root.connectionGeneration();
 			
 			connectionGeneration.createConnectTeamsLands(RMSExprs.dict(
-					spoon.getAgeVersion().replaceTerrain().addArguments("DESERT", "DESERT"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("PALM_DESERT", "GRASS"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("GRASS", "DESERT"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("GRASS3", "GRASS3"),
 					
 					spoon.getAgeVersion().terrainCost().addArguments("PALM_DESERT", 3),
 					spoon.getAgeVersion().terrainCost().addArguments("GRASS", 1),
@@ -633,10 +629,6 @@ public class TestSimple {
 			var connectionGeneration = root.connectionGeneration();
 			
 			connectionGeneration.createConnectTeamsLands(RMSExprs.dict(
-					spoon.getAgeVersion().replaceTerrain().addArguments("DESERT", "DESERT"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("PALM_DESERT", "GRASS"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("GRASS", "DESERT"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("GRASS3", "GRASS3"),
 					
 					spoon.getAgeVersion().terrainCost().addArguments("PALM_DESERT", 3),
 					spoon.getAgeVersion().terrainCost().addArguments("GRASS", 1),
@@ -775,10 +767,6 @@ public class TestSimple {
 			var connectionGeneration = root.connectionGeneration();
 			
 			connectionGeneration.createConnectTeamsLands(RMSExprs.dict(
-					spoon.getAgeVersion().replaceTerrain().addArguments("DESERT", "DESERT"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("PALM_DESERT", "GRASS"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("GRASS", "DESERT"),
-					spoon.getAgeVersion().replaceTerrain().addArguments("GRASS3", "GRASS3"),
 					
 					spoon.getAgeVersion().terrainCost().addArguments("PALM_DESERT", 3),
 					spoon.getAgeVersion().terrainCost().addArguments("GRASS", 1),

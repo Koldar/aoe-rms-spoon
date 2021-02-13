@@ -132,14 +132,6 @@ public class TestArena {
 							aoe.zone(CENTRAL_ZONE_ID)
 					);
 				})
-				.createLand(d -> {
-					d.addStatements(
-						Lands.createOctagonalLand(aoe, new Point2D(50, 50), 5, 5, 5, 5),
-						aoe.terrainType(SeasonProvidedConstants.WATER),
-						aoe.landId(CENTRAL_ZONE_ID),
-						aoe.zone(CENTRAL_ZONE_ID)
-					);
-				})
 			;
 			
 			var elevationGeneration = root.elevationGeneration();
@@ -152,15 +144,17 @@ public class TestArena {
 				aoe.spacing(3)
 			);});
 			
-			
 			var cliffGeneration = root.cliffGeneration();
-					
-			cliffGeneration
-				.minNumberOfCliffs(3)
-				.maxNumberOfCliffs(5)
-				.minLengthOfCliff(5)
-				.maxLengthOfCliff(10)
-				;
+			
+			cliffGeneration.addStatement(Switches.doDependingOnMapSize(aoe, (mp, n) -> {
+					n.addStatements(
+						aoe.minNumberOfCliffs(1 * mp.getTilesPer100x100()),
+						aoe.maxNumberOfCliffs(3 * mp.getTilesPer100x100()),
+						aoe.minLengthOfCliff(5 * mp.getTilesPer100x100()),
+						aoe.maxLengthOfCliff(7 * mp.getTilesPer100x100())
+					);
+					return n;
+			}));
 			
 			var terrainGeneration = root.terrainGeneration();
 			
@@ -194,7 +188,7 @@ public class TestArena {
 					aoe.terrainCost("CUSTOM_ARENA_TERRAIN", 1),
 					aoe.terrainCost(SeasonProvidedConstants.ROAD, 0),
 					
-					aoe.terrainSize("CUSTOM_BASE_PLAYER_TERRAIN", 5, 1)
+					aoe.terrainSize("CUSTOM_BASE_PLAYER_TERRAIN", 3, 1)
 			);
 //			
 //			root.constant("WELL", 1567);
@@ -234,7 +228,28 @@ public class TestArena {
 					.comment("Create another 2 predators A")
 					.define("GNR_ADDITIONALPRED")
 					.includeDrs(((DefinitiveEditionImportantFiles) aoe.getImportantFiles()).generatingObjects())
-					//create hawk
+					.comment("Create gold in the middle of the map")
+					.createObject("GOLD", d -> {
+						d.addStatements(
+							aoe.numberOfObjects(4),
+							aoe.numberOfGroups(1),
+							aoe.setGaiaObjectOnly(),
+							aoe.setScalingToMapSize(),
+							aoe.minDistanceToPlayers(33),
+							aoe.minDistanceGroupPlacement(28)
+						);
+					})
+					.comment("Crate Stone in the middle of the map")
+					.createObject("STONE", d -> {
+						d.addStatements(
+							aoe.numberOfObjects(4),
+							aoe.numberOfGroups(1),
+							aoe.setGaiaObjectOnly(),
+							aoe.setScalingToMapSize(),
+							aoe.minDistanceToPlayers(42),
+							aoe.minDistanceGroupPlacement(23)
+						);
+					})
 					.comment("Create hawks")
 					.createObject("HAWK", (d) -> {
 						d.addStatements(
@@ -243,6 +258,44 @@ public class TestArena {
 								aoe.setScalingToMapSize()
 						);
 					})
+					.comment("create a wooden sign and put it on the created road")
+					.createObject("SIGN", d -> {
+						d.addStatements(
+							aoe.numberOfObjects(1),
+							aoe.numberOfGroups(1),
+							//aoe.setAvoidPlayerStartAreas(),
+							aoe.setGaiaObjectOnly(), // necessary if you want to put down the sign
+							aoe.setPlaceForEveryPlayer(),
+							aoe.minDistanceToPlayers(12),
+							aoe.maxDistanceToPlayers(16),
+							aoe.terrainToPlaceOn(SeasonProvidedConstants.ROAD)
+						);
+					})
+					.comment("create some rugs nearby each towncenter")
+					.createObject("RUGS", d -> {
+						d.addStatements(
+							aoe.numberOfObjects(3),
+							aoe.numberOfGroups(1),
+							aoe.setGaiaObjectOnly(), // necessary if you want to put down the sign
+							aoe.setPlaceForEveryPlayer(),
+							aoe.minDistanceToPlayers(6),
+							aoe.terrainToPlaceOn(SeasonProvidedConstants.ROAD)
+						);
+					})
+					.comment("Create the walls")
+					.createObject("WALL", d -> {
+						d.addStatement(Switches.doDependingOnMapSize(aoe, (mp, n) -> {
+							n.addStatements(
+									aoe.numberOfObjects(9999),
+									aoe.setPlaceForEveryPlayer(),
+									aoe.minDistanceToPlayers(19 * mp.getPercentageRelativeToTiny()),
+									aoe.maxDistanceToPlayers(26 * mp.getPercentageRelativeToTiny())
+							);
+							return n;
+						}));
+					})
+					
+					
 					
 //					.createObject("GOLD", (d) -> {
 //						d.addStatements(

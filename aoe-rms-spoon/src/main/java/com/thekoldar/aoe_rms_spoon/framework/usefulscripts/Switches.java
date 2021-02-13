@@ -1,5 +1,6 @@
 package com.thekoldar.aoe_rms_spoon.framework.usefulscripts;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -154,5 +155,19 @@ public class Switches {
 	 */
 	public static IRMSNode doDependingOnMapSize(AbstractAoEVersion aoe, Function<MapSize, IRMSNode> function) {
 		return doDependingOnMapSize(aoe, null, function, null);
+	}
+	
+	/**
+	 * perform some AST node depending on the map size detected from the lobby. You need to add the generated RMS node by yourself into the AST
+	 * 
+	 * @param aoe version of age of empries
+	 * @param function function that generate the content of each map size. The first value si the map size while the second is the node that we are going to add in the switch
+	 * @return node the node representing the switch
+	 */
+	public static IRMSNode doDependingOnMapSize(AbstractAoEVersion aoe, BiFunction<MapSize, IRMSNode, IRMSNode> function) {
+		return doDependingOnMapSize(aoe, null, (mp) -> {
+			var n = aoe.multiplexer();
+			return function.apply(mp, n);
+		}, null) ;
 	}
 }

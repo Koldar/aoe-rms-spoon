@@ -37,7 +37,6 @@ public abstract class AbstractSetAvoidPlayerStartAreas extends AbstractRMSNoArgu
 		var result = input.createOutput();
 		
 		result.ensureItIsOnlyInstructionOfTypeInDict(this);
-		result.ensureArgumentGreaterThan0(this.getArgument(0));
 		
 		if (!this.getSiblingOfTypes(RMSNodeType.NUMBER_OF_GROUPS).isEmpty()) {
 			this.infoCmd("The minimum distance to group placement refers to the center of the group, not to the individual elements");

@@ -111,7 +111,7 @@ public class CreateRandomTerrains {
 		Utils.percentage(terrainChosen).forEach(pair -> {
 			var percentage = pair.getOne();
 			var terrain = pair.getTwo();
-			builder.percentChance(percentage, aoe.constant(constToCreate, terrain.getConstValue()), aoe.comment(String.format("terrain %s", terrain.getConstName())));
+			builder.percentChance(percentage, aoe.constant(constToCreate, terrain.getConstValue()), aoe.comment(String.format("terrain %s: %s", terrain.getConstName(), terrain.getDescription())));
 		});
 		
 		builder.endRandom();

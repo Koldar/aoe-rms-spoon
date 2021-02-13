@@ -741,11 +741,27 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "forest")) {
 			return true;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "jungle")) {
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like SHALLOW")) {
+			return false;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like beach")) {
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * check if the terrain implicitly represents a beach
+	 * @param row
+	 * @return
+	 */
+	private boolean isBeach(String[] row) {
+		//check if in DE scenario editor it is a forest
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "beach")) {
 			return true;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
-			return false;
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like beach")) {
+			return true;
 		}
 		return false;
 	}
@@ -766,7 +782,10 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "water")) {
 			return false;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like shallow")) {
+			return true;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like beach")) {
 			return true;
 		}
 		return true;
@@ -785,7 +804,10 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "not navigable")) {
 			return false;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like SHALLOW")) {
+			return true;
+		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like beach")) {
 			return true;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.RMS_CONST_DE_SCENARIO_EDITOR], "navigable")) {
@@ -813,14 +835,21 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "not buildable")) {
 			return false;
 		}
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like beach")) {
+			return false;
+		}
+		if (row[DefinitiveEdition.RMS_CONST_NAME].equalsIgnoreCase("beach")) {
+			//we detected that on ice you cannot build
+			return false;
+		}
 		if (row[DefinitiveEdition.RMS_CONST_NAME].equalsIgnoreCase("ice")) {
-			//we detected that on ice you cannot walk
-			return true;
+			//we detected that on ice you cannot build
+			return false;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "building possible")) {
 			return true;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like SHALLOW")) {
 			return false;
 		}
 		return true;
@@ -835,13 +864,13 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "can place walls")) {
 			return true;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "beach")) {
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like beach")) {
 			return true;
 		}
 		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "no building possible")) {
 			return false;
 		}
-		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "behaves like SHALLOW")) {
+		if (Utils.containsCaseInsensitive(row[DefinitiveEdition.COMMENT], "like SHALLOW")) {
 			return false;
 		}
 		return true;
@@ -926,12 +955,14 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 					var rmsConstValue = Integer.parseInt(row[DefinitiveEdition.CONST_ID]);
 					var texturePath = this.getTexturePath(row);
 					var isForest = this.isForest(row);
+					var isBeach= this.isBeach(row);
 					var isLandWalkable = this.isLandWalkable(row);
 					var isShipWalkable = this.isShipWalkable(row);
 					var isBuildable = this.isBuildable(row);
 					var isDockable = this.isDockable(row);
 					var isWallable = this.isWallBuildable(row);
 					var canResourcesBePutOnIt = this.canResourcesBePutOnIt(row);
+					var description = row[DefinitiveEdition.COMMENT];
 					
 					var terrain = new StandardTerrain(
 						new Color(255,255,255), //TODO csv file does not save the minimap color sadly!
@@ -939,12 +970,14 @@ public class DefinitiveEdition extends AbstractAoEVersion {
 						rmsConstName,
 						rmsConstValue,
 						isForest,
+						isBeach,
 						isLandWalkable,
 						isShipWalkable,
 						isBuildable,
 						isDockable,
 						isWallable,
-						canResourcesBePutOnIt
+						canResourcesBePutOnIt,
+						description
 					);
 					
 					this.usableTerrains.add(terrain);

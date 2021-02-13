@@ -14,6 +14,12 @@ import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 public interface ITerrain {
 	
 	/**
+	 * A description of this terrain. Useful for understanding what are the capabilities (in a human readable format) of the terrain
+	 * @return
+	 */
+	public String getDescription();
+	
+	/**
 	 * A path representing where the texture file of this terrain can be found on the filesystem.
 	 * The path is relative to the age of empires version you are considering
 	 * @return
@@ -51,6 +57,13 @@ public interface ITerrain {
 	 * @return
 	 */
 	public boolean isForest();
+	
+	/**
+	 * if true, the terrain represents a beach. Beaches are particular terrain put between land and water. Ususally they are not buildindable (except for walls and docks),
+	 * but they are both land walkable and ship walkable.
+	 * @return
+	 */
+	public boolean isBeach();
 	
 	/**
 	 * if true, the terrain generated can be walked by land units

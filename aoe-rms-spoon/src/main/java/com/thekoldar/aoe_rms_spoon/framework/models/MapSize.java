@@ -1,5 +1,6 @@
 package com.thekoldar.aoe_rms_spoon.framework.models;
 
+import com.thekoldar.aoe_rms_spoon.age_versions.common.conditionals.MapSizes;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSDefineSymbol;
 
@@ -80,6 +81,14 @@ public class MapSize {
 	 */
 	public double getTilesPer100x100() {
 		return this.getTotalTiles()/(100.*100.);
+	}
+	
+	/**
+	 * ratio between this map size and {@link MapSizes#TINY_MAP}
+	 * @return values near 1.0 represents a map whose side si similar to TINY.  
+	 */
+	public double getPercentageRelativeToTiny() {
+		return (this.getTilesPerSide() * 1.0) /(MapSizes.TINY_MAP.getTilesPerSide() * 1.0);
 	}
 	
 

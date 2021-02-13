@@ -896,12 +896,28 @@ public abstract class AbstractAoEVersion {
 	
 	//shortcuts
 	
+	public AbstractTerrainToPlaceOn terrainToPlaceOn(int terrainType) {
+		return (AbstractTerrainToPlaceOn) this.terrainToPlaceOn().addArgument(terrainType);
+	}
+	
+	public AbstractTerrainToPlaceOn terrainToPlaceOn(String terrainType) {
+		return (AbstractTerrainToPlaceOn) this.terrainToPlaceOn().addArgument(terrainType);
+	}
+	
 	public AbstractMinDistanceToPlayers minDistanceToPlayers(int distance) {
 		return (AbstractMinDistanceToPlayers) this.minDistanceToPlayers().addArgument(distance);
 	}
 	
+	public AbstractMinDistanceToPlayers minDistanceToPlayers(double distance) {
+		return this.minDistanceToPlayers((int)distance);
+	}
+	
 	public AbstractMaxDistanceToPlayers maxDistanceToPlayers(int distance) {
 		return (AbstractMaxDistanceToPlayers) this.maxDistanceToPlayers().addArgument(distance);
+	}
+	
+	public AbstractMaxDistanceToPlayers maxDistanceToPlayers(double distance) {
+		return this.maxDistanceToPlayers((int)distance);
 	}
 	
 	public AbstractMaxDistanceToOtherZones maxDistanceToOtherZones(int distance) {
@@ -962,6 +978,22 @@ public abstract class AbstractAoEVersion {
 	
 	public AbstractMaxLengthOfCliff maxLengthOfCliff(int length) {
 		return (AbstractMaxLengthOfCliff) this.maxLengthOfCliff().addArgument(length);
+	}
+	
+	public AbstractMinNumberOfCliffs minNumberOfCliffs(double amount) {
+		return this.minNumberOfCliffs((int)amount);
+	}
+	
+	public AbstractMaxNumberOfCliffs maxNumberOfCliffs(double amount) {
+		return this.maxNumberOfCliffs((int)amount);
+	}
+	
+	public AbstractMinLengthOfCliff minLengthOfCliff(double length) {
+		return this.minLengthOfCliff((int)length);
+	}
+	
+	public AbstractMaxLengthOfCliff maxLengthOfCliff(double length) {
+		return this.maxLengthOfCliff((int)length);
 	}
 	
 	public AbstractCliffCurliness cliffCurliness(int percentage) {

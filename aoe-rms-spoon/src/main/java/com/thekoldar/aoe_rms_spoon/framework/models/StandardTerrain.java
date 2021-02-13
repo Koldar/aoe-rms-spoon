@@ -11,6 +11,7 @@ public class StandardTerrain implements ITerrain {
 	private String rmsConstName;
 	private int rmsConstValue;
 	private boolean isForest;
+	private boolean isBeach;
 	private boolean isLandWalkable;
 	private boolean isShipWalkable;
 	private boolean isBuildable;
@@ -18,24 +19,32 @@ public class StandardTerrain implements ITerrain {
 	private boolean isWallable;
 	private boolean canResourcesBePutOnIt;
 	private Path textureFile;
+	private String description;
 	
 	
 
-	public StandardTerrain(Color color, Path textureFile, String rmsConstName, int rmsConstValue, boolean isForest,
+	public StandardTerrain(Color color, Path textureFile, String rmsConstName, int rmsConstValue, boolean isForest, boolean isBeach,
 			boolean isLandWalkable, boolean isShipWalkable, boolean isBuildable, boolean isDockable, boolean isWallable,
-			boolean canResourcesBePutOnIt) {
+			boolean canResourcesBePutOnIt, String description) {
 		super();
 		this.color = color;
 		this.textureFile = textureFile;
 		this.rmsConstName = rmsConstName;
 		this.rmsConstValue = rmsConstValue;
 		this.isForest = isForest;
+		this.isBeach = isBeach;
 		this.isLandWalkable = isLandWalkable;
 		this.isShipWalkable = isShipWalkable;
 		this.isBuildable = isBuildable;
 		this.isDockable = isDockable;
 		this.isWallable = isWallable;
 		this.canResourcesBePutOnIt = canResourcesBePutOnIt;
+		this.description = description;
+	}
+	
+	@Override
+	public String getDescription() {
+		return this.description;
 	}
 	
 	@Override
@@ -62,6 +71,11 @@ public class StandardTerrain implements ITerrain {
 	@Override
 	public boolean isForest() {
 		return this.isForest;
+	}
+	
+	@Override
+	public boolean isBeach() {
+		return this.isBeach;
 	}
 
 	@Override

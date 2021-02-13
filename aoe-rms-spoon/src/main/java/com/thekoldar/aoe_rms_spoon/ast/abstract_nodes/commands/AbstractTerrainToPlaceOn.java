@@ -5,6 +5,9 @@ import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSNoArgumentComma
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalBooleanArgumentCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleOptionalIntArgumentCommand;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.AbstractRMSSingleRequiredIntArgumentCommand;
+import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSException;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
+import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
 public abstract class AbstractTerrainToPlaceOn extends AbstractRMSSingleOptionalIntArgumentCommand{
 
@@ -33,7 +36,20 @@ public abstract class AbstractTerrainToPlaceOn extends AbstractRMSSingleOptional
 
 	@Override
 	public String getComment() {
-		return "";
+		return "The object(s) will only be placed on the specified terrain.";
 	}
+
+
+
+	@Override
+	public SemanticCheckOutput semanticCheck(SemanticCheckInput input) throws AbstractRMSException {
+		var result = input.createOutput();
+		
+		result.ensureItIsOnlyInstructionOfTypeInDict(this);
+		
+		return result.merge(this.semanticCheckChildren(input));
+	}
+	
+	
 
 }

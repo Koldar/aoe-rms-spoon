@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thekoldar</groupId>
 	<artifactId>aoe-rms-spoon</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	
 	<name>AoE RMS Spoon</name>
 	<description>A utility to programmatically create RMS files</description>
@@ -11,7 +11,7 @@
 		<connection>scm:git:https://github.com/Koldar/aoe-rms-spoon</connection>
 		<url>https://github.com/Koldar/aoe-rms-spoon</url>
 		<developerConnection>scm:git:https://github.com/Koldar/aoe-rms-spoon</developerConnection>
-	  <tag>v{@project.version}</tag>
+	  <tag>HEAD</tag>
   </scm>
 	
 	<developers>

@@ -1,0 +1,3 @@
+Export-Package: com.thekoldar.aoe_rms_spoon.*
+Bundle-Version: ${project.version}
+Bundle-Description: ${project.description}

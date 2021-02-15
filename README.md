@@ -63,6 +63,13 @@ endif
 	
 	This will put the file inside a mode called "my-arena", in a file called "my-arena.rms".
 
+ - **How to release a new version of the software**. The project uses `maven-release-plugin`, hence you can do it via:
+ 
+	```
+	 mvn -Dresume=false release:prepare
+	 mvn release:perform
+	```
+
 # Bug and feature requests
 
 Please fill a github issue if you detct something weird or you want a new feature in the framework.

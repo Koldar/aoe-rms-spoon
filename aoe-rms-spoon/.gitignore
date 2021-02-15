@@ -1,10 +1,15 @@
+# eclipse
 .settings/
 .classpath
 .project
 target/
+
+# generated output test files
 /ast.png
 /terrains.csv
 /*.rms
 aoe-rms-spoon/*.rms
-release.properties
 
+# maven release plugin
+release.properties
+pom.xml.releaseBackup

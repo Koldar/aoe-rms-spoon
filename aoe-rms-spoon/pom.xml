@@ -1,19 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thekoldar</groupId>
 	<artifactId>aoe-rms-spoon</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	
+
 	<name>AoE RMS Spoon</name>
 	<description>A utility to programmatically create RMS files</description>
-	
+
 	<scm>
 		<connection>scm:git:https://github.com/Koldar/aoe-rms-spoon</connection>
 		<url>https://github.com/Koldar/aoe-rms-spoon</url>
 		<developerConnection>scm:git:https://github.com/Koldar/aoe-rms-spoon</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
-	
+		<tag>HEAD</tag>
+	</scm>
+
 	<developers>
 		<developer>
 			<id>koldar</id>
@@ -33,34 +35,61 @@
 			<url>https://repo.spring.io/plugins-release/</url>
 		</repository>
 	</repositories>
-	
+
 	<profiles>
 		<profile>
 			<id>release-profile</id>
 			<build>
-				
+
 			</build>
 		</profile>
 	</profiles>
 
 	<build>
-	
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>2.22.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+			        <artifactId>maven-javadoc-plugin</artifactId>
+			        <version>3.2.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-release-plugin -->
 			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-release-plugin</artifactId>
-			    <version>2.5.3</version>
-			    <configuration>
-			    	<tagNameFormat>v{@project.version}</tagNameFormat>
-			    	<autoVersionSubmodules>true</autoVersionSubmodules>
-			    	<releaseProfiles>release-profile</releaseProfiles>
-			    </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagNameFormat>v{@project.version}</tagNameFormat>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<releaseProfiles>release-profile</releaseProfiles>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
 				<configuration>
 					<release>15</release>
 				</configuration>
@@ -68,7 +97,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.0</version>
 				<configuration>
 					<argLine>
 						--illegal-access=permit
@@ -78,7 +106,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.22.0</version>
 				<configuration>
 					<argLine>
 						--illegal-access=permit
@@ -89,9 +116,32 @@
 
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-javadoc-plugin</artifactId>
+		        <configuration>
+		        	<show>private</show>
+		        	<nohelp>false</nohelp>
+		        	<author>true</author>
+		        	<version>true</version>
+		        	<applyJavadocSecurityFix>true</applyJavadocSecurityFix>
+		        	<charset>UTF-8</charset>
+		        	<defaultAuthor>Koldar</defaultAuthor>
+		        	<defaultVersion>${project.version}</defaultVersion>
+		        	<docencoding>UTF-8</docencoding>
+		        	<finalName>${project.artifactId}</finalName>
+		        	<!-- turn off javadoc in maven-release-plugin phase -->
+		        	<additionalparam>-Xdoclint:none</additionalparam> 
+		        </configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 
-	<dependencies>
-		<dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
 			<groupId>org.eclipse.collections</groupId>
 			<artifactId>eclipse-collections-api</artifactId>
 			<version>10.4.0</version>
@@ -135,34 +185,75 @@
 
 		<!-- see https://stackoverflow.com/a/41791885/1887602 -->
 		<dependency>
-		  <groupId>org.apache.maven</groupId>
-		  <artifactId>maven-model</artifactId>
-		  <version>3.3.9</version>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+			<version>3.3.9</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
-		    <groupId>commons-io</groupId>
-		    <artifactId>commons-io</artifactId>
-		    <version>2.8.0</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.8.0</version>
 		</dependency>
-		
-		
-		<!-- https://mvnrepository.com/artifact/org.apache.commons.io/commonsIO -->
-		<!-- <dependency>
-		    <groupId>org.apache.commons.io</groupId>
-		    <artifactId>commonsIO</artifactId>
-		    <version>2.5.0</version>
-		</dependency> -->
-		
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.3</version>
+		</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-<dependency>
-      <groupId>com.opencsv</groupId>
-      <artifactId>opencsv</artifactId>
-      <version>5.3</version>
-  </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.collections</groupId>
+			<artifactId>eclipse-collections-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.collections</groupId>
+			<artifactId>eclipse-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.zafarkhaja</groupId>
+			<artifactId>java-semver</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<scope>test</scope>
+		</dependency>
 
+		<!-- see https://stackoverflow.com/a/41791885/1887602 -->
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-model</artifactId>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

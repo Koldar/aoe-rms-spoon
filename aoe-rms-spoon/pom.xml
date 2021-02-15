@@ -1,10 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thekoldar</groupId>
 	<artifactId>aoe-rms-spoon</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.1.0</version>
 
 	<name>AoE RMS Spoon</name>
 	<description>A utility to programmatically create RMS files</description>
@@ -13,7 +11,7 @@
 		<connection>scm:git:https://github.com/Koldar/aoe-rms-spoon</connection>
 		<url>https://github.com/Koldar/aoe-rms-spoon</url>
 		<developerConnection>scm:git:https://github.com/Koldar/aoe-rms-spoon</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v0.1.0</tag>
 	</scm>
 
 	<developers>

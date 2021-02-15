@@ -6,4 +6,5 @@ target/
 /terrains.csv
 /*.rms
 aoe-rms-spoon/*.rms
+release.properties
 

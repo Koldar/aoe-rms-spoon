@@ -31,7 +31,6 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
  * a generic RMS command
  * @author massi
  *
- * @param <TAOE>
  */
 public abstract class AbstractRMSCommand extends AbstractRMSNode {
 	

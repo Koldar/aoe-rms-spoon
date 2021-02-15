@@ -367,8 +367,7 @@ public interface IRMSNode
 	
 	/**
 	 * fetches all the ordered sibling of this node
-	 * @param criterion criteiron to check
-	 * @return iterable of all the sibling of this node satisfying the criterio or empty if the node has not such sibligns. The roder is the same as the one present in the AST 
+	 * @return iterable of all the sibling of this node (occuring both before and after his very node) 
 	 */
 	public default RichIterable<IRMSNode> getSiblings() {
 		if (this.isRoot()) {
@@ -431,8 +430,7 @@ public interface IRMSNode
 	/**
 	 * fetches all the ordered sibling of this node, alongside with the index each sibling occurs wihint the parent node 
 	 * 
-	 * @param criterion criterion to check
-	 * @return iterable of all the sibling of this node satisfying the criterion or empty if the node has not such siblings. The order is the same as the one present in the AST 
+	 * @return iterable of all the sibling that occurs before this node. 
 	 */
 	public default RichIterable<IntObjectPair<IRMSNode>> getOrderedSiblings() {
 		if (this.isRoot()) {
@@ -554,8 +552,8 @@ public interface IRMSNode
 	/**
 	 * fetches all the siblings occuring before this node with a particular type
 	 *  
-	 * @param criterion criterion to satisfy
-	 * @return
+	 * @param types types of the sibling that we need to include in the output
+	 * @return iterable of all the siblings occuring before this one that has the specified type
 	 */
 	public default RichIterable<IntObjectPair<IRMSNode>> getPreviousSiblingofTypes(RMSNodeType... types) {
 		var l = Sets.immutable.of(types);
@@ -566,7 +564,7 @@ public interface IRMSNode
 	 * fetches all the siblings occuring before this node satisfying a certain criterion
 	 *  
 	 * @param criterion criterion to satisfy
-	 * @return
+	 * @return iterable of all the siblings occuring before this one that satisfy the given criterion
 	 */
 	public default RichIterable<IntObjectPair<IRMSNode>> getPreviousSiblingSatisfying(IntObjectPredicate<IRMSNode> criterion) {
 		return this.getPreviousSiblings().select(pair -> criterion.accept(pair.getOne(), pair.getTwo()));

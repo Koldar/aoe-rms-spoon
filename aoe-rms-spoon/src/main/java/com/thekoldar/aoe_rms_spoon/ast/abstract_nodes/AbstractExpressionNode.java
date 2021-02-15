@@ -13,7 +13,6 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInpu
  * A RMS expression. Expression node are expressions where we can know the actual value of the expression
  * @author massi
  *
- * @param <TAOE>
  */
 public abstract class AbstractExpressionNode extends AbstractRMSNode {
 

@@ -6,6 +6,11 @@ import org.eclipse.collections.api.list.ImmutableList;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.framework.CommandFormalArgument;
 
+/**
+ * A command that requires a single required argument. The argument is an integer number
+ * @author massi
+ *
+ */
 public abstract class AbstractRMSSingleRequiredIntArgumentCommand extends AbstractRMSCommand {
 
 	protected AbstractRMSSingleRequiredIntArgumentCommand(RMSNodeType type) {

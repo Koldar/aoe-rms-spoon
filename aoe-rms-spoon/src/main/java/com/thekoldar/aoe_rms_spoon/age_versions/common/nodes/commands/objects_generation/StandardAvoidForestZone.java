@@ -2,6 +2,11 @@ package com.thekoldar.aoe_rms_spoon.age_versions.common.nodes.commands.objects_g
 
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAvoidForestZone;
 
+/**
+ * Age of empires Definitive Edition version of the node
+ * @author massi
+ *
+ */
 public class StandardAvoidForestZone extends AbstractAvoidForestZone {
 
 }

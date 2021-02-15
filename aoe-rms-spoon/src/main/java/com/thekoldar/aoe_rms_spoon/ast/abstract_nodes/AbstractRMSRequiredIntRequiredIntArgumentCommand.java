@@ -6,6 +6,11 @@ import org.eclipse.collections.api.list.ImmutableList;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.framework.CommandFormalArgument;
 
+/**
+ * A RMS command that accepts 2 arguments, both required
+ * @author massi
+ *
+ */
 public abstract class AbstractRMSRequiredIntRequiredIntArgumentCommand extends AbstractRMSCommand {
 
 	protected AbstractRMSRequiredIntRequiredIntArgumentCommand(RMSNodeType type) {

@@ -9,15 +9,15 @@ import com.thekoldar.aoe_rms_spoon.age_versions.common.constants.ResourcesConsta
 import com.thekoldar.aoe_rms_spoon.age_versions.common.constants.SeasonConstants;
 import com.thekoldar.aoe_rms_spoon.age_versions.common.constants.TechnologyConstants;
 import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
+import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAssignTo;
 import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 
 public class Libraries {
 
 	/**
 	 * Defined {@code TRUE} and {@code FALSE} constants.
-	 * @param aoe
-	 * @param node
-	 * @return
+	 * @param aoe age of empires version
+	 * @return node representing the stdbool library
 	 */
 	public static IRMSNode stdBool(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
@@ -30,8 +30,8 @@ public class Libraries {
 	
 	/**
 	 * Add all the constants that we know may be useful for the developer. If you add this field you should not need to define other stuff by yourself
-	 * @param aoe
-	 * @return
+	 * @param aoe age of empires version
+	 * @return node repersenting standard const and defines that will be added to the RMS script
 	 */
 	public static IRMSNode setStandardConstAndDefine(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
@@ -46,6 +46,12 @@ public class Libraries {
 				;
 	}
 	
+	/**
+	 * Add to your script all the constants related to {@link AbstractAssignTo} command
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node that needs to be addeed yto your script representing all the constants defined
+	 */
 	public static IRMSNode addAssignConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** ASSIGN *****"))
@@ -54,6 +60,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the attributes
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addAttributesConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** ATTRIBUTES *****"))
@@ -62,6 +74,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the class constants
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addClassConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** CLASS *****"))
@@ -70,6 +88,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the effect constants
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addEffectsConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** EFFECT *****"))
@@ -78,6 +102,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the map constants
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addMapConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** MAP *****"))
@@ -86,6 +116,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the resources constants
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addResourcesConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** RESOURCES *****"))
@@ -94,6 +130,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the seasons constants
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addSeasonConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** SEASON *****"))
@@ -102,6 +144,12 @@ public class Libraries {
 		;
 	}
 	
+	/**
+	 * Add to your script all the constants relative to the technology constants
+	 * 
+	 * @param aoe age of empires version
+	 * @return a node representing the constants define. Needs to be added to your AST
+	 */
 	public static IRMSNode addTechnologyConstants(AbstractAoEVersion aoe) {
 		return aoe.multiplexer()
 			.addStatement(aoe.comment("***** TECHNOLOGY *****"))

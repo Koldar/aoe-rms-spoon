@@ -12,7 +12,6 @@ public class Lands {
 	 * Create an octagonal-like shape land. Convenience method. The area is create in the center of the map
 	 * 
 	 * @param aoe version of age of empires
-	 * @param expr expression where to dump the instructions. It is likely to be a create_land
 	 * @param widthTowardsNE percentage of the map s.t.the land created extends towards the north-east map border 
 	 * @param widthTowardsNW percentage of the map s.t.the land created extends towards the north-west map border
 	 * @param widthTowardsSE percentage of the map s.t.the land created extends towards  the south-east map border

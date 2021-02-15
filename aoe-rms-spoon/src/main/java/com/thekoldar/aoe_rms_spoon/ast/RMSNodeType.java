@@ -1,5 +1,10 @@
 package com.thekoldar.aoe_rms_spoon.ast;
 
+/**
+ * Set of types a node inside the RMS AST tree may have
+ * @author massi
+ *
+ */
 public enum RMSNodeType {
 
 	//general

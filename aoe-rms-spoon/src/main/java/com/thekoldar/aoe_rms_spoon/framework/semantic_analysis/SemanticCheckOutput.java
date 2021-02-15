@@ -94,7 +94,8 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * declare that the player with the given lobby order needs to be set
-	 * @param playerLobbyOrder
+	 * @param player the possible values a single player order id ndeds to be present when starting the lobby. If not, the map will be unplayable
+	 * @return {@code this}
 	 */
 	public SemanticCheckOutput declareThatPlayerWithLobbyOrderNeedsToBePlaying(IPossibleValue<Long> player) {
 		this.input.declareThatPlayerWithLobbyOrderNeedsToBePlaying(player);
@@ -103,7 +104,8 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * declare that the player with the given color order needs to be set
-	 * @param playerLobbyOrder
+	 * @param player the possible values a single player color id nedds to be present when starting the lobby. If not, the map will be unplayable
+	 * @return {@code this}
 	 */
 	public SemanticCheckOutput declareThatPlayerWithColorNeedsToBePlaying(IPossibleValue<Long> player) {
 		this.input.declareThatPlayerWithColorNeedsToBePlaying(player);
@@ -125,9 +127,11 @@ public class SemanticCheckOutput {
 	}
 	
 	/**
-	 * fetch the nearest {@link DictExpr} of the path to root from the current node. Then ensures that every path in the dictionary has no node of this type. 
-	 * @param node
-	 * @throws AbstractRMSException 
+	 * fetch the nearest {@link DictExpr} of the path to root from the current node. Then ensures that every path in the dictionary has no node of this type.
+	 * Useful for checking if the dictioanry contains only one command of a givn type (e.g., create_player_lands contains only one land_id command)
+	 *  
+	 * @param node the node we need to ensure is the sole entry in this dictioanry
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureItIsOnlyInstructionOfTypeInDict(IRMSNode node) throws AbstractRMSException {
 		var dictNode = node.getFirstNodeFromPathSatisfying(p -> p.getNodeType().equals(RMSNodeType.EXPR) && p.getType().isPresent() && p.getType().get().equals(ExprType.DICT)).getAny();
@@ -143,7 +147,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node root of the subtree
 	 * @param expectedTypes expected types
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureItContainsOnlyNodes(IRMSNode node, MutableSet<RMSNodeType> expectedTypes) throws AbstractRMSException {
 		var actual = node.getAllSubTreeNodeTypes(false).toSet();
@@ -159,7 +163,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node root of the subtree
 	 * @param types expected types
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureItContainsCommonNodesAnd(IRMSNode node, RMSNodeType ...types) throws AbstractRMSException {
 		var s = Sets.mutable.of(RMSNodeType.COMMENT, RMSNodeType.INCLUDE, RMSNodeType.INCLUDE_DRS, RMSNodeType.DEFINE, RMSNodeType.IF, RMSNodeType.RANDOM, RMSNodeType.RANDOM_NUMBER, RMSNodeType.MULTIPLEXER, RMSNodeType.EXPR);
@@ -171,8 +175,8 @@ public class SemanticCheckOutput {
 	 * ensure the given node is under (directly or indirectly) at least one of the given node types
 	 * 
 	 * @param node node to consider
-	 * @param allowedParents allwoed parent types
-	 * @throws AbstractRMSException
+	 * @param allowedParents allowed parent types
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeToBeUnder(IRMSNode node, RMSNodeType... allowedParents) throws AbstractRMSException {
 		var expected = Sets.immutable.of(allowedParents);
@@ -190,9 +194,9 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * Ensure the given node is inside the subtree rooted with a node of type {@code type}
-	 * @param command node to check
+	 * @param n node to check
 	 * @param type expected type of the root of the subtree
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsUnder(IRMSNode n, RMSNodeType type) throws AbstractRMSException {
 		if (!n.isUnderNodeWithTypes(type)) {
@@ -207,7 +211,7 @@ public class SemanticCheckOutput {
 	 *  
 	 * @param command to check
 	 * @param argumentNumber index of the argument to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentIsLiteralInteger(IRMSNode command, int argumentNumber) throws AbstractRMSException {
 		this.ensureIsCommand(command);
@@ -220,7 +224,7 @@ public class SemanticCheckOutput {
 	 * This because some commands requires not an integer expression, but an interger literal (e.g., base_size)
 	 * 
 	 * @param argument argument to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentIsLiteralInteger(IRMSNode argument) throws AbstractRMSException {
 		this.ensureIsExpression(argument);
@@ -233,9 +237,9 @@ public class SemanticCheckOutput {
 	 * Ensure that the direct children in this node have the specific types.
 	 * if we find a children which does not have the given type, we raise an exception
 	 * 
-	 * @param node
-	 * @param types
-	 * @throws AbstractRMSException
+	 * @param node node we need to check
+	 * @param types allowed types
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureDirectChildrenAreOnlyOf(IRMSNode node, RMSNodeType... types) throws AbstractRMSException {
 		var s = Sets.immutable.of(types);
@@ -246,8 +250,9 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * ensure that the given node is root
-	 * @param node
-	 * @throws AbstractRMSException 
+	 * 
+	 * @param node node we need to consider
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsRoot(IRMSNode node) throws AbstractRMSException {
 		if (!node.isRoot()) {
@@ -257,8 +262,9 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * ensure that the given node is <b>not</b> root
-	 * @param node
-	 * @throws AbstractRMSException 
+	 * 
+	 * @param node node we need to consider
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsNotRoot(IRMSNode node) throws AbstractRMSException {
 		if (node.isRoot()) {
@@ -268,8 +274,9 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * ensure that the parent of the given node is root
-	 * @param node
-	 * @throws AbstractRMSException 
+	 * 
+	 * @param node node that we need to consider
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureParentIsRoot(IRMSNode node) throws AbstractRMSException {
 		this.ensureIsNotRoot(node);
@@ -280,8 +287,10 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * ensure that the parent of the given node is of a specific type
-	 * @param node
-	 * @throws AbstractRMSException 
+	 * 
+	 * @param node node that we need to consider
+	 * @param expectedParentTypes types a parent can have 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureParentIsOfType(IRMSNode node, RMSNodeType... expectedParentTypes) throws AbstractRMSException {
 		var l = Lists.immutable.of(expectedParentTypes); 
@@ -297,7 +306,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node node to investigate
 	 * @param expectedType type we need to look for
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeIsSpecifiedOnce(IRMSNode node, RMSNodeType expectedType) throws AbstractRMSException {
 		var count = this.countNodeInTreeThat(node, (i, n) -> n.getNodeType().equals(expectedType));
@@ -312,7 +321,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node node to investigate
 	 * @param expectedType type we need to look for
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeIsSpecifiedAtMostOnce(IRMSNode node, RMSNodeType expectedType) throws AbstractRMSException {
 		var count = this.countNodeInTreeThat(node, (i, n) -> n.getNodeType().equals(expectedType));
@@ -326,7 +335,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node node to investigate
 	 * @param expectedType type we need to look for
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeIsDirectlySpecifiedAtMostOnce(IRMSNode node, RMSNodeType expectedType) throws AbstractRMSException {
 		var count = node.getChildren().count(n -> n.getNodeType().equals(expectedType));
@@ -340,7 +349,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node node to investigate
 	 * @param expectedType type we need to look for
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeIsDirectlySpecifiedExactlyOnce(IRMSNode node, RMSNodeType expectedType) throws AbstractRMSException {
 		var count = node.getChildren().count(n -> n.getNodeType().equals(expectedType));
@@ -354,7 +363,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node node to investigate
 	 * @param expectedType type we need to look for
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeIsDirectlySpecifiedAtLeastOnce(IRMSNode node, RMSNodeType expectedType) throws AbstractRMSException {
 		var count = node.getChildren().count(n -> n.getNodeType().equals(expectedType));
@@ -369,7 +378,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param node node to investigate
 	 * @param expectedType type we need to look for
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureNodeIsSpecifiedAtLeastOnce(IRMSNode node, RMSNodeType expectedType) throws AbstractRMSException {
 		var count = this.countNodeInTreeThat(node, (i, n) -> n.getNodeType().equals(expectedType));
@@ -378,6 +387,13 @@ public class SemanticCheckOutput {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param node
+	 * @param file
+	 * @param note
+	 * @throws AbstractRMSException if the condition is not satisfied
+	 */
 	public void ensureIncludedFileIsInSection(IRMSNode node, String file, String note) throws AbstractRMSException {
 		if (!this.assertWeHaveIncludedFile(node, file)) {
 			this.add(new RMSSemanticErrorException(RMSErrorCode.REQUIRED_INCLUDE_NOT_INCLUDED, "Expected to have included the file %s, but you did not! %s", file, note));
@@ -388,9 +404,9 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure the current node has exactly n children
 	 * 
+	 * @param node the node whose children we need to check
 	 * @param expectedChildren expected number of children
-	 * @return
-	 * @throws RMSSemanticErrorException 
+	 * @throws RMSSemanticErrorException if the condition is not satisfied
 	 */
 	public void ensureNChildren(IRMSNode node, int expectedChildren) throws AbstractRMSException {
 		if (node.getChildren().size() != expectedChildren) {
@@ -401,7 +417,7 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure the only option available is that a certain define is indeed defined with the given directive
 	 * @param define
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsDefined(String define, String note) throws AbstractRMSException {
 		if (!this.input.isForSureDefined(define)) {
@@ -409,6 +425,11 @@ public class SemanticCheckOutput {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param define
+	 * @throws AbstractRMSException if the condition is not satisfied
+	 */
 	public void ensureIsDefined(String define) throws AbstractRMSException {
 		this.ensureIsDefined(define, "");
 	}
@@ -416,7 +437,7 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure you have <b>not</b> defined the given directive
 	 * @param define define name to check
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsNotDefined(String define) throws AbstractRMSException {
 		if (this.input.isForSureUndefined(define)) {
@@ -428,7 +449,7 @@ public class SemanticCheckOutput {
 	 * Ensure you have included in the tree rooted in node the given file.
 	 * @param node
 	 * @param file
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureWeHaveIncludedFile(IRMSNode node, String file, String note) throws AbstractRMSException {
 		if (!this.assertWeHaveIncludedFile(node, file)) {
@@ -444,6 +465,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given node is actuall a command
 	 * 
 	 * @param node node to check
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsCommand(IRMSNode node) throws AbstractRMSException {
 		if (!(node.getNodeType().isCommand())) {
@@ -455,6 +477,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given node is actually an expression
 	 * 
 	 * @param node node to check
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIsExpression(IRMSNode node) throws AbstractRMSException {
 		if (!(node.getNodeType().isExpression())) {
@@ -467,7 +490,7 @@ public class SemanticCheckOutput {
 	 * 
 	 * @param arg node representing the actual argument
 	 * @param possibleValues allowed integer values. Each possible values represent the values of a single const
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureIntArgumentIsOneOf(IRMSNode arg, IPossibleValue<Long>... possibleValues) throws AbstractRMSException {
 		this.ensureIsExpression(arg);
@@ -487,7 +510,7 @@ public class SemanticCheckOutput {
 	 * @param node node whose siblings we need to check
 	 * @param types allowed sibling types
 	 * @param note additional note
-	 * @throws AbstractRMSException
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureThereIsAtLeastOneSiblingOfType(IRMSNode node, RichIterable<RMSNodeType> types, String note) throws AbstractRMSException {
 		if (!node.hasAtLeastOneSiblingOfTypes(types)) {
@@ -499,7 +522,7 @@ public class SemanticCheckOutput {
 	 * ensure that in every branch of the rms there is a node of the following type
 	 * @param n
 	 * @param type
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureContainsNodeWithType(IRMSNode n, RMSNodeType type) throws AbstractRMSException {
 		//TODO this should consider all the possible branches (e.g., if, start_random)
@@ -512,7 +535,7 @@ public class SemanticCheckOutput {
 	 * Ensure the parent of the given node has no other node of the same type as the one given as input
 	 * 
 	 *  @param node the node whose sigling we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureThereAreNoSiblingOfTheSameType(IRMSNode node) throws AbstractRMSException {
 		if (node.hasAtLeastOneSiblingOfTypes(node.getNodeType())) {
@@ -524,7 +547,7 @@ public class SemanticCheckOutput {
 	 * Ensure the parent of the given node has no other node of the same type as the one given as input
 	 * 
 	 *  @param node the node whose sigling we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureThereAreNoSiblingOfTheSameTypes(IRMSNode node, RMSNodeType... types) throws AbstractRMSException {
 		if (node.hasAtLeastOneSiblingOfTypes(types)) {
@@ -536,8 +559,8 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure the parent of the given node has no other node of the same type as the one given as input
 	 * 
-	 *  @param node the node whose sigling we need to check
-	 * @throws AbstractRMSException 
+	 * @param node the node whose sibling we need to check
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureThereAreNoSiblingOfTheSameTypes(IRMSNode node, RichIterable<RMSNodeType> types, String note) throws AbstractRMSException {
 		if (node.hasAtLeastOneSiblingOfTypes(types)) {
@@ -556,8 +579,12 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
-	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @param node node representing the argument we need to checl
+	 * @param lowbound the value the argument needs to be greater of
+	 * @param upperbound the value the argument needs to be less than
+	 * @param lowIncluded true if {@code lowbound} is included in the allowed range
+	 * @param upperIncluded true if {@code upperbound} is included in the allowed range
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentIsBetween(IRMSNode node, int lowbound, int upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
 		this.ensureArgumentIsBetween(node, (long)lowbound, (long)upperbound, lowIncluded, upperIncluded);
@@ -565,9 +592,13 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * Ensure the given argument at index is a number that satisfies the range.
-	 * 
-	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 *
+	 * @param node node representing the argument we need to checl
+	 * @param lowbound the value the argument needs to be greater of
+	 * @param upperbound the value the argument needs to be less than
+	 * @param lowIncluded true if {@code lowbound} is included in the allowed range
+	 * @param upperIncluded true if {@code upperbound} is included in the allowed range
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentIsBetween(IRMSNode node, long lowbound, long upperbound, boolean lowIncluded, boolean upperIncluded) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
@@ -585,8 +616,9 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
-	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @param node node representing the argument that we need to checl
+	 * @param value the values that the argument needs to be greater of 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentGreaterThan(IRMSNode node, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
@@ -600,7 +632,7 @@ public class SemanticCheckOutput {
 	/**
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentGreaterThan0(IRMSNode node) throws AbstractRMSException {
 		this.ensureArgumentGreaterThan(node, 0);
@@ -610,7 +642,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
 	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentGreaterThanOrEqual(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
@@ -625,7 +657,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
 	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentGreaterThanOrEqual0(IRMSNode node, int argumentIndex) throws AbstractRMSException {
 		this.ensureArgumentGreaterThanOrEqual(node, argumentIndex, 0);
@@ -635,7 +667,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
 	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentLessThan(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
@@ -650,7 +682,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
 	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentLessThan0(IRMSNode node, int argumentIndex) throws AbstractRMSException {
 		this.ensureArgumentLessThan(node, argumentIndex, 0);
@@ -660,7 +692,7 @@ public class SemanticCheckOutput {
 	 * Ensure the given argument at index is a number that satisfies the range.
 	 * 
 	 * @param argumentIndex index of the argument we need to check
-	 * @throws AbstractRMSException 
+	 * @throws AbstractRMSException if the condition is not satisfied
 	 */
 	public void ensureArgumentLessThanOrEqual(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		var arg = (AbstractExpressionNode)node;
@@ -671,10 +703,24 @@ public class SemanticCheckOutput {
 		this.add(new RMSSemanticErrorException(RMSErrorCode.LESS_OR_EQUAL_THAN, "node %s argument %d needs to be less or equal to %d", arg.getNodeType(), argumentIndex, value));
 	}
 	
+	/**
+	 * 
+	 * @param node
+	 * @param argumentIndex
+	 * @param value
+	 * @throws AbstractRMSException if the condition is not satisfied
+	 */
 	public void ensureArgumentLessThanOrEqual0(IRMSNode node, int argumentIndex, int value) throws AbstractRMSException {
 		this.ensureArgumentLessThanOrEqual(node, argumentIndex, 0);
 	}
 	
+	/**
+	 * Check if inside the subtree of {@code node} there is an include or a include_drs which actually include the given file
+	 * 
+	 * @param node root of the subtree we need to check
+	 * @param file file that we need to check if it is included or not
+	 * @return true if we are able to fidn such an include, false otherwise
+	 */
 	protected boolean assertWeHaveIncludedFile(IRMSNode node, String file) {
 		
 		var nodes = node.getNodesOfTypes(RMSNodeType.INCLUDE, RMSNodeType.INCLUDE_DRS);
@@ -701,8 +747,10 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * Ensure that there is at least one node in the underlying tree with the given node type
-	 * @param expectedType the expected type
-	 * @return
+	 * 
+	 * @param node root of the tree to consider
+	 * @param expectedTypes the expected type the node we are looking for needs to have
+	 * @return true if we found at least one node having those types in the subtree of {@code node}, false otherwise
 	 */
 	protected boolean ensureThereIsAtLeastOneNodeInTreeOfTypes(IRMSNode node, RMSNodeType... expectedTypes) {
 		return this.assertThereIsAtLeastOneNodeInTreeThat(node, (n) -> {
@@ -712,8 +760,8 @@ public class SemanticCheckOutput {
 	
 	/**
 	 * Ensure that there is at least one node in the underlying tree with the given node type
-	 * @param expectedType the expected type
-	 * @return
+	 * @param expectedTypes the expected types that node needs to have
+	 * @return true if in the AST there is only one node having the types, false otherwise
 	 */
 	protected boolean ensureThereIsExactlyOneNodeInTreeOfTypes(IRMSNode node, RMSNodeType... expectedTypes) {
 		return this.assertThereIsExactlyOneNodeInTreeThat(node, (n) -> {

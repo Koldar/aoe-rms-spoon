@@ -10,6 +10,7 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+
 public abstract class AbstractSetAvoidPlayerStartAreas extends AbstractRMSNoArgumentCommand {
 
 	protected AbstractSetAvoidPlayerStartAreas() {

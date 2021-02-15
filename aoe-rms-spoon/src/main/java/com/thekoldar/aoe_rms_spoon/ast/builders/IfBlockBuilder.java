@@ -11,9 +11,8 @@ import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 
 /**
  * Allows you to fluently build an if
+ * 
  * @author massi
- *
- * @param <TPARENT>
  */
 public class IfBlockBuilder {
 

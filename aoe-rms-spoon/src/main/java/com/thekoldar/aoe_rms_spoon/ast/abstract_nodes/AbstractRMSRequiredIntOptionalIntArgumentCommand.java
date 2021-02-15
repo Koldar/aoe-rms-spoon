@@ -6,6 +6,12 @@ import org.eclipse.collections.api.list.ImmutableList;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.framework.CommandFormalArgument;
 
+/**
+ * A generic command that requires 2 argument. The first is required while the second is optional
+ * 
+ * @author massi
+ *
+ */
 public abstract class AbstractRMSRequiredIntOptionalIntArgumentCommand extends AbstractRMSCommand {
 
 	protected AbstractRMSRequiredIntOptionalIntArgumentCommand(RMSNodeType type) {

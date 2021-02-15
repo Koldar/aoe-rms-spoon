@@ -11,7 +11,6 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutp
  * a RMS directive (e.g., const, define, include)
  * @author massi
  *
- * @param <TAOE>
  */
 public abstract class AbstractDirective extends AbstractRMSNode {
 

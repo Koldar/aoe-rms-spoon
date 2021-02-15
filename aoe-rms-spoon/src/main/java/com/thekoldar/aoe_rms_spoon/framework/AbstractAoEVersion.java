@@ -1021,7 +1021,7 @@ public abstract class AbstractAoEVersion {
 	 * Number of tiles between each elevation level.  Numbers larger than 1 will produce rings of flat terrain on each level of a hill.  
 
 	 * @param value number of tiles between each level of the hill
-	 * @return
+	 * @return new command instance
 	 */
 	public AbstractSpacing spacing(int value) {
 		return (AbstractSpacing) this.spacing().addArgument(value);
@@ -1030,8 +1030,8 @@ public abstract class AbstractAoEVersion {
 	/**
 	 * Total base tile count allocated to this create_elevation command.  If number_of_clumps is specified, this value is divided equally among the clumps.
 
-	 * @param maxHeight number
-	 * @return
+	 * @param maxHeight number max height we can generate
+	 * @return new command instance
 	 */
 	public AbstractNumberOfTiles numberOfTiles(int maxHeight) {
 		return (AbstractNumberOfTiles) this.numberOfTiles().addArgument(maxHeight);
@@ -1044,11 +1044,11 @@ public abstract class AbstractAoEVersion {
 	 * <li>Ignores border restrictions</li>
 	 * <li>If placed outside of specified borders, the land will not grow beyond its base_size</li>
 	 * <li>Disabled for create_player_lands</li>
-	 * <li>Disabled when using assign_to_player or assign_to for create_land, unless direct_placement is specified in <PLAYER_SETUP></li>
+	 * <li>Disabled when using assign_to_player or assign_to for create_land, unless direct_placement is specified in {@literal <PLAYER_SETUP>}</li>
 	 * </ul>
 	 * @param percentageX X is the axis running from the top-left edge to bottom-right
 	 * @param percentageY Y is the axis running from the bottom-left edge to top-right. 100 may crash the game
-	 * @return
+	 * @return new command instance
 	 */
 	public AbstractLandPosition landPosition(int percentageX, int percentageY) {
 		return (AbstractLandPosition) this.landPosition().addArgument(percentageX).addArgument(percentageY);
@@ -1195,19 +1195,18 @@ public abstract class AbstractAoEVersion {
 	 *  <li>If base_size for non-player lands is too large, the land will fail to find a valid position and will be placed at the center of the map, overlapping any other lands at the center.</li>
 	 * </ul>
 	 * 
-	 * @param radius, number, in cells
-	 * @return
+	 * @param size radius (number in cells)
+	 * @return new command instance
 	 */
 	public AbstractBaseSize baseSize(int size) {
 		return (AbstractBaseSize) this.baseSize().addArgument(size); 
 	}
 	
 	/**
-	 * Specify which terrain the land should have.
+	 * Specify which terrain the land should have. See <a src="https://docs.google.com/document/d/1jnhZXoeL9mkRUJxcGlKnO98fIwFKStP_OBozpr0CHXo/edit#">here</a>
 	 * 
 	 * @param terrainType terrain constant
-	 * @return
-	 * @see https://docs.google.com/document/d/1jnhZXoeL9mkRUJxcGlKnO98fIwFKStP_OBozpr0CHXo/edit#
+	 * @return new command instance
 	 */
 	public AbstractTerrainType terrainType(String terrainType) {
 		return (AbstractTerrainType) this.terrainType().addArgument(terrainType);
@@ -1319,11 +1318,11 @@ public abstract class AbstractAoEVersion {
 	 * 	<li>This attribute can, and should, be used multiple times for different terrains.</li>
 	 *  <li>A terrain can be replaced with itself.</li>
 	 *  <li>Connections can pass through terrains even if they are not specified.</li>
-	 *  <li>BUG (DE):The old terrain refers to the terrain that was present at the beginning of <CONNECTION_GENERATION> - even if that terrain has already been replaced by a previous command or attribute.</li>
+	 *  <li>BUG (DE):The old terrain refers to the terrain that was present at the beginning of {@literal <CONNECTION_GENERATION>}  - even if that terrain has already been replaced by a previous command or attribute.</li>
 	 * </ul>
 	 * @param oldTerrain terrain constant
 	 * @param newTerrain terrain constant
-	 * @return
+	 * @return new command instance
 	 */
 	public AbstractReplaceTerrain replaceTerrain(String oldTerrain, String newTerrain) {
 		return (AbstractReplaceTerrain) this.replaceTerrain().addArgument(oldTerrain).addArgument(newTerrain);
@@ -1340,8 +1339,8 @@ public abstract class AbstractAoEVersion {
 	 *		GRASS_SNOW, DIRT_SNOW, (dirt snow foundation), DLC_MOORLAND, DLC_JUNGLELEAVES, (road snow), (road fungus), DLC_DRYROAD, DLC_JUNGLEROAD, DLC_ROADGRAVEL</li>
 	 *	<li>There are also some special cases with beach terrains, which may not always mask as expected.  (potentially a bug)</li>
 	 * </ul>
-	 * @param layer
-	 * @return
+	 * @param layer layer to use
+	 * @return new command instance
 	 */
 	public AbstractTerrainMask terrainMask(int layer) {
 		return (AbstractTerrainMask) this.terrainMask().addArgument(layer);
@@ -1363,7 +1362,7 @@ public abstract class AbstractAoEVersion {
 			<li>0 (or any negative value) means that the connection CANNOT pass through the specified terrain at all, so 1 is the "lowest" cost</li>
 			<li>For most usual applications a cost range of 1-15 is sufficient</li>
 		</ul>
-	 * @return
+	 * @return new command instance
 	 */
 	public AbstractTerrainCost terrainCost(String terrainType, int cost) {
 		return (AbstractTerrainCost) this.terrainCost().addArgument(terrainType).addArgument(cost);
@@ -1382,7 +1381,7 @@ public abstract class AbstractAoEVersion {
 	 * @param terrainType terrain constant
 	 * @param radius number. Given that a Ludicrously-sized map is 480 tiles wide, 961 will be enough to cover the entire map in all situations.
 	 * @param variance number
-	 * @return
+	 * @return new command instance
 	 */
 	public AbstractTerrainSize terrainSize(String terrainType, int radius, int variance) {
 		return (AbstractTerrainSize) this.terrainSize().addArgument(terrainType).addArgument(radius).addArgument(variance);
@@ -1392,8 +1391,8 @@ public abstract class AbstractAoEVersion {
 	
 	/**
 	 * adsd multiple lines of comments
-	 * @param lines
-	 * @return
+	 * @param lines lines to add in the comment
+	 * @return new command instance
 	 */
 	public StandardComment comment(String... lines) {
 		return new StandardComment(Sets.immutable.of(lines));
@@ -1401,8 +1400,8 @@ public abstract class AbstractAoEVersion {
 	
 	/**
 	 * add a single comment
-	 * @param line
-	 * @return
+	 * @param line line in the command
+	 * @return new command instance
 	 */
 	public StandardComment comment(String line) {
 		return new StandardComment(Sets.immutable.of(line));
@@ -1422,9 +1421,9 @@ public abstract class AbstractAoEVersion {
 	
 	/**
 	 * Create an association between a name and an int value
-	 * @param name
-	 * @param value
-	 * @return
+	 * @param name name fo the constant to define
+	 * @param value value of the constant to define
+	 * @return new constant instance
 	 */
 	public AbstractConst constant(String name, int value) {
 		return new StandardConst(name, value);
@@ -1433,12 +1432,17 @@ public abstract class AbstractAoEVersion {
 	/**
 	 * Create an association between a name and an int value
 	 * @param symbol symbol used to create the const
-	 * @return
+	 * @return new const instance in the AST
 	 */
 	public AbstractConst constant(RMSConstSymbol symbol) {
 		return new StandardConst(symbol.getName(), symbol.getValue());
 	}
 	
+	/**
+	 * Create a new define instance
+	 * @param value name of the define to define
+	 * @return new define instance in the AST
+	 */
 	public AbstractDefine define(String value) {
 		return new StandardDefine(value);
 	}

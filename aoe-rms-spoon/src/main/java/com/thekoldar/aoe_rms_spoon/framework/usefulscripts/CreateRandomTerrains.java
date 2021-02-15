@@ -52,11 +52,20 @@ public class CreateRandomTerrains {
 	 * At high level, we create a const containing the id of the walkable terrain chosen
 	 * 
 	 * @param aoe aoe version
-	 * @param constToCreate name fo the const to create
+	 * @param constToCreate name of the const to create
 	 * @param considerLandWalkable true if you want to consider in the output the walkable terrains
-	 * @param considerShipWalkable tgrue if you want to consider in the output navigable terrains
-	 * @param c
-	 * @return node
+	 * @param expectedLandWalkable the value we want a random terrain to have land walkable-wise
+	 * @param considerShipWalkable true if you want to consider in the output navigable terrains
+	 * @param expectedShipWalkable the value we want a random terrain to have ship walkable-wise
+	 * @param considerForest true if you want to filter using forests as criterion
+	 * @param expectedForest the value we want a random terrain to have forest-wise
+	 * @param considerBuildable true if you want to filter using buildable as criterion
+	 * @param expectedBuildable the value we want a random terrain to have buildable-wise
+	 * @param considerDockable true if you want to filter using dockable as criterion
+	 * @param expectedDockable the value we want a random terrain to have dockable-wise
+	 * @param considerPuttingNaturalResources true if you want to filter using puttable natural resources as criterion
+	 * @param expectedPuttingNaturalResources the value we wantt a random terrain to have putting natural resources-wise
+	 * @return a node containing a the code to generate a random terrain with the specifics you have required
 	 */
 	public static IRMSNode getRandomTerrainWithSpecific(AbstractAoEVersion aoe, String constToCreate, String commentString, boolean considerLandWalkable, boolean expectedLandWalkable, boolean considerShipWalkable, boolean expectedShipWalkable, boolean considerForest, boolean expectedForest, boolean considerBuildable, boolean expectedBuildable, boolean considerDockable, boolean expectedDockable, boolean considerPuttingNaturalResources, boolean expectedPuttingNaturalResources) {
 		var terrainChosen = aoe.getUsableTerrains()
@@ -200,10 +209,9 @@ public class CreateRandomTerrains {
 	 * generate code s.t. RMS will generate a random terrain const which contains a forest.
 	 * At high level, we create a const containing the id of the walkable terrain chosen
 	 * 
-	 * @param aoe aoe version
-	 * @param node node where to add the code
-	 * @param constToCreate name fo the const to create
-	 * @return node
+	 * @param aoe age of empires version
+	 * @param constToCreate name of the const to create
+	 * @return node representing the code that randomly select a navigable terrain
 	 */
 	public static IRMSNode getRandomNavigableTerrain(AbstractAoEVersion aoe, String constToCreate) {
 		return getRandomTerrainWithSpecific(aoe, constToCreate, "RANDOM NAVIGABLE WALKABLE", 

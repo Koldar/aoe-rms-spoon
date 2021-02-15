@@ -109,7 +109,7 @@ public interface IPossibleValue<T> {
 	
 	/**
 	 * generate a new possible values s.t. the possible values by allowing a new one to be present
-	 * @param value
+	 * @param other the possible values we need to merge
 	 * @return the new structure with both the items
 	 */
 	public default IPossibleValue<T> union(IPossibleValue<T> other) {
@@ -120,7 +120,9 @@ public interface IPossibleValue<T> {
 	
 	/**
 	 * generate a new possible values s.t. the possible values by allowing a new one to be present
-	 * @param value
+	 * 
+	 * @param value the value we need to merge
+	 * @return a new object containing both {@code this} and {@code value} as possible values
 	 */
 	public default IPossibleValue<T> union(T value) {
 		return this.union(new SetPossibleValue<T>(value));
@@ -128,7 +130,8 @@ public interface IPossibleValue<T> {
 	
 	/**
 	 * if true, there are no possible values for this variable
-	 * @return
+	 * 
+	 * @return true if the possible values are empty. False otherwise
 	 */
 	public default boolean isEmpty() {
 		return this.getPossibleValues().isEmpty();
@@ -136,19 +139,24 @@ public interface IPossibleValue<T> {
 	
 	/**
 	 * get the number of all the possible values the variable may have
-	 * @return
+	 * 
+	 * @return number of possible values within this object
 	 */
 	public default int getNumberOfPossibleValues() {
 		return this.getPossibleValues().size();
 	}
 	
+	/**
+	 * 
+	 * @return number of possible values in this object
+	 */
 	public default int size() {
 		return this.getNumberOfPossibleValues();
 	}
 	
 	/**
 	 * string representation of all the possible values
-	 * @return
+	 * @return string representation of the possible values
 	 */
 	public String toString();
 }

@@ -11,6 +11,12 @@ import com.thekoldar.aoe_rms_spoon.ast.expr.IntExpr;
 import com.thekoldar.aoe_rms_spoon.ast.expr.StringExpr;
 import com.thekoldar.aoe_rms_spoon.ast.functions.RandomNumberNode;
 
+/**
+ * Convenience class that can be used to generate a generic RMS node expression
+ * 
+ * @author massi
+ *
+ */
 public class RMSExprs {
 	
 	public static AbstractExpressionNode rndVal(int min, int max) {

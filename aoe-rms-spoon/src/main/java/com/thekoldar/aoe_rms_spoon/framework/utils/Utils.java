@@ -46,11 +46,12 @@ public class Utils {
 	}
 	
 	/**
-	 * generate all the cartesian products bwetwen the sets
+	 * generate all the cartesian products bwetwen the sets.
+	 * For implementation notes, see  <a src="https://stackoverflow.com/a/9591777/1887602">here</a>
+	 * 
 	 * @param <T>
 	 * @param s sets to consider
 	 * @return all the combinations in this product cartesian 
-	 * @see https://stackoverflow.com/a/9591777/1887602
 	 */
 	public static <T> RichIterable<MutableList<T>> cartesianProduct(RichIterable<MutableList<T>> s) {
 		return cartesianProductAndStopAsFirstReject((e) -> true, s).getTwo();
@@ -203,8 +204,8 @@ public class Utils {
 	 * load a resoruce from the file system. If the path is irelative, it is relative to the CWD
 	 * 
 	 * @param path path of the file to load
-	 * @return
-	 * @throws FileNotFoundExceptionif the file does not exists on the file system or it is not readable 
+	 * @return the resources loaded from the filesystem
+	 * @throws FileNotFoundException if the file does not exists on the file system or it is not readable 
 	 */
 	public static InputStream loadResourcesOutsideJar(Path path) throws FileNotFoundException {
 		path = path.toAbsolutePath().normalize();
@@ -218,8 +219,8 @@ public class Utils {
 	 * load a resoruce from the file system. If the path is irelative, it is relative to the CWD
 	 * 
 	 * @param path path of the file to load
-	 * @return
-	 * @throws FileNotFoundExceptionif the file does not exists on the file system or it is not readable 
+	 * @return the resources loaded from the filesystem
+	 * @throws FileNotFoundException if the file does not exists on the file system or it is not readable 
 	 */
 	public static Reader loadResourceOutsideJarAsReader(Path path) throws FileNotFoundException {
 		return new InputStreamReader(loadResourcesOutsideJar(path));

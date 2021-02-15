@@ -5,6 +5,11 @@ import org.eclipse.collections.api.RichIterable;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing the available class constants  
+ * @author massi
+ *
+ */
 public class ClassConstants {
 	
 	/**

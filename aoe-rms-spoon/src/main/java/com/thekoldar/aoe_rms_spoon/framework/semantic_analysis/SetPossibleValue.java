@@ -8,7 +8,7 @@ import org.eclipse.collections.api.set.MutableSet;
  * the variable may have a set of possible values
  * @author massi
  *
- * @param <T>
+ * @param <T> type of the values
  */
 public class SetPossibleValue<T> implements IPossibleValue<T> {
 

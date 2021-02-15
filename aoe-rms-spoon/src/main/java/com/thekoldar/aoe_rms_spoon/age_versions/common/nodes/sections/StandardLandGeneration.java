@@ -9,6 +9,11 @@ import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSExcept
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * Age of empires Definitive Edition version of the node. It is instantiable
+ * @author massi
+ *
+ */
 public class StandardLandGeneration extends AbstractLandGeneration {
 
 

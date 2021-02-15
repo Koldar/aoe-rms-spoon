@@ -48,6 +48,11 @@ import com.thekoldar.aoe_rms_spoon.framework.models.functionalinterfaces.TriFunc
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.ConstNotFoundInSymbolTableActionEnum;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 
+/**
+ * Main class allowing you to programmatically generate RMS scripts
+ * @author massi
+ *
+ */
 public class SpoonFramework {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SpoonFramework.class); 

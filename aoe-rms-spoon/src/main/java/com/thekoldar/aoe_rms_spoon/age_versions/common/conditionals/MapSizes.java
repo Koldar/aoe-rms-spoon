@@ -16,7 +16,7 @@ public class MapSizes {
 	
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<MapSize> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(MapSizes.class, MapSize.class);

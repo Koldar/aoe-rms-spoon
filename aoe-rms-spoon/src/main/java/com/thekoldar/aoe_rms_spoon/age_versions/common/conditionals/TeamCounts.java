@@ -5,11 +5,16 @@ import org.eclipse.collections.api.RichIterable;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class contains all the team games available in the lobby
+ * @author massi
+ *
+ */
 public class TeamCounts {
 
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<DefineRefExpr> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(TeamCounts.class, DefineRefExpr.class);

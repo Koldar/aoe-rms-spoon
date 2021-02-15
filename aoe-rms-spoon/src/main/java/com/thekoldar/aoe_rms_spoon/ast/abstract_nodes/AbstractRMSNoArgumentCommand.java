@@ -11,6 +11,11 @@ import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSExcept
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * A RMS command that requires no arguments
+ * @author massi
+ *
+ */
 public abstract class AbstractRMSNoArgumentCommand extends AbstractRMSCommand {
 
 	protected AbstractRMSNoArgumentCommand(RMSNodeType type) {

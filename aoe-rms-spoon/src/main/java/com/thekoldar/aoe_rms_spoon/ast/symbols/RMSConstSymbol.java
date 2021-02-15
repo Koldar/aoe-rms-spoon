@@ -1,5 +1,10 @@
 package com.thekoldar.aoe_rms_spoon.ast.symbols;
 
+/**
+ * A symbol defined via {@literal #const}
+ * @author massi
+ *
+ */
 public class RMSConstSymbol implements IRMSSymbol {
 
 	private String name;

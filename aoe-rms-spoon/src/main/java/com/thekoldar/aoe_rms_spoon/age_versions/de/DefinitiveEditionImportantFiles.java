@@ -5,6 +5,12 @@ import java.nio.file.Paths;
 
 import com.thekoldar.aoe_rms_spoon.framework.IImportantFiles;
 
+/**
+ * Represents all the important path and files Age of Empires 2: DE contains. In this way the develop may gain access to the files in a easy way 
+ * 
+ * @author massi
+ *
+ */
 public class DefinitiveEditionImportantFiles implements IImportantFiles {
 
 	/**

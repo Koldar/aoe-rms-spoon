@@ -22,6 +22,11 @@ import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSDefineSymbol;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSSymbolType;
 import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.RMSErrorCode;
 
+/**
+ * The input of the semantic analysis. The object is likely to be updated during the semantic analysis, since it contains the symbol table
+ * @author massi
+ *
+ */
 public class SemanticCheckInput {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SemanticCheckInput.class);

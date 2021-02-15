@@ -13,8 +13,16 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInpu
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
 
+/**
+ * RMS expression that represents a float value
+ * @author massi
+ *
+ */
 public class FloatExpr extends AbstractExpressionNode {
 
+	/**
+	 * value of the expression
+	 */
 	private float value;
 	
 	public FloatExpr(float value) {

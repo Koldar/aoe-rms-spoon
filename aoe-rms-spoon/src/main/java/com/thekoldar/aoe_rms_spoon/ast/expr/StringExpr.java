@@ -11,8 +11,16 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * A RMS expression that specifies a string type
+ * @author massi
+ *
+ */
 public class StringExpr extends AbstractExpressionNode {
 
+	/**
+	 * Value fo the expression
+	 */
 	private String value;
 	
 	public StringExpr(String value) {

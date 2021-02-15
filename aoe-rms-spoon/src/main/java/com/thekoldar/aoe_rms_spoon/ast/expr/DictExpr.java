@@ -12,6 +12,11 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * RMS expression that represents a dictionary (i.e., an expression containign other RMS statements, werapped in curly brackets
+ * @author massi
+ *
+ */
 public class DictExpr extends AbstractExpressionNode {
 	
 	public DictExpr() {

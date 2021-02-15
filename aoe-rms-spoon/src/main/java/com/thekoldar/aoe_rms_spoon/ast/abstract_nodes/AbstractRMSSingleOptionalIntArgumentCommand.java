@@ -6,6 +6,11 @@ import org.eclipse.collections.api.list.ImmutableList;
 import com.thekoldar.aoe_rms_spoon.ast.RMSNodeType;
 import com.thekoldar.aoe_rms_spoon.framework.CommandFormalArgument;
 
+/**
+ * A RMS command that has a single argument. The argument is optiojnal and requires an integer number
+ * @author massi
+ *
+ */
 public abstract class AbstractRMSSingleOptionalIntArgumentCommand extends AbstractRMSCommand {
 
 	protected AbstractRMSSingleOptionalIntArgumentCommand(RMSNodeType type) {

@@ -2,6 +2,11 @@ package com.thekoldar.aoe_rms_spoon.ast.symbols;
 
 import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 
+/**
+ * A symbol defined via {@literal @define}
+ * @author massi
+ *
+ */
 public class RMSDefineSymbol implements IRMSSymbol {
 
 	private String name;

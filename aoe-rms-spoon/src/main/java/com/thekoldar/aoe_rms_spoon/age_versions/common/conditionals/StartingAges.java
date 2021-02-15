@@ -5,11 +5,17 @@ import org.eclipse.collections.api.RichIterable;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing all the sarting age available in the lobby
+ * 
+ * @author massi
+ *
+ */
 public class StartingAges {
 	
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<DefineRefExpr> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(StartingAges.class, DefineRefExpr.class);

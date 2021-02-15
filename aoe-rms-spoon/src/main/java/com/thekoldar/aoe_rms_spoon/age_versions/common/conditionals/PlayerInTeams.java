@@ -5,11 +5,17 @@ import org.eclipse.collections.api.RichIterable;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing if a given player is indeed in a given team
+ * 
+ * @author massi
+ *
+ */
 public class PlayerInTeams {
 	
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<DefineRefExpr> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(PlayerInTeams.class, DefineRefExpr.class);

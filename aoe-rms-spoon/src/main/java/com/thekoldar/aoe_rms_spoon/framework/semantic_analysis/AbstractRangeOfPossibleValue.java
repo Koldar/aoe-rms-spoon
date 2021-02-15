@@ -4,7 +4,7 @@ package com.thekoldar.aoe_rms_spoon.framework.semantic_analysis;
  * the possible values are in a continuous range of values. Useful for int variables
  * @author massi
  *
- * @param <T>
+ * @param <T> type of the possible values encoded in this class
  */
 public abstract class AbstractRangeOfPossibleValue<T extends Comparable<T>> implements IPossibleValue<T> {
 

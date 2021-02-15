@@ -7,6 +7,11 @@ import org.eclipse.collections.api.factory.Lists;
 import org.eclipse.collections.impl.factory.primitive.IntLists;
 import org.eclipse.collections.impl.factory.primitive.LongLists;
 
+/**
+ * A set of possible values. Each value is a long
+ * @author massi
+ *
+ */
 public class LongSetPossible extends SetPossibleValue<Long> {
 	
 	

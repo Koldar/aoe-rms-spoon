@@ -7,11 +7,17 @@ import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing all the game modes availble in the game
+ * 
+ * @author massi
+ *
+ */
 public class GameModes {
 	
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<DefineRefExpr> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(GameModes.class, DefineRefExpr.class);

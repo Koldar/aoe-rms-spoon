@@ -6,6 +6,11 @@ import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 import com.thekoldar.aoe_rms_spoon.framework.models.Point2D;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Static class allowing you to generate lands in an easy way 
+ * @author massi
+ *
+ */
 public class Lands {
 
 	/**

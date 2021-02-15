@@ -5,6 +5,11 @@ import java.nio.file.Path;
 
 import com.thekoldar.aoe_rms_spoon.framework.ITerrain;
 
+/**
+ * Standard implementation of {@link ITerrain}
+ * @author massi
+ *
+ */
 public class StandardTerrain implements ITerrain {
 
 	private Color color;

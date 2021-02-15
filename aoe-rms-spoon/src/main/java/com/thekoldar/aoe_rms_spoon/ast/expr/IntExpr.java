@@ -13,8 +13,16 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInpu
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
 
+/**
+ * A RMS expression that represents an integer value
+ * @author massi
+ *
+ */
 public class IntExpr extends AbstractExpressionNode {
 
+	/**
+	 * value of the expression
+	 */
 	private int value;
 	
 	public IntExpr(int value) {

@@ -2,6 +2,11 @@ package com.thekoldar.aoe_rms_spoon.framework.models;
 
 import com.thekoldar.aoe_rms_spoon.framework.IAoeObject;
 
+/**
+ * Standard implementation of {@link IAoeObject}
+ * @author massi
+ *
+ */
 public class StandardAoeObject implements IAoeObject {
 
 	private int id;

@@ -8,6 +8,11 @@ import org.eclipse.collections.api.factory.Lists;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing all the const related to technologies
+ * @author massi
+ *
+ */
 public class TechnologyConstants {
 
 	/**

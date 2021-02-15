@@ -8,7 +8,7 @@ import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
  * the node can have comments within it
  * @author massi
  *
- * @param <TPARENT>
+ * @param <TPARENT> type of the class implementing this interface
  */
 public interface IAddComments<TPARENT extends IRMSNode> {
 	

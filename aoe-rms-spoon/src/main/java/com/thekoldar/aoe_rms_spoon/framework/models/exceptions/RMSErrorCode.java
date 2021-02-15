@@ -1,5 +1,10 @@
 package com.thekoldar.aoe_rms_spoon.framework.models.exceptions;
 
+/**
+ * the possible warnings and errors that the semantic aalysis may find
+ * @author massi
+ *
+ */
 public enum RMSErrorCode {
 
 	WRONG_CHILDREN_NUMBER(0, true),

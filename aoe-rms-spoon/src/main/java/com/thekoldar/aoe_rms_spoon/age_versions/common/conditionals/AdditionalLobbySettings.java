@@ -7,11 +7,17 @@ import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing all the additional lobby settings a player has turned on in the lobby
+ * 
+ * @author massi
+ *
+ */
 public class AdditionalLobbySettings {
 	
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable iterable
 	 */
 	public static RichIterable<DefineRefExpr> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(AdditionalLobbySettings.class, DefineRefExpr.class);

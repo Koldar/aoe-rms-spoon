@@ -7,6 +7,12 @@ import com.thekoldar.aoe_rms_spoon.framework.models.exceptions.AbstractRMSExcept
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * A generic RMS section (e.g., {@literal <PLAYER_SETUP>} or {@literal <CONNECTION_GENERATION>}
+ * 
+ * @author massi
+ *
+ */
 public abstract class AbstractRMSSection extends AbstractRMSNode {
 
 	protected String sectionName;

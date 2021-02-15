@@ -5,11 +5,16 @@ import org.eclipse.collections.api.RichIterable;
 import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * defines used to check which general version of the game we are playing
+ * @author massi
+ *
+ */
 public class GameVersions {
 
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<DefineRefExpr> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(GameVersions.class, DefineRefExpr.class);

@@ -11,8 +11,16 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * A reference to a define. The define itself may be defined or not
+ * @author massi
+ *
+ */
 public class DefineRefExpr extends AbstractExpressionNode {
 
+	/**
+	 * name of the define to check
+	 */
 	private String name;
 	
 	public DefineRefExpr(String name) {

@@ -148,6 +148,12 @@ import com.thekoldar.aoe_rms_spoon.framework.models.StandardAoeObject;
 import com.thekoldar.aoe_rms_spoon.framework.models.StandardTerrain;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * The factory code that represnts Age of Empires 2: Definitive Edition
+ * 
+ * @author massi
+ *
+ */
 public class DefinitiveEdition extends AbstractAoEVersion {
 
 	private static final int CONST_ID = 0;

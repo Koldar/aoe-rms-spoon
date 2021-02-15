@@ -10,6 +10,11 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInpu
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Age of empires Definitive Edition version of the node. It is instantiable
+ * @author massi
+ *
+ */
 public class StandardIncludeDrs extends AbstractIncludeDrs {
 
 	private String filepath;

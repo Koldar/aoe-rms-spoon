@@ -9,6 +9,11 @@ import com.thekoldar.aoe_rms_spoon.framework.code_generation.CodeGenerationOutpu
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * Age of empires Definitive Edition version of the node. It is instantiable
+ * @author massi
+ *
+ */
 public class StandardInclude extends AbstractInclude{
 
 	private String filepath;

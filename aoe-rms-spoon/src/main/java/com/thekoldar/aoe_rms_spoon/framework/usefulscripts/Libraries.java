@@ -12,6 +12,11 @@ import com.thekoldar.aoe_rms_spoon.ast.IRMSNode;
 import com.thekoldar.aoe_rms_spoon.ast.abstract_nodes.commands.AbstractAssignTo;
 import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 
+/**
+ * Static lcass containing lines fo code implementing some common AST you may in several of your scripts
+ * @author massi
+ *
+ */
 public class Libraries {
 
 	/**

@@ -17,6 +17,11 @@ import com.thekoldar.aoe_rms_spoon.ast.expr.DefineRefExpr;
 import com.thekoldar.aoe_rms_spoon.framework.AbstractAoEVersion;
 import com.thekoldar.aoe_rms_spoon.framework.models.MapSize;
 
+/**
+ * Class containing code that allows you to create {@literal switch () case} in RMS code. This is done by creating a set of {@literal if ... then ... elseif ... elseif ... else}
+ * @author massi
+ *
+ */
 public class Switches {
 
 	/**

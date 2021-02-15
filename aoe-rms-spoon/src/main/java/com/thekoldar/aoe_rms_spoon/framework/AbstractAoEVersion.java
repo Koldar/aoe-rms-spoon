@@ -1203,7 +1203,7 @@ public abstract class AbstractAoEVersion {
 	}
 	
 	/**
-	 * Specify which terrain the land should have. See <a src="https://docs.google.com/document/d/1jnhZXoeL9mkRUJxcGlKnO98fIwFKStP_OBozpr0CHXo/edit#">here</a>
+	 * Specify which terrain the land should have. See <a href="https://docs.google.com/document/d/1jnhZXoeL9mkRUJxcGlKnO98fIwFKStP_OBozpr0CHXo/edit#">here</a>
 	 * 
 	 * @param terrainType terrain constant
 	 * @return new command instance

@@ -14,8 +14,16 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.IPossibleValue;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 
+/**
+ * A reference to a const. The const itself may be defined or not
+ * @author massi
+ *
+ */
 public class ConstRefExpr extends AbstractExpressionNode {
 
+	/**
+	 * name of the referenced const
+	 */
 	private String name;
 	
 	public ConstRefExpr(String name) {

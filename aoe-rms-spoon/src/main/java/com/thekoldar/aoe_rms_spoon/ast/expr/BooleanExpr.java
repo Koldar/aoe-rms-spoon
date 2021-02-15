@@ -13,8 +13,16 @@ import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckInpu
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SemanticCheckOutput;
 import com.thekoldar.aoe_rms_spoon.framework.semantic_analysis.SetPossibleValue;
 
+/**
+ * RMS exrepssion representing a boolean value
+ * @author massi
+ *
+ */
 public class BooleanExpr extends AbstractExpressionNode {
 
+	/**
+	 * value of the boolean
+	 */
 	private boolean value;
 	
 	public BooleanExpr(boolean value) {

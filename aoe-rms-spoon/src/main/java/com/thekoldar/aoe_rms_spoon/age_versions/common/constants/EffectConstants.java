@@ -5,11 +5,16 @@ import org.eclipse.collections.api.RichIterable;
 import com.thekoldar.aoe_rms_spoon.ast.symbols.RMSConstSymbol;
 import com.thekoldar.aoe_rms_spoon.framework.utils.Utils;
 
+/**
+ * Convenience class containing the available effect constants  
+ * @author massi
+ *
+ */
 public class EffectConstants {
 	
 	/**
 	 * get all the values in constants
-	 * @return
+	 * @return iterable
 	 */
 	public static RichIterable<RMSConstSymbol> all() {
 		return Utils.getPublicStaticFinalFieldsOfClass(EffectConstants.class, RMSConstSymbol.class);

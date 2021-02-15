@@ -47,7 +47,7 @@ public class Utils {
 	
 	/**
 	 * generate all the cartesian products bwetwen the sets.
-	 * For implementation notes, see  <a src="https://stackoverflow.com/a/9591777/1887602">here</a>
+	 * For implementation notes, see  <a href="https://stackoverflow.com/a/9591777/1887602">here</a>
 	 * 
 	 * @param <T>
 	 * @param s sets to consider

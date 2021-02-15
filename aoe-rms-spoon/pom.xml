@@ -1,11 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.thekoldar</groupId>
 	<artifactId>aoe-rms-spoon</artifactId>
 	<version>0.1.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
 
 	<name>AoE RMS Spoon</name>
 	<description>A utility to programmatically create RMS files</description>
+	<url>https://github.com/Koldar/aoe-rms-spoon</url>
+
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>https://github.com/Koldar/aoe-rms-spoon/blob/main/LICENSE.md</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 	<scm>
 		<connection>scm:git:https://github.com/Koldar/aoe-rms-spoon</connection>
@@ -18,6 +30,9 @@
 		<developer>
 			<id>koldar</id>
 			<name>Koldar</name>
+			<email>massimobono1@gmail.com</email>
+			<organization>none</organization>
+			<organizationUrl>https://github.com/Koldar</organizationUrl>
 			<timezone>GMT</timezone>
 		</developer>
 	</developers>
@@ -26,19 +41,27 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<repositories>
+	<distributionManagement>
 		<repository>
-			<id>spring-plugins</id>
-			<name>Spring plugins</name>
-			<url>https://repo.spring.io/plugins-release/</url>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
-	</repositories>
+	</distributionManagement>
 
 	<profiles>
 		<profile>
 			<id>release-profile</id>
 			<build>
-
+				<plugins>
+					<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				</plugins>
 			</build>
 		</profile>
 	</profiles>
@@ -46,6 +69,11 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
@@ -68,8 +96,8 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-			        <artifactId>maven-javadoc-plugin</artifactId>
-			        <version>3.2.0</version>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>3.2.0</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -110,7 +138,19 @@
 					</argLine>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
 	</build>
@@ -118,20 +158,20 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-javadoc-plugin</artifactId>
-		        <configuration>
-		        	<show>private</show>
-		        	<nohelp>false</nohelp>
-		        	<author>true</author>
-		        	<version>true</version>
-		        	<applyJavadocSecurityFix>true</applyJavadocSecurityFix>
-		        	<charset>UTF-8</charset>
-		        	<defaultAuthor>Koldar</defaultAuthor>
-		        	<defaultVersion>${project.version}</defaultVersion>
-		        	<docencoding>UTF-8</docencoding>
-		        	<finalName>${project.artifactId}</finalName>
-		        	<use>true</use> 
-		        </configuration>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<show>private</show>
+					<nohelp>false</nohelp>
+					<author>true</author>
+					<version>true</version>
+					<applyJavadocSecurityFix>true</applyJavadocSecurityFix>
+					<charset>UTF-8</charset>
+					<defaultAuthor>Koldar</defaultAuthor>
+					<defaultVersion>${project.version}</defaultVersion>
+					<docencoding>UTF-8</docencoding>
+					<finalName>${project.artifactId}</finalName>
+					<use>true</use>
+				</configuration>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -139,65 +179,65 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-			<groupId>org.eclipse.collections</groupId>
-			<artifactId>eclipse-collections-api</artifactId>
-			<version>10.4.0</version>
-		</dependency>
+				<groupId>org.eclipse.collections</groupId>
+				<artifactId>eclipse-collections-api</artifactId>
+				<version>10.4.0</version>
+			</dependency>
 
-		<dependency>
-			<groupId>org.eclipse.collections</groupId>
-			<artifactId>eclipse-collections</artifactId>
-			<version>10.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>3.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.zafarkhaja</groupId>
-			<artifactId>java-semver</artifactId>
-			<version>0.9.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.30</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.30</version>
-			<scope>test</scope>
-		</dependency>
+			<dependency>
+				<groupId>org.eclipse.collections</groupId>
+				<artifactId>eclipse-collections</artifactId>
+				<version>10.4.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.findbugs</groupId>
+				<artifactId>jsr305</artifactId>
+				<version>3.0.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.zafarkhaja</groupId>
+				<artifactId>java-semver</artifactId>
+				<version>0.9.0</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/junit/junit -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.13.1</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.30</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>1.7.30</version>
+				<scope>test</scope>
+			</dependency>
 
-		<!-- see https://stackoverflow.com/a/41791885/1887602 -->
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-model</artifactId>
-			<version>3.3.9</version>
-		</dependency>
+			<!-- see https://stackoverflow.com/a/41791885/1887602 -->
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-model</artifactId>
+				<version>3.3.9</version>
+			</dependency>
 
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>5.3</version>
-		</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.opencsv</groupId>
+				<artifactId>opencsv</artifactId>
+				<version>5.3</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

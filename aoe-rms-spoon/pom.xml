@@ -130,8 +130,7 @@
 		        	<defaultVersion>${project.version}</defaultVersion>
 		        	<docencoding>UTF-8</docencoding>
 		        	<finalName>${project.artifactId}</finalName>
-		        	<!-- turn off javadoc in maven-release-plugin phase -->
-		        	<additionalparam>-Xdoclint:none</additionalparam> 
+		        	<use>true</use> 
 		        </configuration>
 			</plugin>
 		</plugins>
